@@ -1,6 +1,6 @@
 # Amarion's agent workflow
 
-Private repository: [amarionfred/workflow](https://github.com/amarionfred/workflow). See [repository contents and restoration](docs/repository.md) for the captured setup, pinned upstream sources, and exclusions.
+Public repository: [amarionfred/workflow](https://github.com/amarionfred/workflow). See [repository contents and restoration](docs/repository.md) for the captured setup, pinned upstream sources, and exclusions.
 
 Start with [the practical guide](docs/working-together.md). The system combines Codex, Lauren Tan's public pstack methods, a small Markdown knowledge base, Empryo, and a research runner. Its value comes from clear outcomes and observable checks; installing more tools does not establish better results.
 

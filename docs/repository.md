@@ -1,6 +1,6 @@
 # Workflow repository
 
-This repository preserves Park's workflow as configured on 2026-10-16. Its GitHub destination is the private repository `amarionfred/workflow`. The local workspace remains `/home/park/Projects/agentic-workflow` because launchers, skills, and knowledge pointers use that path.
+This repository preserves Park's workflow as configured on 2026-10-16. Its GitHub destination is the public repository `amarionfred/workflow`, made public at Park's request on 2026-10-16. The local workspace remains `/home/park/Projects/agentic-workflow` because launchers, skills, and knowledge pointers use that path.
 
 | Location | Preserved content |
 | --- | --- |

@@ -1,4 +1,4 @@
-# Park's agent workflow
+# Amarion's agent workflow
 
 Private repository: [amarionfred/workflow](https://github.com/amarionfred/workflow). See [repository contents and restoration](docs/repository.md) for the captured setup, pinned upstream sources, and exclusions.
 

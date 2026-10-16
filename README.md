@@ -10,7 +10,7 @@ Start with [the practical guide](docs/working-together.md). The system combines 
 - [Current verification and remaining limits](STATUS.md)
 - [Knowledge map snapshot](setup-snapshot/agent-brain/AGENTS.md) (live copy: `/home/park/Documents/agent-brain/AGENTS.md`)
 
-Press **Super+A** to choose a project in Empryo, or run `agent-desk /absolute/project/path`. Your existing Codex retains `/record`. Start a new Codex session to pick up the new plugin catalog and full-access defaults.
+Choose a project in Empryo, or run `agent-desk /absolute/project/path`. Your existing Codex retains `/record`. Start a new Codex session to pick up the new plugin catalog and full-access defaults.
 
 Useful local commands:
 

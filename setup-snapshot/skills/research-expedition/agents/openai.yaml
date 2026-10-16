@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Expedition"
+  short_description: "Coordinate evidence-driven ML research work"
+  default_prompt: "Use $research-expedition for the current research task, following this project's instructions and existing approvals."

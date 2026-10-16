@@ -1,0 +1,5 @@
+interface:
+  display_name: "setup-benny"
+  short_description: "Apply the Benny issue automation workflow"
+policy:
+  allow_implicit_invocation: false

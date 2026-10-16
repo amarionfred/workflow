@@ -1,0 +1,2400 @@
+{
+  "code": 200,
+  "message": "OK",
+  "tweet": {
+    "url": "https://x.com/0xMortyx/status/2107835103841866130",
+    "id": "2107835103841866130",
+    "text": "SpaceXAI engineer Lauren Tan:\n\n\"I'm running 20+ GrokBot agents with /loop and /goal inside pstackthat ship code even while I sleep\n\nat SpaceXAI, 85% of our engineers run 10+ GrokBot agents as a team. I have a Chief of Staff agent that knows the other agents and manages everything\"\n\n1 hour on how to build an agent team from scratch, with a Chief of Staff agent managing the rest\n\nworth more than a $500 course\n\nbook & watch today",
+    "raw_text": {
+      "text": "SpaceXAI engineer Lauren Tan:\n\n\"I'm running 20+ GrokBot agents with /loop and /goal inside pstackthat ship code even while I sleep\n\nat SpaceXAI, 85% of our engineers run 10+ GrokBot agents as a team. I have a Chief of Staff agent that knows the other agents and manages everything\"\n\n1 hour on how to build an agent team from scratch, with a Chief of Staff agent managing the rest\n\nworth more than a $500 course\n\nbook & watch today",
+      "display_text_range": [
+        0,
+        430
+      ],
+      "facets": [
+        {
+          "type": "media",
+          "indices": [
+            270,
+            293
+          ],
+          "id": "2107834059833454592",
+          "display": "pic.x.com/rOpsdIP4r1",
+          "original": "https://t.co/rOpsdIP4r1",
+          "replacement": "https://x.com/0xMortyx/status/2107835103841866130/video/1"
+        }
+      ]
+    },
+    "author": {
+      "screen_name": "0xMortyx",
+      "url": "https://x.com/0xMortyx",
+      "id": "1523268434586480642",
+      "followers": 4663,
+      "following": 170,
+      "likes": 7157,
+      "media_count": 202,
+      "name": "Morty",
+      "description": "Content creator | Exploring & use AI | Chill Guy",
+      "raw_description": {
+        "text": "Content creator | Exploring & use AI | Chill Guy",
+        "facets": []
+      },
+      "location": "",
+      "banner_url": "https://pbs.twimg.com/profile_banners/1523268434586480642/1779382495",
+      "avatar_url": "https://pbs.twimg.com/profile_images/2057514634119188480/KQg1xNWg_200x200.jpg",
+      "joined": "Sun May 08 11:48:02 +0000 2022",
+      "protected": false,
+      "website": {
+        "url": "https://substack.com/@0xmorty",
+        "display_url": "substack.com/@0xmorty"
+      },
+      "verification": {
+        "verified": true,
+        "verified_at": null,
+        "type": "individual"
+      },
+      "avatar_color": null
+    },
+    "replies": 10,
+    "retweets": 26,
+    "likes": 209,
+    "bookmarks": 282,
+    "quotes": 0,
+    "created_at": "Wed Oct 07 14:07:05 +0000 2026",
+    "created_timestamp": 1791382025,
+    "possibly_sensitive": false,
+    "views": 21459,
+    "is_note_tweet": true,
+    "community_note": null,
+    "lang": "en",
+    "replying_to": null,
+    "replying_to_status": null,
+    "media": {
+      "all": [
+        {
+          "id": "2107834059833454592",
+          "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/1620x1080/UzujGzgc-8Xxg0a4.mp4?tag=29",
+          "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2107834059833454592/img/E57TZWV-Ga6Ws5TR.jpg",
+          "duration": 3347.366,
+          "width": 1620,
+          "height": 1080,
+          "format": "video/mp4",
+          "type": "video",
+          "formats": [
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/pl/0ncqo0GIR0gM5YMx.m3u8?tag=29&v=29f",
+              "container": "m3u8"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/404x270/dA2c0-uC3mSmLGut.mp4?tag=29",
+              "bitrate": 256000,
+              "container": "mp4",
+              "codec": "h264"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/540x360/UmRzFkk2dXIfxPcd.mp4?tag=29",
+              "bitrate": 832000,
+              "container": "mp4",
+              "codec": "h264"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/1080x720/kmGOeVfMtc0fdNrr.mp4?tag=29",
+              "bitrate": 2176000,
+              "container": "mp4",
+              "codec": "h264"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/1620x1080/UzujGzgc-8Xxg0a4.mp4?tag=29",
+              "bitrate": 10368000,
+              "container": "mp4",
+              "codec": "h264"
+            }
+          ],
+          "publisher": null,
+          "variants": [
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/pl/0ncqo0GIR0gM5YMx.m3u8?tag=29&v=29f",
+              "bitrate": 0,
+              "content_type": "application/x-mpegURL"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/404x270/dA2c0-uC3mSmLGut.mp4?tag=29",
+              "bitrate": 256000,
+              "content_type": "video/mp4"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/540x360/UmRzFkk2dXIfxPcd.mp4?tag=29",
+              "bitrate": 832000,
+              "content_type": "video/mp4"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/1080x720/kmGOeVfMtc0fdNrr.mp4?tag=29",
+              "bitrate": 2176000,
+              "content_type": "video/mp4"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/1620x1080/UzujGzgc-8Xxg0a4.mp4?tag=29",
+              "bitrate": 10368000,
+              "content_type": "video/mp4"
+            }
+          ]
+        }
+      ],
+      "videos": [
+        {
+          "id": "2107834059833454592",
+          "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/1620x1080/UzujGzgc-8Xxg0a4.mp4?tag=29",
+          "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2107834059833454592/img/E57TZWV-Ga6Ws5TR.jpg",
+          "duration": 3347.366,
+          "width": 1620,
+          "height": 1080,
+          "format": "video/mp4",
+          "type": "video",
+          "formats": [
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/pl/0ncqo0GIR0gM5YMx.m3u8?tag=29&v=29f",
+              "container": "m3u8"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/404x270/dA2c0-uC3mSmLGut.mp4?tag=29",
+              "bitrate": 256000,
+              "container": "mp4",
+              "codec": "h264"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/540x360/UmRzFkk2dXIfxPcd.mp4?tag=29",
+              "bitrate": 832000,
+              "container": "mp4",
+              "codec": "h264"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/1080x720/kmGOeVfMtc0fdNrr.mp4?tag=29",
+              "bitrate": 2176000,
+              "container": "mp4",
+              "codec": "h264"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/1620x1080/UzujGzgc-8Xxg0a4.mp4?tag=29",
+              "bitrate": 10368000,
+              "container": "mp4",
+              "codec": "h264"
+            }
+          ],
+          "publisher": null,
+          "variants": [
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/pl/0ncqo0GIR0gM5YMx.m3u8?tag=29&v=29f",
+              "bitrate": 0,
+              "content_type": "application/x-mpegURL"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/404x270/dA2c0-uC3mSmLGut.mp4?tag=29",
+              "bitrate": 256000,
+              "content_type": "video/mp4"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/540x360/UmRzFkk2dXIfxPcd.mp4?tag=29",
+              "bitrate": 832000,
+              "content_type": "video/mp4"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/1080x720/kmGOeVfMtc0fdNrr.mp4?tag=29",
+              "bitrate": 2176000,
+              "content_type": "video/mp4"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2107834059833454592/vid/avc1/1620x1080/UzujGzgc-8Xxg0a4.mp4?tag=29",
+              "bitrate": 10368000,
+              "content_type": "video/mp4"
+            }
+          ]
+        }
+      ]
+    },
+    "quote": {
+      "url": "https://x.com/0xRicker/status/2107471590065664351",
+      "id": "2107471590065664351",
+      "text": "https://x.com/i/article/2107415325075492864",
+      "raw_text": {
+        "text": "https://t.co/0MH5AC7qJF",
+        "display_text_range": [
+          0,
+          23
+        ],
+        "facets": [
+          {
+            "type": "url",
+            "indices": [
+              0,
+              23
+            ],
+            "original": "https://t.co/0MH5AC7qJF",
+            "replacement": "https://x.com/i/article/2107415325075492864",
+            "display": "x.com/i/article/2107…"
+          }
+        ]
+      },
+      "author": {
+        "screen_name": "0xRicker",
+        "url": "https://x.com/0xRicker",
+        "id": "1991548234058330113",
+        "followers": 11021,
+        "following": 414,
+        "likes": 14688,
+        "media_count": 797,
+        "name": "Ricker",
+        "description": "AI researcher • developer • engineer • DMs always open",
+        "raw_description": {
+          "text": "AI researcher • developer • engineer • DMs always open",
+          "facets": []
+        },
+        "location": "Bali, Indonesia",
+        "banner_url": "https://pbs.twimg.com/profile_banners/1991548234058330113/1783150008",
+        "avatar_url": "https://pbs.twimg.com/profile_images/2014389251580813312/ke_dI_-z_200x200.jpg",
+        "joined": "Thu Nov 20 16:44:49 +0000 2025",
+        "protected": false,
+        "website": {
+          "url": "http://substack.com/@0xmorty",
+          "display_url": "substack.com/@0xmorty"
+        },
+        "verification": {
+          "verified": true,
+          "verified_at": null,
+          "type": "individual"
+        },
+        "avatar_color": null
+      },
+      "replies": 7,
+      "retweets": 16,
+      "likes": 119,
+      "bookmarks": 182,
+      "quotes": 9,
+      "created_at": "Tue Oct 06 14:02:36 +0000 2026",
+      "created_timestamp": 1791295356,
+      "possibly_sensitive": false,
+      "views": 151100,
+      "is_note_tweet": false,
+      "community_note": null,
+      "lang": null,
+      "replying_to": null,
+      "replying_to_status": null,
+      "article": {
+        "created_at": "2026-10-06T14:02:36.000Z",
+        "modified_at": "2026-10-06T14:02:36.000Z",
+        "id": "2107415325075492864",
+        "title": "How to Turn Grok + Kimi K3 Into a Team of 300 AI Agents",
+        "preview_text": "Stop prompting one agent harder. Give Grok a goal, let it draw the org chart, and let Kimi K3 staff it with 300 agents in five departments that research, build, check and ship like a real team.\n1 team",
+        "cover_media": {
+          "id": "QXBpTWVkaWE6DAAFCgABHT8P7ySXwAAKAAIbo2aRNBpwAQAA",
+          "media_id": "2107420670418206720",
+          "media_info": {
+            "__typename": "ApiImage",
+            "color_info": {
+              "palette": [
+                {
+                  "percentage": 89.63,
+                  "rgb": {
+                    "blue": 254,
+                    "green": 254,
+                    "red": 253
+                  }
+                },
+                {
+                  "percentage": 4.58,
+                  "rgb": {
+                    "blue": 80,
+                    "green": 62,
+                    "red": 43
+                  }
+                },
+                {
+                  "percentage": 1.39,
+                  "rgb": {
+                    "blue": 253,
+                    "green": 190,
+                    "red": 131
+                  }
+                },
+                {
+                  "percentage": 0.64,
+                  "rgb": {
+                    "blue": 131,
+                    "green": 121,
+                    "red": 105
+                  }
+                },
+                {
+                  "percentage": 0.6,
+                  "rgb": {
+                    "blue": 252,
+                    "green": 156,
+                    "red": 69
+                  }
+                }
+              ]
+            },
+            "original_img_height": 765,
+            "original_img_url": "https://pbs.twimg.com/media/HT8P7ySXwAATXYL.jpg",
+            "original_img_width": 1913
+          },
+          "media_key": "3_2107420670418206720"
+        },
+        "content": {
+          "blocks": [
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "be06e",
+              "text": "Stop prompting one agent harder. Give Grok a goal, let it draw the org chart, and let Kimi K3 staff it with 300 agents in five departments that research, build, check and ship like a real team.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 1,
+                  "offset": 0,
+                  "style": "Bold"
+                },
+                {
+                  "length": 1,
+                  "offset": 18,
+                  "style": "Bold"
+                },
+                {
+                  "length": 3,
+                  "offset": 38,
+                  "style": "Bold"
+                }
+              ],
+              "key": "c6aa",
+              "text": "1 team lead       5 departments       300 Kimi agents",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 41,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "18epa",
+              "text": "Follow my Substack to get fresh AI alpha:",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 0,
+                  "length": 21,
+                  "offset": 9
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "5952k",
+              "text": "@0xMortyxhttps://substack.com/",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "bnid6",
+              "text": "One agent is an employee. Three hundred agents is a company, but only if somebody runs it.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 1,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "9pe5d",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "f1kfm",
+              "text": "Most people use AI the way a founder works in week one: one person doing every job. The same agent researches, cleans the data, writes the code, checks its own work and edits the final draft. It works for small tasks. Then the task gets big, the context fills up with five different jobs, and quality drops in exactly the place you stop looking.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "9cb5j",
+              "text": "The fix is not a longer prompt. It is a team. Separate roles, clear ownership, handoffs between them, and a lead who keeps everyone pointed at the same goal. That is how real companies scale past one person, and it is how agent setups scale past one model.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 4,
+                  "offset": 45,
+                  "style": "Bold"
+                },
+                {
+                  "length": 7,
+                  "offset": 132,
+                  "style": "Bold"
+                }
+              ],
+              "key": "1e5mp",
+              "text": "This guide builds that team with two pieces. Grok is the team lead: it reads the goal, designs the org chart and runs the standups. Kimi K3 is the staff: its Agent Swarm fills that org chart with up to 300 agents that actually do the work, in parallel, across thousands of steps.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "1k1vf",
+              "text": "Grok decides who does what. Kimi K3 is everyone who does it. The lead is one seat. The team is three hundred.",
+              "type": "blockquote"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 2,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "6f4vo",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 11,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "3isq0",
+              "text": "The problem",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "6jnnm",
+              "text": "A team, not a bigger prompt",
+              "type": "header-two"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "40ca0",
+              "text": "Here is the same job done two ways. The job is a full market map of 150 AI coding tools: pricing, features, traction, a ranked report, a dashboard and a slide deck. One agent does it in sequence. A team does it with five departments that overlap, because research does not have to finish before data cleaning starts on the first batch.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 3,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "78hpn",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "eqvjh",
+              "text": "The gap is not only speed. The solo agent carries every job in one context, so by the time it reaches the deck it is reasoning through a hundred thousand tokens of scraped pricing pages. The team keeps each context clean. The research agents only see sources. The build agents only see a clean table. Nobody drags the whole history around.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 41,
+                  "offset": 46,
+                  "style": "Bold"
+                }
+              ],
+              "key": "6frkp",
+              "text": "That is the core idea behind the whole setup: split the work by role, not just by item. Splitting by item gives you 300 copies of the same generalist. Splitting by role gives you a research desk, a data desk, an engineering desk, a QA desk and an editor, each one good at one thing.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 4,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "f8q6v",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 13,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "fco2m",
+              "text": "The org chart",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "eq8ao",
+              "text": "The five departments Grok hires",
+              "type": "header-two"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "e085l",
+              "text": "Grok does not invent a new structure for every job. It works from a standard org chart and resizes it. Five departments cover almost every research and build task, and the headcount shifts depending on where the work is heavy.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 5,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "45qch",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 2,
+                  "offset": 48,
+                  "style": "Bold"
+                },
+                {
+                  "length": 9,
+                  "offset": 230,
+                  "style": "Bold"
+                }
+              ],
+              "key": "8oqn0",
+              "text": "Two departments matter more than people expect. QA is a separate team on purpose. An agent checking its own output tends to agree with itself. A different agent, holding only the claim and the source, does not have that bias. And Editorial exists because a correct table is not a finished deliverable. Somebody has to decide what goes first.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "10nk7",
+              "text": "The numbers on each card are a starting point, not a rule. A job that is mostly reading, like due diligence on a hundred companies, pushes Research up to 140 and shrinks Build. A job that is mostly code, like a pricing engine, flips it. Grok makes that call at the start of every run.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 6,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "f5l6u",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 15,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "dgq3g",
+              "text": "Span of control",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "1h96e",
+              "text": "Why Grok manages five, not three hundred",
+              "type": "header-two"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "bpv1i",
+              "text": "The most common mistake is wiring the lead straight to every agent. It sounds powerful. In practice the lead spends its whole context reading 300 status updates and has nothing left for decisions. Real managers solve this with department leads, and so does this setup.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 7,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "90df6",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "blm7k",
+              "text": "On the left, Grok reads 300 updates every round. On the right, each department rolls up its own agents inside Kimi, and Grok reads five summaries. Same team, same work, a fraction of the noise at the top. The lead stays a lead because the swarm handles its own coordination underneath.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 4,
+                  "offset": 57,
+                  "style": "Bold"
+                },
+                {
+                  "length": 7,
+                  "offset": 193,
+                  "style": "Bold"
+                }
+              ],
+              "key": "fu0j9",
+              "text": "This is also why the split between the two models works. Grok is good at the short, sharp calls: what the goal really is, which department is behind, whether the output is good enough to ship. Kimi K3 is built for the long, wide part: hundreds of agents, thousands of steps, and a context big enough to hold an entire department's work in one place.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 8,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [
+                {
+                  "length": 1,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "2drro",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 9,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "9plls",
+              "text": "The staff",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "74mie",
+              "text": "Why the team runs on Kimi K3",
+              "type": "header-two"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 4,
+                  "offset": 105,
+                  "style": "Bold"
+                }
+              ],
+              "key": "3ot6s",
+              "text": "A lead is only as good as the people it can hire. Here is what Grok gets when it staffs the org chart on Kimi.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 9,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "5bepf",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 29,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "d5b1t",
+              "text": "Agent Swarm, up to 300 seats. Every department runs at the same time. Research is still finishing batch nine while Data is already cleaning batch one.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 36,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "6vvsk",
+              "text": "4,000 steps without losing the plan. A team job is long. Kimi K3 holds the goal across the whole run instead of drifting after the first hour.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 19,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "9ii8q",
+              "text": "Live data built in. Research agents pull from Binance, Yahoo Finance, the World Bank, the IMF and live stock feeds directly, so the numbers are current, not remembered.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 31,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "c1232",
+              "text": "Backend coding at the top tier. The Build department writes real scoring logic, data pipelines and dashboards. Kimi K3 codes at Fable 5 level on backend work.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 20,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "e248f",
+              "text": "Multi-format output. The same team ships a report, a spreadsheet, a dashboard and a deck from one run.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "9jhp3",
+              "text": "The last point is the one that makes a 300-seat team affordable. A team burns tokens. Every department reads, writes and passes work along. On a model that charges top-tier prices, a full team run becomes something you do once a quarter. On Kimi K3 it becomes something you do every morning.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 10,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "4lkm8",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 9,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "9oj4s",
+              "text": "The setup",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "5aldd",
+              "text": "Build the team in six moves",
+              "type": "header-two"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "76dh9",
+              "text": "No code required for the setup itself. Grok handles the management layer, Kimi handles the staff. Here is the order.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 41,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "7umic",
+              "text": "1. Give Grok a goal, not a task list grok",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "3jjc",
+              "text": "\"Map every AI coding tool on the market and rank them for a 20-person startup.\" The goal says what done looks like. Breaking it into work is Grok's job, not yours.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 35,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "d2ctd",
+              "text": "2. Let Grok draw the org chart grok",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "8ea00",
+              "text": "Ask it to size the five departments for this goal and justify the split. You review one small table instead of three hundred prompts.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 36,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "edss1",
+              "text": "3. One role card per department grok",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "66n2v",
+              "text": "Each card says what the department owns, what it receives, what it hands off and what \"done\" means. This is the whole management layer in five short paragraphs.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 39,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "40ttp",
+              "text": "4. Staff it on Kimi Agent Swarm kimi k3",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "ceoj",
+              "text": "Paste the org chart and role cards into Kimi as one launch prompt. Kimi spins up the departments and their agents and starts the handoffs.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 42,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "75d6r",
+              "text": "5. Run standups, not check-ins grok + kimi",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "12nek",
+              "text": "Every so often each department posts one status line. Grok reads five lines, moves headcount if someone is behind, and gets out of the way.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 26,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "73eh9",
+              "text": "6. Ship through QA kimi k3",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "dlkn1",
+              "text": "Nothing leaves the team until QA signs off. Failed claims go back to the department that made them, not to you.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "d942l",
+              "text": "Here is what Grok's output from steps two and three looks like. It is short on purpose. The brief is the contract between the lead and the team, and a short contract is one everyone actually follows.",
+              "type": "blockquote"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 11,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "dmng1",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 12,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "dr1ok",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 9,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "14d9i",
+              "text": "Headcount",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "5i7eq",
+              "text": "How big should the team be?",
+              "type": "header-two"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "dg88",
+              "text": "More agents is not automatically better. A team of 300 on a job with ten items is just 290 agents waiting. The right size follows the shape of the work: how many independent pieces there are, and how many stages each piece goes through. For the 150-tool market map, here is how time to a finished deliverable moves as the team grows.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 13,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "fdt5m",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 102,
+                  "offset": 249,
+                  "style": "Bold"
+                }
+              ],
+              "key": "4q92q",
+              "text": "The big jump is from one agent to a real team, because that is where overlap starts. After that the returns shrink, and somewhere past the point where every item and every stage has its own agent, extra seats stop helping. A simple rule works well: size the biggest department to the number of independent items, then size the rest to keep up with it. Grok can do that math in one line of its plan.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 14,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "28v26",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 7,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "d5dnf",
+              "text": "One run",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "btjmi",
+              "text": "A day inside the team",
+              "type": "header-two"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "79bts",
+              "text": "Here is the market map job from the inside. Grok sends the brief, Kimi staffs it, and the work moves across the board. At the start all 150 tools sit in the backlog. Departments pull from it as soon as they have capacity, which is why the board never has one column full and the rest empty.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 15,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "7dtd9",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "2dsuj",
+              "text": "Every 200 steps the departments post a standup. This is the only thing Grok reads during the run. Five lines in, one decision out. If a department is behind, Grok moves seats. If QA is bouncing too much work, Grok tightens the role card upstream. Otherwise it stays quiet.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 16,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "e5bnm",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "br34p",
+              "text": "Notice what happened in that standup. Research finished early, so Grok moved 30 of its seats into QA, which was the bottleneck. No human touched it. That single move is the difference between a swarm and a team: a swarm runs whatever it was told at the start, a team reallocates when the work changes shape.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "9hsqh",
+              "text": "Underneath the standups, the work itself moves as a relay. Each department receives one kind of artifact and hands off another. Nobody downstream ever sees the raw mess upstream, which is what keeps every context small and every agent focused.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 17,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "4lmgq",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "4st52",
+              "text": "The dashed line back from QA is the most important line in the diagram. When a claim fails, it goes back to the department that made it, with the source attached. If Build patched a bad price on its own, the table and the dashboard would quietly disagree. Sending it back keeps one source of truth.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 18,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "a0k0j",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 10,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "fgsu8",
+              "text": "The output",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "e6kms",
+              "text": "What the team ships",
+              "type": "header-two"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "8isld",
+              "text": "One goal sentence in. By the end of the run, the team has produced the full set, in the formats each person on your side actually wants.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 16,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "2qsff",
+              "text": "A ranked report. Every one of the 150 tools scored on price, features and traction, with the top picks for a 20-person startup up front.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 17,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "j995",
+              "text": "A live dashboard. Built by the Build department, filterable by price band and feature, wired to the clean table.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 16,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "1uro3",
+              "text": "A 24-slide deck. The same findings, cut down for a meeting.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 23,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "edm0o",
+              "text": "The master spreadsheet. 150 rows, every cell with a source link that QA has checked.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "rvra",
+              "text": "That bundle is what a small research firm would deliver after a week. Here it comes out of one run of one team, and the team can be rehired tomorrow for a completely different goal with a different org chart in under a minute.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 19,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "bu9at",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 7,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "c4fl0",
+              "text": "Closing",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "3mrjv",
+              "text": "Run it like a manager",
+              "type": "header-two"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [],
+              "key": "1lvdr",
+              "text": "The models do the work. Your job becomes the same job a good manager has: set the goal, approve the structure, and only step in when the structure is wrong. Four habits make that easy.",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 23,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "5jagm",
+              "text": "Write goals, not steps. Tell Grok what done looks like. The more steps you write, the less room the team has to organize itself.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 24,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "fm948",
+              "text": "Always keep QA separate. The agent that made a claim should never be the one that checks it.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 24,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "3fbpe",
+              "text": "Read standups, not logs. Five lines from five departments tells you everything that matters. Three hundred logs tells you nothing in time.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 17,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "5td35",
+              "text": "Resize every run. The org chart is a template. Let Grok change the headcount to fit each new goal.",
+              "type": "unordered-list-item"
+            },
+            {
+              "data": {},
+              "entityRanges": [
+                {
+                  "key": 20,
+                  "length": 1,
+                  "offset": 0
+                }
+              ],
+              "inlineStyleRanges": [],
+              "key": "41d8m",
+              "text": " ",
+              "type": "atomic"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 19,
+                  "offset": 0,
+                  "style": "Bold"
+                }
+              ],
+              "key": "83j6d",
+              "text": "Hire the team today",
+              "type": "unstyled"
+            },
+            {
+              "data": {},
+              "entityRanges": [],
+              "inlineStyleRanges": [
+                {
+                  "length": 16,
+                  "offset": 5,
+                  "style": "Bold"
+                }
+              ],
+              "key": "de8gv",
+              "text": "Open Kimi Agent Swarm, give Grok one real goal from your week, and paste its org chart into Kimi K3. Watch 300 agents split into departments and ship something you would normally assign to a whole team.",
+              "type": "blockquote"
+            }
+          ],
+          "entityMap": [
+            {
+              "key": "12",
+              "value": {
+                "data": {},
+                "mutability": "Immutable",
+                "type": "DIVIDER"
+              }
+            },
+            {
+              "key": "8",
+              "value": {
+                "data": {},
+                "mutability": "Immutable",
+                "type": "DIVIDER"
+              }
+            },
+            {
+              "key": "19",
+              "value": {
+                "data": {},
+                "mutability": "Immutable",
+                "type": "DIVIDER"
+              }
+            },
+            {
+              "key": "4",
+              "value": {
+                "data": {},
+                "mutability": "Immutable",
+                "type": "DIVIDER"
+              }
+            },
+            {
+              "key": "15",
+              "value": {
+                "data": {
+                  "entityKey": "5a8af3b9-2934-4587-a697-17cf7eeb4c91",
+                  "mediaItems": [
+                    {
+                      "localMediaId": "20",
+                      "mediaCategory": "AmplifyVideo",
+                      "mediaId": "2107430414486745088"
+                    }
+                  ]
+                },
+                "mutability": "Immutable",
+                "type": "MEDIA"
+              }
+            },
+            {
+              "key": "11",
+              "value": {
+                "data": {
+                  "markdown": "```python\nteam.md · written by grok\norg chart\n# goal\nrank 150 AI coding tools for a 20-person startup\n# done = ranked report + dashboard + deck, every claim sourced\n\nresearch  90  owns: profiles     hands off: raw profiles  → data\ndata      60  owns: master table hands off: clean table   → build, qa\nbuild     70  owns: score + viz  hands off: dashboard, deck → qa\nqa        50  owns: truth        hands off: pass / send back\neditorial 30  owns: the story    hands off: final report  → grok\n\n# rules\nstandup every 200 steps · one line per department\nfailed claim → back to its owner, never patched downstream\nship only when qa = green\n```"
+                },
+                "mutability": "Mutable",
+                "type": "MARKDOWN"
+              }
+            },
+            {
+              "key": "9",
+              "value": {
+                "data": {
+                  "entityKey": "2fc0ee04-8d0c-4599-a47d-aa9ba3326e42",
+                  "mediaItems": [
+                    {
+                      "localMediaId": "14",
+                      "mediaCategory": "AmplifyVideo",
+                      "mediaId": "2107429497330925568"
+                    }
+                  ]
+                },
+                "mutability": "Immutable",
+                "type": "MEDIA"
+              }
+            },
+            {
+              "key": "13",
+              "value": {
+                "data": {
+                  "entityKey": "ab56eb39-8d3b-49d1-b140-28d14620c648",
+                  "mediaItems": [
+                    {
+                      "localMediaId": "16",
+                      "mediaCategory": "AmplifyVideo",
+                      "mediaId": "2107430101285568513"
+                    }
+                  ]
+                },
+                "mutability": "Immutable",
+                "type": "MEDIA"
+              }
+            },
+            {
+              "key": "16",
+              "value": {
+                "data": {
+                  "entityKey": "f43a093b-6dae-4b50-a3f3-9bbffdc65430",
+                  "mediaItems": [
+                    {
+                      "localMediaId": "22",
+                      "mediaCategory": "DraftTweetImage",
+                      "mediaId": "2107430490680475648"
+                    }
+                  ]
+                },
+                "mutability": "Immutable",
+                "type": "MEDIA"
+              }
+            },
+            {
+              "key": "5",
+              "value": {
+                "data": {
+                  "entityKey": "fd0f28f1-6c20-418d-9407-19f2791ede93",
+                  "mediaItems": [
+                    {
+                      "localMediaId": "8",
+                      "mediaCategory": "DraftTweetImage",
+                      "mediaId": "2107428946383908864"
+                    }
+                  ]
+                },
+                "mutability": "Immutable",
+                "type": "MEDIA"
+              }
+            },
+            {
+              "key": "10",
+              "value": {
+                "data": {},
+                "mutability": "Immutable",
+                "type": "DIVIDER"
+              }
+            },
+            {
+              "key": "6",
+              "value": {
+                "data": {},
+                "mutability": "Immutable",
+                "type": "DIVIDER"
+              }
+            },
+            {
+              "key": "1",
+              "value": {
+                "data": {
+                  "entityKey": "4212400f-1fe2-4049-b4e7-88833f91854d",
+                  "mediaItems": [
+                    {
+                      "localMediaId": "4",
+                      "mediaCategory": "AmplifyVideo",
+                      "mediaId": "2107427109178060800"
+                    }
+                  ]
+                },
+                "mutability": "Immutable",
+                "type": "MEDIA"
+              }
+            },
+            {
+              "key": "17",
+              "value": {
+                "data": {
+                  "entityKey": "7d2e1c01-c2e8-4527-beb2-1ef907198457",
+                  "mediaItems": [
+                    {
+                      "localMediaId": "24",
+                      "mediaCategory": "AmplifyVideo",
+                      "mediaId": "2107430617184878592"
+                    }
+                  ]
+                },
+                "mutability": "Immutable",
+                "type": "MEDIA"
+              }
+            },
+            {
+              "key": "14",
+              "value": {
+                "data": {},
+                "mutability": "Immutable",
+                "type": "DIVIDER"
+              }
+            },
+            {
+              "key": "0",
+              "value": {
+                "data": {
+                  "url": "https://substack.com/@0xmorty"
+                },
+                "mutability": "Mutable",
+                "type": "LINK"
+              }
+            },
+            {
+              "key": "20",
+              "value": {
+                "data": {},
+                "mutability": "Immutable",
+                "type": "DIVIDER"
+              }
+            },
+            {
+              "key": "2",
+              "value": {
+                "data": {},
+                "mutability": "Immutable",
+                "type": "DIVIDER"
+              }
+            },
+            {
+              "key": "18",
+              "value": {
+                "data": {},
+                "mutability": "Immutable",
+                "type": "DIVIDER"
+              }
+            },
+            {
+              "key": "7",
+              "value": {
+                "data": {
+                  "entityKey": "6740e83e-bc8b-4bd4-babf-6ba0f047a51c",
+                  "mediaItems": [
+                    {
+                      "localMediaId": "10",
+                      "mediaCategory": "AmplifyVideo",
+                      "mediaId": "2107429178450575360"
+                    }
+                  ]
+                },
+                "mutability": "Immutable",
+                "type": "MEDIA"
+              }
+            },
+            {
+              "key": "3",
+              "value": {
+                "data": {
+                  "entityKey": "b6ed8b76-552b-45f4-a44f-04ba8aa40d6a",
+                  "mediaItems": [
+                    {
+                      "localMediaId": "6",
+                      "mediaCategory": "AmplifyVideo",
+                      "mediaId": "2107428724664606720"
+                    }
+                  ]
+                },
+                "mutability": "Immutable",
+                "type": "MEDIA"
+              }
+            }
+          ]
+        },
+        "media_entities": [
+          {
+            "id": "QXBpTWVkaWE6DAAFCgABHT8Y3ZnWQAAKAAIbo2aRNBpwAQAA",
+            "media_id": "2107430490680475648",
+            "media_info": {
+              "__typename": "ApiImage",
+              "color_info": {
+                "palette": [
+                  {
+                    "percentage": 96.59,
+                    "rgb": {
+                      "blue": 255,
+                      "green": 255,
+                      "red": 255
+                    }
+                  },
+                  {
+                    "percentage": 1.73,
+                    "rgb": {
+                      "blue": 46,
+                      "green": 42,
+                      "red": 40
+                    }
+                  },
+                  {
+                    "percentage": 0.75,
+                    "rgb": {
+                      "blue": 225,
+                      "green": 103,
+                      "red": 67
+                    }
+                  },
+                  {
+                    "percentage": 0.64,
+                    "rgb": {
+                      "blue": 240,
+                      "green": 180,
+                      "red": 162
+                    }
+                  }
+                ]
+              },
+              "original_img_height": 774,
+              "original_img_url": "https://pbs.twimg.com/media/HT8Y3ZnWQAAg1zK.png",
+              "original_img_width": 880
+            },
+            "media_key": "3_2107430490680475648"
+          },
+          {
+            "id": "QXBpTWVkaWE6DAAECgABHT8Y+w4WQAAKAAIAAAAAAAAAAAAA",
+            "media_id": "2107430617184878592",
+            "media_info": {
+              "__typename": "ApiVideo",
+              "aspect_ratio": {
+                "denominator": 125,
+                "numerator": 219
+              },
+              "duration_millis": 4074,
+              "preview_image": {
+                "color_info": {
+                  "palette": [
+                    {
+                      "percentage": 87.4,
+                      "rgb": {
+                        "blue": 21,
+                        "green": 19,
+                        "red": 19
+                      }
+                    },
+                    {
+                      "percentage": 6.8,
+                      "rgb": {
+                        "blue": 240,
+                        "green": 239,
+                        "red": 239
+                      }
+                    },
+                    {
+                      "percentage": 2.16,
+                      "rgb": {
+                        "blue": 226,
+                        "green": 90,
+                        "red": 47
+                      }
+                    },
+                    {
+                      "percentage": 1.38,
+                      "rgb": {
+                        "blue": 99,
+                        "green": 45,
+                        "red": 24
+                      }
+                    },
+                    {
+                      "percentage": 0.43,
+                      "rgb": {
+                        "blue": 229,
+                        "green": 122,
+                        "red": 86
+                      }
+                    }
+                  ]
+                },
+                "original_img_height": 500,
+                "original_img_url": "https://pbs.twimg.com/amplify_video_thumb/2107430617184878592/img/mi4oJclLb8Q8xNpV.jpg",
+                "original_img_width": 876
+              },
+              "variants": [
+                {
+                  "bit_rate": 256000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107430617184878592/vid/avc1/472x270/NNn-kg60achbESfc.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 832000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107430617184878592/vid/avc1/630x360/nO-QsTcUi3OGNbj0.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 2176000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107430617184878592/vid/avc1/876x500/-tJSfmeC5Y0uQbzO.mp4?tag=29"
+                },
+                {
+                  "content_type": "application/x-mpegURL",
+                  "url": "https://video.twimg.com/amplify_video/2107430617184878592/pl/6TcHyZba-7VBja6C.m3u8?tag=29"
+                }
+              ]
+            },
+            "media_key": "13_2107430617184878592"
+          },
+          {
+            "id": "QXBpTWVkaWE6DAAECgABHT8Yy9xWMAAKAAIAAAAAAAAAAAAA",
+            "media_id": "2107430414486745088",
+            "media_info": {
+              "__typename": "ApiVideo",
+              "aspect_ratio": {
+                "denominator": 133,
+                "numerator": 219
+              },
+              "duration_millis": 19263,
+              "preview_image": {
+                "color_info": {
+                  "palette": [
+                    {
+                      "percentage": 97.38,
+                      "rgb": {
+                        "blue": 226,
+                        "green": 238,
+                        "red": 243
+                      }
+                    },
+                    {
+                      "percentage": 1.1,
+                      "rgb": {
+                        "blue": 244,
+                        "green": 201,
+                        "red": 190
+                      }
+                    },
+                    {
+                      "percentage": 1,
+                      "rgb": {
+                        "blue": 26,
+                        "green": 20,
+                        "red": 23
+                      }
+                    },
+                    {
+                      "percentage": 0.45,
+                      "rgb": {
+                        "blue": 103,
+                        "green": 108,
+                        "red": 111
+                      }
+                    }
+                  ]
+                },
+                "original_img_height": 532,
+                "original_img_url": "https://pbs.twimg.com/amplify_video_thumb/2107430414486745088/img/LxOUFtiho5YGbh0u.jpg",
+                "original_img_width": 876
+              },
+              "variants": [
+                {
+                  "bit_rate": 256000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107430414486745088/vid/avc1/444x270/scatxiY6bKU6yjHR.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 832000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107430414486745088/vid/avc1/592x360/zLCIXtdcaLzR4ut8.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 2176000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107430414486745088/vid/avc1/876x532/vfO0-fTM5oNJoKSK.mp4?tag=29"
+                },
+                {
+                  "content_type": "application/x-mpegURL",
+                  "url": "https://video.twimg.com/amplify_video/2107430414486745088/pl/KpwdPmGIXO_i1FOb.m3u8?tag=29"
+                }
+              ]
+            },
+            "media_key": "13_2107430414486745088"
+          },
+          {
+            "id": "QXBpTWVkaWE6DAAFCgABHT8XdgqWsAAKAAIbo2aRNBpwAQAA",
+            "media_id": "2107428946383908864",
+            "media_info": {
+              "__typename": "ApiImage",
+              "color_info": {
+                "palette": [
+                  {
+                    "percentage": 96.82,
+                    "rgb": {
+                      "blue": 34,
+                      "green": 30,
+                      "red": 29
+                    }
+                  },
+                  {
+                    "percentage": 1.68,
+                    "rgb": {
+                      "blue": 224,
+                      "green": 98,
+                      "red": 60
+                    }
+                  },
+                  {
+                    "percentage": 1.04,
+                    "rgb": {
+                      "blue": 121,
+                      "green": 119,
+                      "red": 119
+                    }
+                  },
+                  {
+                    "percentage": 0.43,
+                    "rgb": {
+                      "blue": 129,
+                      "green": 64,
+                      "red": 44
+                    }
+                  }
+                ]
+              },
+              "original_img_height": 648,
+              "original_img_url": "https://pbs.twimg.com/media/HT8XdgqWsAATuWW.png",
+              "original_img_width": 858
+            },
+            "media_key": "3_2107428946383908864"
+          },
+          {
+            "id": "QXBpTWVkaWE6DAAECgABHT8YgvAXgAEKAAIAAAAAAAAAAAAA",
+            "media_id": "2107430101285568513",
+            "media_info": {
+              "__typename": "ApiVideo",
+              "aspect_ratio": {
+                "denominator": 249,
+                "numerator": 440
+              },
+              "duration_millis": 5866,
+              "preview_image": {
+                "color_info": {
+                  "palette": [
+                    {
+                      "percentage": 97.03,
+                      "rgb": {
+                        "blue": 255,
+                        "green": 255,
+                        "red": 255
+                      }
+                    },
+                    {
+                      "percentage": 2.39,
+                      "rgb": {
+                        "blue": 26,
+                        "green": 21,
+                        "red": 22
+                      }
+                    },
+                    {
+                      "percentage": 0.21,
+                      "rgb": {
+                        "blue": 234,
+                        "green": 184,
+                        "red": 169
+                      }
+                    }
+                  ]
+                },
+                "original_img_height": 498,
+                "original_img_url": "https://pbs.twimg.com/amplify_video_thumb/2107430101285568513/img/Y7QAzsVjiJzhnlpZ.jpg",
+                "original_img_width": 880
+              },
+              "variants": [
+                {
+                  "bit_rate": 256000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107430101285568513/vid/avc1/476x270/3c7avYSB0nKiKV3x.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 832000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107430101285568513/vid/avc1/636x360/e2WnSQjI9bXLVTjI.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 2176000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107430101285568513/vid/avc1/880x498/oOUpv8l2dijN2l_C.mp4?tag=29"
+                },
+                {
+                  "content_type": "application/x-mpegURL",
+                  "url": "https://video.twimg.com/amplify_video/2107430101285568513/pl/eVMC4MhV42OWZg32.m3u8?tag=29"
+                }
+              ]
+            },
+            "media_key": "13_2107430101285568513"
+          },
+          {
+            "id": "QXBpTWVkaWE6DAAECgABHT8XrBLXAAAKAAIAAAAAAAAAAAAA",
+            "media_id": "2107429178450575360",
+            "media_info": {
+              "__typename": "ApiVideo",
+              "aspect_ratio": {
+                "denominator": 259,
+                "numerator": 443
+              },
+              "duration_millis": 5375,
+              "preview_image": {
+                "color_info": {
+                  "palette": [
+                    {
+                      "percentage": 93.19,
+                      "rgb": {
+                        "blue": 255,
+                        "green": 255,
+                        "red": 255
+                      }
+                    },
+                    {
+                      "percentage": 2.08,
+                      "rgb": {
+                        "blue": 34,
+                        "green": 29,
+                        "red": 30
+                      }
+                    },
+                    {
+                      "percentage": 2.06,
+                      "rgb": {
+                        "blue": 224,
+                        "green": 225,
+                        "red": 248
+                      }
+                    },
+                    {
+                      "percentage": 1.98,
+                      "rgb": {
+                        "blue": 234,
+                        "green": 184,
+                        "red": 168
+                      }
+                    },
+                    {
+                      "percentage": 0.8,
+                      "rgb": {
+                        "blue": 105,
+                        "green": 104,
+                        "red": 104
+                      }
+                    }
+                  ]
+                },
+                "original_img_height": 518,
+                "original_img_url": "https://pbs.twimg.com/amplify_video_thumb/2107429178450575360/img/ByR7gdOx3xXUs5Yr.jpg",
+                "original_img_width": 886
+              },
+              "variants": [
+                {
+                  "bit_rate": 256000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107429178450575360/vid/avc1/460x270/AbqOtknJGd5GpDl-.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 832000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107429178450575360/vid/avc1/614x360/v4OKSDnQpMOo6AnD.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 2176000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107429178450575360/vid/avc1/886x518/fBYa_v4WeoNhzfxg.mp4?tag=29"
+                },
+                {
+                  "content_type": "application/x-mpegURL",
+                  "url": "https://video.twimg.com/amplify_video/2107429178450575360/pl/15bnmnmGIx_lSANj.m3u8?tag=29"
+                }
+              ]
+            },
+            "media_key": "13_2107429178450575360"
+          },
+          {
+            "id": "QXBpTWVkaWE6DAAECgABHT8VykiWMAAKAAIAAAAAAAAAAAAA",
+            "media_id": "2107427109178060800",
+            "media_info": {
+              "__typename": "ApiVideo",
+              "aspect_ratio": {
+                "denominator": 193,
+                "numerator": 448
+              },
+              "duration_millis": 8681,
+              "preview_image": {
+                "color_info": {
+                  "palette": [
+                    {
+                      "percentage": 90.97,
+                      "rgb": {
+                        "blue": 255,
+                        "green": 255,
+                        "red": 255
+                      }
+                    },
+                    {
+                      "percentage": 4.94,
+                      "rgb": {
+                        "blue": 234,
+                        "green": 168,
+                        "red": 146
+                      }
+                    },
+                    {
+                      "percentage": 2.97,
+                      "rgb": {
+                        "blue": 23,
+                        "green": 17,
+                        "red": 18
+                      }
+                    },
+                    {
+                      "percentage": 0.57,
+                      "rgb": {
+                        "blue": 231,
+                        "green": 135,
+                        "red": 106
+                      }
+                    }
+                  ]
+                },
+                "original_img_height": 386,
+                "original_img_url": "https://pbs.twimg.com/amplify_video_thumb/2107427109178060800/img/Q93MqIN3o6oI29gk.jpg",
+                "original_img_width": 896
+              },
+              "variants": [
+                {
+                  "bit_rate": 256000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107427109178060800/vid/avc1/626x270/dcKyYll_bErFzOID.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 832000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107427109178060800/vid/avc1/896x386/jcMq5Sahy-u-9F_2.mp4?tag=29"
+                },
+                {
+                  "content_type": "application/x-mpegURL",
+                  "url": "https://video.twimg.com/amplify_video/2107427109178060800/pl/I6YAqz6Nh1fu7DBB.m3u8?tag=29"
+                }
+              ]
+            },
+            "media_key": "13_2107427109178060800"
+          },
+          {
+            "id": "QXBpTWVkaWE6DAAECgABHT8XQmsWoAAKAAIAAAAAAAAAAAAA",
+            "media_id": "2107428724664606720",
+            "media_info": {
+              "__typename": "ApiVideo",
+              "aspect_ratio": {
+                "denominator": 271,
+                "numerator": 448
+              },
+              "duration_millis": 3808,
+              "preview_image": {
+                "color_info": {
+                  "palette": [
+                    {
+                      "percentage": 92.74,
+                      "rgb": {
+                        "blue": 225,
+                        "green": 237,
+                        "red": 242
+                      }
+                    },
+                    {
+                      "percentage": 2.17,
+                      "rgb": {
+                        "blue": 44,
+                        "green": 41,
+                        "red": 41
+                      }
+                    },
+                    {
+                      "percentage": 1.93,
+                      "rgb": {
+                        "blue": 237,
+                        "green": 150,
+                        "red": 114
+                      }
+                    },
+                    {
+                      "percentage": 1.65,
+                      "rgb": {
+                        "blue": 227,
+                        "green": 91,
+                        "red": 47
+                      }
+                    },
+                    {
+                      "percentage": 0.82,
+                      "rgb": {
+                        "blue": 235,
+                        "green": 181,
+                        "red": 162
+                      }
+                    }
+                  ]
+                },
+                "original_img_height": 542,
+                "original_img_url": "https://pbs.twimg.com/amplify_video_thumb/2107428724664606720/img/BqeG-39ABoEujads.jpg",
+                "original_img_width": 896
+              },
+              "variants": [
+                {
+                  "bit_rate": 256000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107428724664606720/vid/avc1/446x270/ElJle_AfYvirCXFC.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 832000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107428724664606720/vid/avc1/594x360/FIkUgyKQYfZBaJhR.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 2176000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107428724664606720/vid/avc1/896x542/wmv8FIS-BmRV2n9w.mp4?tag=29"
+                },
+                {
+                  "content_type": "application/x-mpegURL",
+                  "url": "https://video.twimg.com/amplify_video/2107428724664606720/pl/viX1DevrQoiGInJs.m3u8?tag=29"
+                }
+              ]
+            },
+            "media_key": "13_2107428724664606720"
+          },
+          {
+            "id": "QXBpTWVkaWE6DAAECgABHT8X9lGXAAAKAAIAAAAAAAAAAAAA",
+            "media_id": "2107429497330925568",
+            "media_info": {
+              "__typename": "ApiVideo",
+              "aspect_ratio": {
+                "denominator": 27,
+                "numerator": 55
+              },
+              "duration_millis": 4961,
+              "preview_image": {
+                "color_info": {
+                  "palette": [
+                    {
+                      "percentage": 95.8,
+                      "rgb": {
+                        "blue": 255,
+                        "green": 255,
+                        "red": 255
+                      }
+                    },
+                    {
+                      "percentage": 3.4,
+                      "rgb": {
+                        "blue": 229,
+                        "green": 105,
+                        "red": 64
+                      }
+                    },
+                    {
+                      "percentage": 0.42,
+                      "rgb": {
+                        "blue": 224,
+                        "green": 133,
+                        "red": 107
+                      }
+                    },
+                    {
+                      "percentage": 0.25,
+                      "rgb": {
+                        "blue": 137,
+                        "green": 137,
+                        "red": 137
+                      }
+                    }
+                  ]
+                },
+                "original_img_height": 432,
+                "original_img_url": "https://pbs.twimg.com/amplify_video_thumb/2107429497330925568/img/b_b7v76xCMwTkMDP.jpg",
+                "original_img_width": 880
+              },
+              "variants": [
+                {
+                  "bit_rate": 256000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107429497330925568/vid/avc1/550x270/jzllgCym8V0YioBL.mp4?tag=29"
+                },
+                {
+                  "bit_rate": 832000,
+                  "content_type": "video/mp4",
+                  "url": "https://video.twimg.com/amplify_video/2107429497330925568/vid/avc1/880x432/KhrGMEcCCmsdblPK.mp4?tag=29"
+                },
+                {
+                  "content_type": "application/x-mpegURL",
+                  "url": "https://video.twimg.com/amplify_video/2107429497330925568/pl/8LAT7rebPdyrMkBJ.m3u8?tag=29"
+                }
+              ]
+            },
+            "media_key": "13_2107429497330925568"
+          }
+        ]
+      },
+      "twitter_card": "tweet",
+      "color": null,
+      "provider": "twitter",
+      "reposted_by": null
+    },
+    "twitter_card": "player",
+    "color": null,
+    "provider": "twitter",
+    "reposted_by": null
+  }
+}

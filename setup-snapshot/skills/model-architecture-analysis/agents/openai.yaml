@@ -1,0 +1,4 @@
+interface:
+  display_name: "Model Architecture Analysis"
+  short_description: "Connect model mechanisms to controlled evidence"
+  default_prompt: "Use $model-architecture-analysis for the current research task, following this project's instructions and existing approvals."

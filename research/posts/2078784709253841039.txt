@@ -1,0 +1,49 @@
+https://x.com/Bober_smart/status/2078784709253841039
+
+
+
+Claude Second Brain & Folder Workflow: The Complete Guide
+
+Build your AI-native second brain using simple Markdown folders and a CLAUDE.md index file map
+"Second brain" sounds a bit pretentious, but at the end of the day, it is just a handful of text files stashed in a few folders, managed by a single index file that guides the AI on where to look. No Obsidian, no complex databases, no bloated apps, just plain Markdown sitting on your drive. 
+In this walkthrough, we will build this architecture from the ground up: organizing the directory structure, writing your roadmap (the CLAUDE.md file), setting naming conventions, and explaining exactly how the agent parses it all. By the time you are done, you will have a robust system you can replicate and start populating immediately.
+The Short Answer
+A "second brain" is nothing more than a collection of flat .md files organized in simple folders, with a single CLAUDE.md file in the root serving as your index. It acts as a compass, informing the agent where information resides, how files are structured, and the protocols for reading them. The golden rule: one topic per file. The CLAUDE.md is the map the agent follows to navigate your knowledge. You do not need a dedicated note-taking app.
+What You will Need
+An AI agent that can read project directories (like Claude Code or similar).  
+Any text editor. These are standard .md files; they work with everything.  
+Five minutes. That is enough time to set up the folders. You can fill them in as you go, there is no need to front-load all your data. 
+Note: There are no installation scripts or complex configurations involved. This is a file structure and an index, not a software product.
+The Principle: Flat Files Over Apps 
+The instinct to download Obsidian or build a fancy Notion database is usually a trap. Apps impose their own proprietary formats, storage logic, and interfaces, which often create friction for an AI. An agent works best when it can read a simple text file on your disk directly, without any middle layers.
+ That is why the foundation here is flat Markdown files. "Flat" means plain text with standard formatting (headers, bullet points), no nested databases and no proprietary links. It is accessible anywhere, readable by both humans and AI. This is not a sacrifice for the sake of simplicity, it is a strategic advantage: the cleaner the format, the fewer walls stand between your knowledge and the agent.
+The Skeleton: Semantic Folders 
+The layout relies on semantic organization, grouping folders based on their content. Here is the basic structure:
+ 
+These three core folders cover almost every use case:  
+notes/: Facts and topic-specific entries. If you learn something, distill it here. One file per topic.  
+people/: Cards for contacts or companies: who they are, meeting summaries, key details. One file per person.  
+projects/: Project status: what you are currently working on, where you paused, and the next steps. 
+Additionally, use the root-level files for metadata about your workflow: MEMORY.md (long-term, core info), LEARNINGS.md (lessons learned), and decisions.md (an audit log of your choices).
+CLAUDE.md, The Map 
+This is the brain's nervous system. Folders are just storage; to make them actionable, you need a map. The CLAUDE.md file in the root tells the agent how to interpret your structure. 
+Why CLAUDE.md? If you use Claude Code, it loads this file into the system prompt automatically on startup. You do not have to prompt the agent to "read the map", it already knows the rules of engagement before your first question. 
+Example of your map file:
+ 
+Pro-Tip: Leveraging @-Connections 
+For a more advanced setup, you can prime the agent: your CLAUDE.md can directly reference core files using @ paths. By adding @MEMORY.md or @decisions.md to the map, the agent keeps that high-level context in its active memory at all times. Use this sparingly, only for what truly needs to be in focus consistently.
+Naming Rules: Discipline is Everything
+The "one file = one topic" rule is where most systems succeed or fail.
+One File = One Topic. Avoid "dumping" several unrelated points into notes.md. If it is about "Tax Policy," create tax-policy.md.
+Topic as Name. Name the file for what it contains. Use ivan-petrov.md instead of note-12.md.  
+Unified Style. Stick to lowercase and hyphens to avoid ambiguity. 
+How the Agent Reads It
+When you initiate a session, the agent ingests CLAUDE.md. When you ask a question, it uses the map to locate the correct file, parses it, and synthesizes an answer, complete with a citation. If the info is not there, it reports a failure rather than hallucinating. Your only responsibility is maintaining a clean structure; the agent handles the retrieval.
+Common Pitfalls
+ 
+FAQ
+Must the map be called CLAUDE.md? If you use Claude Code, yes, it is automatic. For other agents, use a README.md or an equivalent root-level index.  
+How many folders should I start with? Keep it simple. Stick to three primary folders and your root-level files. Expand only when a topic becomes large enough to warrant its own directory.  
+Do I have to move all my old notes? No. Build the skeleton now and migrate or create new content as you go. 
+The Bottom Line 
+Your second brain is simply a mix of flat .md files, a strict "one topic = one file" discipline, and a CLAUDE.md map to guide the agent. Forget the complex software, just keep your text files organized on your disk. Invest your time in the map; a clear CLAUDE.md is the difference between a disorganized mess and a functional AI assistant.

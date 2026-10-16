@@ -1,0 +1,9 @@
+{
+  "result": "timeout",
+  "deadline_seconds": 90,
+  "artifacts_created": false,
+  "observed_processes": ["xvfb-run as container PID 1", "Xvfb"],
+  "drawio_process_started": false,
+  "cleanup": "Stopped the specific --rm test container after inspecting its processes.",
+  "next_check": "Repeat with Docker --init; preserve network none, cap-drop ALL and no-new-privileges."
+}

@@ -1,0 +1,39 @@
+agsci doctor
+  ok    python              3.12.15 (/home/park/Projects/agentic-workflow/vendor/AI-Scientist-v3/.venv/bin/python)
+  ok    git                 git version 2.55.0 (/usr/bin/git)
+  ok    docker              Docker version 29.9.1, build dfc520d (/home/park/Projects/agentic-workflow/tools/scientist-bin/docker)
+  ok    node                v26.9.0 (/usr/bin/node)
+  ok    npm                 12.1.0 (/usr/bin/npm)
+  ok    npx                 12.1.0 (/usr/bin/npx)
+  ok    docker daemon       reachable
+  WARN  gpus                nvidia-smi failed: NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.
+                            -> only a CPU-only preset can run without GPUs
+  WARN  claude              not found on PATH
+                            -> see README 'Install CLI agents'
+  ok    codex               codex-cli 0.154.0 (/home/park/.local/bin/codex)
+  WARN  cursor-agent        not found on PATH
+                            -> see README 'Install CLI agents'
+  WARN  opencode            not found on PATH
+                            -> see README 'Install CLI agents'
+  WARN  gemini              not found on PATH
+                            -> see README 'Install CLI agents'
+  WARN  pi                  not found on PATH
+                            -> see README 'Install CLI agents'
+  WARN  autoillustrate      not found on PATH
+                            -> optional on the host; the paper stage uses the agent image's copy
+  ok    pipeline config     configs/pipeline_config.yaml composes
+  ok    task presets        grpo
+  ok    temporary storage   base=/home/park/.local/state/agentic-workflow/scientist-tmp free_bytes=33257172992
+  ok    inspector frontend  built
+  ok    resolved run        agent=codex mode=container phases=task_drafting,investigation,ablations,final_evaluation,posthoc,paper gpu_count=0
+  ok    agent image         agentic-scientist/agent-cli:latest
+  ok    auth root           /home/park
+  ok    env file            none configured
+  ok    agent cli           codex (codex) comes from the agent image
+  ok    credentials         codex: subscription login under /home/park/.codex
+  ok    required gpus       none
+  ok    container gpus      not needed
+  ok    task                circpack: scaffold ready
+
+21 ok, 7 warnings, 0 failures
+

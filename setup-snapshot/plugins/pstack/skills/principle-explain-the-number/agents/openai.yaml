@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-explain-the-number"
+  short_description: "Apply the pstack explain-the-number workflow"
+policy:
+  allow_implicit_invocation: false

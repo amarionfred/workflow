@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-10-16T04:11:38.472888+00:00",
+  "since": "2026-10-09T04:11:38.472888+00:00",
+  "days": 7,
+  "total": 1,
+  "outcomes": {
+    "accepted": 1,
+    "needs-correction": 0,
+    "blocked": 0,
+    "incomplete": 0
+  },
+  "acceptance_rate": 1.0,
+  "corrections": 1,
+  "known_cost_usd": null,
+  "cost_coverage": 0.0
+}

@@ -1,0 +1,7 @@
+[Unit]
+Description=Local agent workflow health report
+
+[Service]
+Type=oneshot
+ExecStart=/home/park/.local/bin/agent-workflow health
+NoNewPrivileges=true

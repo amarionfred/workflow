@@ -1,0 +1,656 @@
+Themes · Empryo docs
+Skip to content
+Empryo
+E
+m
+p
+r
+y
+Docs
+Download
+Morphs
+Benchmarks
+Blog
+Search
+Empryo
+proxySoul
+Coffee
+Water
+Crimson
+Undertow
+Documentation
+73
+pages in
+7
+chapters
+Search the docs
+Ctrl K
+Get started
+6
+Introduction
+Installation
+Quickstart
+Terminal lessons
+FAQ
+Docs for agents
+Surfaces
+7
+Overview
+Voice input
+Terminal UI
+Desktop app
+Phone app
+The workbench
+Headless & output
+Recipes
+6
+Rename & refactor
+Test & commit
+Task router
+Model fallback
+Plan mode
+Headless
+Providers
+5
+Overview
+Subscriptions
+Proxy
+Custom
+Copilot
+Tools
+24
+AST editing
+LSP
+Project
+Python kernel
+Memory
+Sessions
+Checkpoints
+MCP
+TypeSafe (jev)
+Hooks
+Cells & Morphs
+Skills
+Agents
+Editor
+The browser
+Computer use
+Terminals
+Routines
+Duck, advisor & council
+Logs & errors
+Themes
+Languages
+Hearth (deprecated)
+Add-ons
+How it works
+18
+Architecture
+The Genome
+The Marionette
+Intelligence
+Compound tools
+Cost tracking
+Model events
+Parallel subagents
+Multi-agent workflows
+Steering
+The reviewer
+The goal loop
+Cross-tab
+Compaction
+Prompt cache & ping
+Provider options
+Provider tools
+Prompt system
+Reference
+7
+CLI reference
+Commands
+Tools
+Configuration
+Presets
+Troubleshooting
+Sponsors
+Prefer a guided setup?
+Answer a few questions
+Tools
+Themes
+Docs
+Tools
+Themes
+Themes
+Pick from over 40 built-in color themes with a live preview, follow your system's light or dark mode, or write your own JSON theme that reloads as you edit it.
+Tools
+4
+minutes
+to read
+Copy page
+Copy & share
+On this page
+13
+sections
+Quick start
+Default: proxysoul-undertow
+Builtin themes
+Dark
+Light
+Config
+Theme picker controls
+Custom themes
+Example
+Metadata fields
+Token reference
+Legacy format
+Hot reload
+Quick start
+Link to this section
+Run
+/theme
+, or press
+Ctrl+K
+and search for "theme", to open the theme picker. The app changes color as you move through the list, so you can see each theme before you choose it.
+Default:
+proxysoul-undertow
+Link to this section
+Empryo uses the ProxySoul Undertow theme by default, in both the terminal UI and the desktop app.
+To follow your system's light or dark mode instead, pick
+system
+. It uses
+proxysoul-undertow
+when your system is dark and
+proxysoul-undertow-light
+when it is light.
+To decide between light and dark, Empryo first checks your terminal's background color. If it cannot tell, it uses your operating system's setting (macOS appearance, the Windows app theme, or the GNOME color scheme). To force one, set
+EMPRYO_APPEARANCE=dark
+or
+EMPRYO_APPEARANCE=light
+.
+Picking any other theme turns off the automatic switching.
+Builtin themes
+Link to this section
+Dark
+Link to this section
+Theme
+Description
+proxysoul-undertow
+ProxySoul Undertow: dark blue-grey with sea-glass green and dusty rose (the default)
+proxysoul-main
+ProxySoul: deep violet with hot pink
+proxysoul-coffee
+ProxySoul Coffee: warm brown, amber and burnt orange
+proxysoul-water
+ProxySoul Water: blue-black, cyan and teal
+proxysoul-crimson
+ProxySoul Crimson: plum-black with crimson
+proxysoul-empryo
+The Empryo brand theme (the old id
+proxy-empryo
+still works)
+solarized-dark
+Ethan Schoonover's classic
+catppuccin
+Catppuccin Mocha
+catppuccin-frappe
+Catppuccin Frappe
+catppuccin-macchiato
+Catppuccin Macchiato
+gruvbox-dark
+Retro groove
+tokyo-night
+Tokyo Night
+tokyonight-storm
+Tokyo Night Storm
+dracula
+Dracula
+nord
+Arctic, north-bluish
+one-dark
+Atom One Dark
+rose-pine
+All natural pine
+kanagawa
+Inspired by Katsushika Hokusai
+github-dark
+GitHub Dark
+everforest-dark
+Comfortable green
+ayu-dark
+Ayu Dark
+nightfox
+Nightfox
+cyberdream
+Cyberdream
+oxocarbon
+Oxocarbon
+sonokai
+Sonokai
+moonfly
+Moonfly
+melange
+Melange
+solarized-osaka
+Solarized Osaka
+bamboo
+Bamboo
+nordic
+Nordic
+synthwave
+Synthwave
+iceberg
+Iceberg
+ember
+Ember
+vesper
+Vesper
+Light
+Link to this section
+Theme
+Description
+proxysoul-undertow-light
+Undertow Light: slate, sea-glass green and rose (what
+system
+uses on a light system)
+proxysoul-main-light
+ProxySoul Light: lilac with violet and pink
+proxysoul-coffee-light
+Coffee Light: cream, espresso and amber
+proxysoul-water-light
+Water Light: pale grey-blue with deep teal
+proxysoul-crimson-light
+Crimson Light: blush with wine red
+proxysoul-empryo-light
+Empryo Light: white with forest green
+catppuccin-latte
+Catppuccin Latte
+one-light
+Atom One Light
+github-light
+GitHub Light
+The old theme ids
+dark
+,
+light
+,
+pastel-dusk
+and
+pastel-dawn
+still work. They now point to the Undertow themes, so an older config does not break.
+Config
+Link to this section
+Your theme is saved for all projects in
+~/.empryo/config.json
+:
+json
+Copy
+{
+  "theme": {
+    "name": "catppuccin",
+    "transparent": true,
+    "userMessageOpacity": 70,
+    "diffOpacity": 30,
+    "borderStrength": "strong"
+  }
+}
+Field
+Description
+name
+The theme id (built-in or your own)
+transparent
+Make the background transparent, so your terminal's own background shows through
+userMessageOpacity
+How solid the background of your messages is in transparent mode:
+0
+(clear),
+30
+(dim),
+70
+(subtle),
+100
+(solid)
+diffOpacity
+How solid the background of diffs is in transparent mode:
+0
+(clear),
+30
+(dim),
+70
+(subtle),
+100
+(solid)
+borderStrength
+How visible borders are:
+"default"
+,
+"strong"
+or
+"op"
+Theme picker controls
+Link to this section
+These keys work in the terminal UI theme picker:
+Key
+Action
+↑
+/
+↓
+Move through themes (with live preview)
+Enter
+Apply the selected theme
+Tab
+Turn transparent mode on or off
+M
+Change the message background opacity
+D
+Change the diff background opacity
+B
+Change the border strength
+Custom themes
+Link to this section
+To make your own theme, add a JSON file to
+~/.empryo/themes/
+:
+bash
+Copy
+mkdir -p ~/.empryo/themes
+Example
+Link to this section
+~/.empryo/themes/my-theme.json
+:
+json
+Copy
+{
+  "_extends": "dark",
+  "_label": "My Theme",
+  "_description": "A custom dark theme",
+  "_variant": "dark",
+  "brand": "#ff6600",
+  "brand-secondary": "#ff0040",
+  "bg-primary": "#1a1a2e",
+  "bg-elevated": "#16213e",
+  "text-primary": "#e0e0e0",
+  "success": "#00ff88",
+  "error": "#ff4444"
+}
+The file name without
+.json
+becomes the theme id. This one is
+my-theme
+.
+Metadata fields
+Link to this section
+Field
+Description
+_extends
+The built-in theme to start from. You only list the colors you want to change. Default:
+dark
+, which means
+proxysoul-undertow
+_label
+The name shown in the theme picker
+_description
+The description shown in the picker
+_variant
+"dark"
+or
+"light"
+, shown as an icon in the picker
+Token reference
+Link to this section
+Write color names in kebab-case, like
+bg-primary
+:
+Brand
+:
+brand
+,
+brand-secondary
+,
+brand-dim
+,
+brand-alt
+Text
+:
+text-primary
+,
+text-secondary
+,
+text-muted
+,
+text-dim
+,
+text-faint
+,
+text-subtle
+Backgrounds
+:
+bg-app
+,
+bg-primary
+,
+bg-secondary
+,
+bg-elevated
+,
+bg-popup
+,
+bg-popup-highlight
+,
+bg-overlay
+,
+bg-input
+,
+bg-banner
+,
+bg-banner-error
+,
+bg-user
+Borders
+:
+border
+,
+border-focused
+,
+border-active
+,
+border-slash
+Status
+:
+success
+,
+error
+,
+warning
+,
+info
+,
+amber
+Diff
+:
+diff-added-bg
+,
+diff-removed-bg
+,
+diff-added-sign
+,
+diff-removed-sign
+Accents
+:
+accent-user
+,
+accent-assistant
+,
+accent-system
+Legacy format
+Link to this section
+You can also put several themes in one file,
+~/.empryo/themes.json
+:
+json
+Copy
+{
+  "my-theme": {
+    "_extends": "dark",
+    "brand": "#ff6600"
+  },
+  "another-theme": {
+    "_extends": "light",
+    "brand": "#0066ff"
+  }
+}
+Hot reload
+Link to this section
+Empryo watches your theme files. When you save a change to a custom theme, the app updates right away. You do not need to restart.
+Something unclear, wrong or missing on this page?
+Suggest an edit on GitHub
+Previous page
+Logs & errors
+Next page
+Languages
+On this page
+Quick start
+Default: proxysoul-undertow
+Builtin themes
+Dark
+Light
+Config
+Theme picker controls
+Custom themes
+Example
+Metadata fields
+Token reference
+Legacy format
+Hot reload
+About
+4
+minutes
+of reading
+Back to the top
+Contents
+Search the docs
+Get started
+6
+Introduction
+Installation
+Quickstart
+Terminal lessons
+FAQ
+Docs for agents
+Surfaces
+7
+Overview
+Voice input
+Terminal UI
+Desktop app
+Phone app
+The workbench
+Headless & output
+Recipes
+6
+Rename & refactor
+Test & commit
+Task router
+Model fallback
+Plan mode
+Headless
+Providers
+5
+Overview
+Subscriptions
+Proxy
+Custom
+Copilot
+Tools
+24
+AST editing
+LSP
+Project
+Python kernel
+Memory
+Sessions
+Checkpoints
+MCP
+TypeSafe (jev)
+Hooks
+Cells & Morphs
+Skills
+Agents
+Editor
+The browser
+Computer use
+Terminals
+Routines
+Duck, advisor & council
+Logs & errors
+Themes
+Languages
+Hearth (deprecated)
+Add-ons
+How it works
+18
+Architecture
+The Genome
+The Marionette
+Intelligence
+Compound tools
+Cost tracking
+Model events
+Parallel subagents
+Multi-agent workflows
+Steering
+The reviewer
+The goal loop
+Cross-tab
+Compaction
+Prompt cache & ping
+Provider options
+Provider tools
+Prompt system
+Reference
+7
+CLI reference
+Commands
+Tools
+Configuration
+Presets
+Troubleshooting
+Sponsors
+Prefer a guided setup?
+Answer a few questions
+About Empryo and every page on this site
+Empryo
+E
+m
+p
+r
+y
+The coding agent that maps your code, edits it by name and checks its own work.
+GitHub
+1.3k
+stars
+(opens in a new tab)
+Discord
+(opens in a new tab)
+X
+(opens in a new tab)
+Product
+Download
+Setup guide
+Features
+Morphs
+Providers
+Learn
+Documentation
+Blog
+Glossary
+Brand assets
+Evidence
+Benchmarks
+Immunity
+TypeSafe study
+Comparisons
+Project
+About
+Changelog
+Contact
+Privacy
+Grown by proxySoul.

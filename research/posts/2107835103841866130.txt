@@ -1,0 +1,113 @@
+https://x.com/0xMortyx/status/2107835103841866130
+
+SpaceXAI engineer Lauren Tan:
+
+"I'm running 20+ GrokBot agents with /loop and /goal inside pstackthat ship code even while I sleep
+
+at SpaceXAI, 85% of our engineers run 10+ GrokBot agents as a team. I have a Chief of Staff agent that knows the other agents and manages everything"
+
+1 hour on how to build an agent team from scratch, with a Chief of Staff agent managing the rest
+
+worth more than a $500 course
+
+book & watch today
+
+How to Turn Grok + Kimi K3 Into a Team of 300 AI Agents
+
+Stop prompting one agent harder. Give Grok a goal, let it draw the org chart, and let Kimi K3 staff it with 300 agents in five departments that research, build, check and ship like a real team.
+1 team lead       5 departments       300 Kimi agents
+Follow my Substack to get fresh AI alpha:
+@0xMortyxhttps://substack.com/
+One agent is an employee. Three hundred agents is a company, but only if somebody runs it.
+ 
+Most people use AI the way a founder works in week one: one person doing every job. The same agent researches, cleans the data, writes the code, checks its own work and edits the final draft. It works for small tasks. Then the task gets big, the context fills up with five different jobs, and quality drops in exactly the place you stop looking.
+The fix is not a longer prompt. It is a team. Separate roles, clear ownership, handoffs between them, and a lead who keeps everyone pointed at the same goal. That is how real companies scale past one person, and it is how agent setups scale past one model.
+This guide builds that team with two pieces. Grok is the team lead: it reads the goal, designs the org chart and runs the standups. Kimi K3 is the staff: its Agent Swarm fills that org chart with up to 300 agents that actually do the work, in parallel, across thousands of steps.
+Grok decides who does what. Kimi K3 is everyone who does it. The lead is one seat. The team is three hundred.
+ 
+The problem
+A team, not a bigger prompt
+Here is the same job done two ways. The job is a full market map of 150 AI coding tools: pricing, features, traction, a ranked report, a dashboard and a slide deck. One agent does it in sequence. A team does it with five departments that overlap, because research does not have to finish before data cleaning starts on the first batch.
+ 
+The gap is not only speed. The solo agent carries every job in one context, so by the time it reaches the deck it is reasoning through a hundred thousand tokens of scraped pricing pages. The team keeps each context clean. The research agents only see sources. The build agents only see a clean table. Nobody drags the whole history around.
+That is the core idea behind the whole setup: split the work by role, not just by item. Splitting by item gives you 300 copies of the same generalist. Splitting by role gives you a research desk, a data desk, an engineering desk, a QA desk and an editor, each one good at one thing.
+ 
+The org chart
+The five departments Grok hires
+Grok does not invent a new structure for every job. It works from a standard org chart and resizes it. Five departments cover almost every research and build task, and the headcount shifts depending on where the work is heavy.
+ 
+Two departments matter more than people expect. QA is a separate team on purpose. An agent checking its own output tends to agree with itself. A different agent, holding only the claim and the source, does not have that bias. And Editorial exists because a correct table is not a finished deliverable. Somebody has to decide what goes first.
+The numbers on each card are a starting point, not a rule. A job that is mostly reading, like due diligence on a hundred companies, pushes Research up to 140 and shrinks Build. A job that is mostly code, like a pricing engine, flips it. Grok makes that call at the start of every run.
+ 
+Span of control
+Why Grok manages five, not three hundred
+The most common mistake is wiring the lead straight to every agent. It sounds powerful. In practice the lead spends its whole context reading 300 status updates and has nothing left for decisions. Real managers solve this with department leads, and so does this setup.
+ 
+On the left, Grok reads 300 updates every round. On the right, each department rolls up its own agents inside Kimi, and Grok reads five summaries. Same team, same work, a fraction of the noise at the top. The lead stays a lead because the swarm handles its own coordination underneath.
+This is also why the split between the two models works. Grok is good at the short, sharp calls: what the goal really is, which department is behind, whether the output is good enough to ship. Kimi K3 is built for the long, wide part: hundreds of agents, thousands of steps, and a context big enough to hold an entire department's work in one place.
+ 
+The staff
+Why the team runs on Kimi K3
+A lead is only as good as the people it can hire. Here is what Grok gets when it staffs the org chart on Kimi.
+ 
+Agent Swarm, up to 300 seats. Every department runs at the same time. Research is still finishing batch nine while Data is already cleaning batch one.
+4,000 steps without losing the plan. A team job is long. Kimi K3 holds the goal across the whole run instead of drifting after the first hour.
+Live data built in. Research agents pull from Binance, Yahoo Finance, the World Bank, the IMF and live stock feeds directly, so the numbers are current, not remembered.
+Backend coding at the top tier. The Build department writes real scoring logic, data pipelines and dashboards. Kimi K3 codes at Fable 5 level on backend work.
+Multi-format output. The same team ships a report, a spreadsheet, a dashboard and a deck from one run.
+The last point is the one that makes a 300-seat team affordable. A team burns tokens. Every department reads, writes and passes work along. On a model that charges top-tier prices, a full team run becomes something you do once a quarter. On Kimi K3 it becomes something you do every morning.
+ 
+The setup
+Build the team in six moves
+No code required for the setup itself. Grok handles the management layer, Kimi handles the staff. Here is the order.
+1. Give Grok a goal, not a task list grok
+"Map every AI coding tool on the market and rank them for a 20-person startup." The goal says what done looks like. Breaking it into work is Grok's job, not yours.
+2. Let Grok draw the org chart grok
+Ask it to size the five departments for this goal and justify the split. You review one small table instead of three hundred prompts.
+3. One role card per department grok
+Each card says what the department owns, what it receives, what it hands off and what "done" means. This is the whole management layer in five short paragraphs.
+4. Staff it on Kimi Agent Swarm kimi k3
+Paste the org chart and role cards into Kimi as one launch prompt. Kimi spins up the departments and their agents and starts the handoffs.
+5. Run standups, not check-ins grok + kimi
+Every so often each department posts one status line. Grok reads five lines, moves headcount if someone is behind, and gets out of the way.
+6. Ship through QA kimi k3
+Nothing leaves the team until QA signs off. Failed claims go back to the department that made them, not to you.
+Here is what Grok's output from steps two and three looks like. It is short on purpose. The brief is the contract between the lead and the team, and a short contract is one everyone actually follows.
+ 
+ 
+Headcount
+How big should the team be?
+More agents is not automatically better. A team of 300 on a job with ten items is just 290 agents waiting. The right size follows the shape of the work: how many independent pieces there are, and how many stages each piece goes through. For the 150-tool market map, here is how time to a finished deliverable moves as the team grows.
+ 
+The big jump is from one agent to a real team, because that is where overlap starts. After that the returns shrink, and somewhere past the point where every item and every stage has its own agent, extra seats stop helping. A simple rule works well: size the biggest department to the number of independent items, then size the rest to keep up with it. Grok can do that math in one line of its plan.
+ 
+One run
+A day inside the team
+Here is the market map job from the inside. Grok sends the brief, Kimi staffs it, and the work moves across the board. At the start all 150 tools sit in the backlog. Departments pull from it as soon as they have capacity, which is why the board never has one column full and the rest empty.
+ 
+Every 200 steps the departments post a standup. This is the only thing Grok reads during the run. Five lines in, one decision out. If a department is behind, Grok moves seats. If QA is bouncing too much work, Grok tightens the role card upstream. Otherwise it stays quiet.
+ 
+Notice what happened in that standup. Research finished early, so Grok moved 30 of its seats into QA, which was the bottleneck. No human touched it. That single move is the difference between a swarm and a team: a swarm runs whatever it was told at the start, a team reallocates when the work changes shape.
+Underneath the standups, the work itself moves as a relay. Each department receives one kind of artifact and hands off another. Nobody downstream ever sees the raw mess upstream, which is what keeps every context small and every agent focused.
+ 
+The dashed line back from QA is the most important line in the diagram. When a claim fails, it goes back to the department that made it, with the source attached. If Build patched a bad price on its own, the table and the dashboard would quietly disagree. Sending it back keeps one source of truth.
+ 
+The output
+What the team ships
+One goal sentence in. By the end of the run, the team has produced the full set, in the formats each person on your side actually wants.
+A ranked report. Every one of the 150 tools scored on price, features and traction, with the top picks for a 20-person startup up front.
+A live dashboard. Built by the Build department, filterable by price band and feature, wired to the clean table.
+A 24-slide deck. The same findings, cut down for a meeting.
+The master spreadsheet. 150 rows, every cell with a source link that QA has checked.
+That bundle is what a small research firm would deliver after a week. Here it comes out of one run of one team, and the team can be rehired tomorrow for a completely different goal with a different org chart in under a minute.
+ 
+Closing
+Run it like a manager
+The models do the work. Your job becomes the same job a good manager has: set the goal, approve the structure, and only step in when the structure is wrong. Four habits make that easy.
+Write goals, not steps. Tell Grok what done looks like. The more steps you write, the less room the team has to organize itself.
+Always keep QA separate. The agent that made a claim should never be the one that checks it.
+Read standups, not logs. Five lines from five departments tells you everything that matters. Three hundred logs tells you nothing in time.
+Resize every run. The org chart is a template. Let Grok change the headcount to fit each new goal.
+ 
+Hire the team today
+Open Kimi Agent Swarm, give Grok one real goal from your week, and paste its org chart into Kimi K3. Watch 300 agents split into departments and ship something you would normally assign to a whole team.

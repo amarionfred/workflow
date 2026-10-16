@@ -1,0 +1,5 @@
+interface:
+  display_name: "recall"
+  short_description: "Apply the pstack recall workflow"
+policy:
+  allow_implicit_invocation: false

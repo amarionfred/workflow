@@ -1,0 +1,71 @@
+ ---> Removed intermediate container 7e0412e9c61d
+ ---> aa1c0af3b215
+Step 4/8 : WORKDIR /opt/headless
+ ---> Running in 15e87344c9cc
+ ---> Removed intermediate container 15e87344c9cc
+ ---> 6734b6c9dbda
+Step 5/8 : COPY patch-dependencies.py /tmp/patch-headless-dependencies.py
+ ---> a6d0228067fd
+Step 6/8 : RUN python /tmp/patch-headless-dependencies.py
+ ---> Running in f62cc4fb14b0
+
+changed 2 packages in 7s
+
+6 packages are looking for funding
+  run `npm fund` for details
+{
+  "changes": [
+    {
+      "package": "node_modules/@grpc/grpc-js",
+      "before": "1.14.4",
+      "after": "1.14.5"
+    },
+    {
+      "package": "node_modules/smol-toml",
+      "before": "1.6.1",
+      "after": "1.9.0"
+    }
+  ],
+  "production_audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 48,
+        "dev": 33,
+        "optional": 36,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 89
+      }
+    }
+  },
+  "command_contracts": [
+    "codex",
+    "claude",
+    "opencode",
+    "pi"
+  ],
+  "model_calls": 0
+}
+ ---> Removed intermediate container f62cc4fb14b0
+ ---> 42934558a9af
+Step 7/8 : USER agent
+ ---> Running in 61bf39632554
+ ---> Removed intermediate container 61bf39632554
+ ---> 074a8bfac891
+Step 8/8 : WORKDIR /workspace
+ ---> Running in 4456c4d19986
+ ---> Removed intermediate container 4456c4d19986
+ ---> 3f46633bab5e
+Successfully built 3f46633bab5e
+Successfully tagged agentic-scientist/agent-cli:latest
+

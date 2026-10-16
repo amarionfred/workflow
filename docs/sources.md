@@ -1,0 +1,39 @@
+# Source map and interpretation
+
+Collected 2026-10-16. Public X text and article payloads were recovered through the FxTwitter mirror when direct X retrieval failed. Originals are linked below; snapshots live in `research/posts/`. The 41-post Lauren corpus is `research/lauren-primary-corpus.json`. A mirror is a retrieval path, not independent corroboration. Private company infrastructure and reported productivity figures were not independently audited.
+
+| Your link | What it contributed | How it was used |
+| --- | --- | --- |
+| [KaiLentit: Hyperoptimized Engineer](https://x.com/KaiLentit/status/2110854417482432933) | A 267-second workflow/inspiration video. Frames sampled every 12 seconds show multiple agent terminals, generated documentation, review/spec references, and extravagant scale claims. | Aesthetic inspiration and a prompt to improve feedback loops. Sampled visual review is not a complete transcript or evidence for productivity claims. |
+| [0xMortyx](https://x.com/0xMortyx/status/2107835103841866130) | Recirculates claims about Lauren's agent team and a separate many-agent story. | Followed through to Lauren's source material; did not treat agent-count claims as a target. |
+| [distortgeekin](https://x.com/distortgeekin/status/2105275395901726845) | An AI-employee framing with bounded jobs, tools, review, and trust. | Job briefs, acceptance evidence, and capability-specific trust. This is a secondary interpretation, not Lauren's own specification. |
+| [0xCarnagee](https://x.com/0xCarnagee/status/2090102148344262659) | An eleven-step workflow article covering roles, memory, verification, routines, and handoffs. | Persistent context, explicit ownership, observable completion, scheduled local review. Its company workflow claims were not independently verified. |
+| [ajitcodes](https://x.com/ajitcodes/status/2101869030428794952) | Recirculates Lauren's workflow and team-scale claims. | Used as a lead toward primary posts and pstack. |
+| [hardmaru](https://x.com/hardmaru/status/2110739454948520260) | Introduces Sakana's Agentic Scientist and Autoillustrate. | Pinned the official repository, installed its environment, configured the runner, and pursued the recommended container runtime. |
+| [Felix Rieseberg](https://x.com/felixrieseberg/status/2110023283169247623) | Links his primary ambition essay. | Applied its speed, altitude, depth, and range framing to game and research briefs. |
+| [Bober_smart](https://x.com/Bober_smart/status/2078784709253841039) | A Markdown second-brain article with small indexed files and explicit memory/learning records. | Built `agent-brain`; adapted harness instructions to AGENTS.md and retained canonical project ownership. |
+| [BniWael](https://x.com/BniWael/status/2110796697538576766) | Recommends Empryo for managing coding work. | Installed and themed the actual application, connected the chosen subscription, and checked a real coding task. |
+
+Lauren's strongest public guidance forms a coherent engineering approach:
+
+- **Build the means to verify.** Her [pstack guide part 1](https://x.com/poteto/status/2094457600259842065) emphasizes usable control tools, repeatable environments, and maintained verification instructions. Our adaptation has a real feature map, a live model test, deterministic checks, and timer execution evidence. Browser screenshots or successful compilation alone cannot establish all behavior.
+- **Resolve intent and missing context.** [Part 2](https://x.com/poteto/status/2097732320606507506) connects clear user outcomes to context, explanations, prototypes, and small verifiable steps. The brief template and restatement step are concrete applications. Competing implementations are useful when an experiment can distinguish them, rather than as ceremony for every change.
+- **Fix the system that produces repeated errors.** Her [correction hierarchy](https://x.com/poteto/status/2089067865098113024) favors stronger architecture and executable constraints before relying on more review prose. The receipt boundary correction and regression test apply that idea to an observed failure.
+- **Add skills in response to evidence.** Her [start small](https://x.com/poteto/status/2093182292915298366) and [selective skills](https://x.com/poteto/status/2098637947021205856) posts caution against assuming prompt volume improves work. All public skills are installed because you asked for the complete library; explicit invocation and task relevance keep that library from becoming every task's context.
+- **Separate task selection from task execution.** The [outer/inner loop post](https://x.com/poteto/status/2090141955695198633) describes finding useful work and carrying chosen work through completion. A local weekly report supports choosing improvements; it does not impersonate her private cloud bot infrastructure.
+- **Maintain routines and context.** Her [cadence discussion](https://x.com/poteto/status/2091368467060662497) and [routine health example](https://x.com/poteto/status/2094967827019243547) illustrate operational maintenance and recurring friction review. Our deterministic daily/weekly jobs are intentionally bounded and observable.
+- **Preserve craft and agency.** [Coding is dead, long live Coding](https://x.com/poteto/status/2103571281014861957) discusses the changing experience of building software. Our interpretation is to move more attention toward intent, design, evidence, and learning while preserving the ability to understand and alter what gets built.
+
+The philosophical addition comes from [Felix's primary essay](https://felixrieseberg.com/how-to-be-more-ambitious-a-tutorial-for-humans-with-models/). The practical question is which larger outcome or stronger proof the tools make feasible for your project. The guide translates that into concrete briefs, rather than treating ambition as a request for unlimited work.
+
+Upstream sources used for implementation:
+
+- [Public pstack source at the pinned revision](https://github.com/cursor/plugins/tree/99743e9c151c8537cbbf1f98bb38f34ef3368453/pstack), MIT, Lauren Tan. The port records original SHA-256 file hashes in `evidence/pstack-provenance.json` and the plugin's PROVENANCE.json.
+- [Agentic Scientist source at the pinned revision](https://github.com/SakanaAI/AI-Scientist-v3/tree/2b8aa39285c35aaca3b0e06dd121061ef8a2d854), Apache-2.0; [project article](https://pub.sakana.ai/agentic-scientist/) and [paper](https://arxiv.org/abs/2610.18933). We used the released execution code and documentation; this setup is not a reproduction of its paper's performance claims.
+- [Empryo subscriptions](https://empryo.com/docs/providers/subscriptions), [configuration](https://empryo.com/docs/reference/configuration), and [themes](https://empryo.com/docs/tools/themes). Subscription model token costs shown by the app are estimates; observed execution is recorded separately from billing.
+- [Docker rootless installation](https://docs.docker.com/engine/security/rootless/). The downloaded installer differed from its declared Git source only in the three release-substitution values.
+- [Official Codex approval documentation](https://learn.chatgpt.com/docs/agent-approvals-security) and the locally fetched Codex manual. Effective configuration was checked through the actual app-server.
+
+Additional public talks were discovered at [this recording](https://www.youtube.com/watch?v=Cmoh-yR-usA), [this recording](https://www.youtube.com/watch?v=MN9dGgmLyso), and [this bot-team recording](https://www.youtube.com/watch?v=xZ5TEaleUdg), plus the [workshop page](https://maven.com/p/e23d9c/how-cursor-turned-ai-agents-into-better-engineers). They are a further-reading queue; no claim here depends on having watched them.
+
+The [41-post index](lauren-post-index.md) preserves the breadth of the collection. It is a source inventory, not a claim that every post provides independent evidence.

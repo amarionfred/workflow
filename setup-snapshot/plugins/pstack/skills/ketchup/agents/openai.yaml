@@ -1,0 +1,5 @@
+interface:
+  display_name: "ketchup"
+  short_description: "Apply the pstack ketchup workflow"
+policy:
+  allow_implicit_invocation: false

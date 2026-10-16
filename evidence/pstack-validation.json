@@ -1,0 +1,287 @@
+[
+  {
+    "skill": "architect",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "arena",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "automate-me",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "benchmark-checklist",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "blast-radius",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "bro",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "correct",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "create-verification-skill",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "figure-it-out",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "how",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "in-your-own-words",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "interrogate",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "ketchup",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "maintain-verification-skill",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "make-bot-ui",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "no-comments",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "poteto-help",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "poteto-mode",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-attack-the-premise",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-boundary-discipline",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-build-the-lever",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-encode-lessons-in-structure",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-exhaust-the-design-space",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-experience-first",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-explain-the-number",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-fix-root-causes",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-foundational-thinking",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-guard-the-context-window",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-laziness-protocol",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-make-operations-idempotent",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-migrate-callers-then-delete-legacy-apis",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-minimize-reader-load",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-model-the-domain",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-never-block-on-the-human",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-outcome-oriented-execution",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-prove-it-works",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-redesign-from-first-principles",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-separate-before-serializing-shared-state",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-sequence-verifiable-units",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-subtract-before-you-add",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-test-behavior-not-implementation",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "principle-type-system-discipline",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "recall",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "reflect",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "reproduce-and-fix-issues",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "setup-benny",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "setup-pstack",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "sharpen",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "show-me-your-work",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "swarm",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "tdd",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "teach",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "technical-writing",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "triage-issue-reports",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "typescript-best-practices",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "unslop",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  },
+  {
+    "skill": "why",
+    "exit_code": 0,
+    "result": "Skill is valid!"
+  }
+]

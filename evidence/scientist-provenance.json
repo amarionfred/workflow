@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/SakanaAI/AI-Scientist-v3",
+  "commit": "2b8aa39285c35aaca3b0e06dd121061ef8a2d854",
+  "source_status": "unmodified tracked upstream files",
+  "host_evaluator_smoke": "evidence/circpack-baseline",
+  "rootless_adapter": "tools/scientist-bin/docker",
+  "rootless_verification": "evidence/scientist-rootless.json",
+  "container_task_verification": "evidence/scientist-task-runtime.json",
+  "local_dependency_layer": "tools/scientist-image/Dockerfile",
+  "local_dependency_evidence": "evidence/headless-dependency-update.json",
+  "claim_limit": "Runtime installation and baseline checks are not reproduction of paper claims."
+}

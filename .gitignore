@@ -1,0 +1,24 @@
+# Local runtime state and downloaded dependencies.
+.empryo/
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+*.runtime-build.lock
+
+# Credentials and machine-local authentication must never enter this archive.
+.env
+.env.*
+!.env.example
+auth.json
+credentials.json
+hosts.yml
+*.pem
+*.key
+*.sqlite
+*.sqlite-*

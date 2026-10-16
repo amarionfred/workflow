@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-10-16T04:11:38.473940+00:00",
+  "home_free_bytes": 33191088128,
+  "disk_status": "ok",
+  "codex_default_approval": "never",
+  "codex_default_sandbox": "danger-full-access",
+  "pstack_enabled": true,
+  "empryo_binary_present": true,
+  "knowledge_project_cards": 9
+}

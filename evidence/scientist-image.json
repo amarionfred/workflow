@@ -1,0 +1,60 @@
+{
+  "image_id": "sha256:3f46633bab5eed62ac6becbbbdb332cb49fbd991ca0ede835be7c1f30090cc43",
+  "upstream_image_id": "sha256:19a9463c0bf358b54749fdb6c9e40da14eaa37f3fa54c750de70291eb875c8b1",
+  "image_size_bytes": 7140778579,
+  "versions": [
+    {
+      "command": [
+        "codex",
+        "--version"
+      ],
+      "returncode": 0,
+      "output": [
+        "codex-cli 0.153.4"
+      ]
+    },
+    {
+      "command": [
+        "headless",
+        "--version"
+      ],
+      "returncode": 0,
+      "output": [
+        "0.6.1"
+      ]
+    },
+    {
+      "command": [
+        "autoillustrate",
+        "--version"
+      ],
+      "returncode": 0,
+      "output": [
+        "0.4.8"
+      ]
+    },
+    {
+      "command": [
+        "pdflatex",
+        "--version"
+      ],
+      "returncode": 0,
+      "output": [
+        "pdfTeX 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian)",
+        "kpathsea version 6.4.0/dev",
+        "Copyright 2024 Han The Thanh (pdfTeX) et al."
+      ]
+    }
+  ],
+  "diagram_export": {
+    "passed": true,
+    "svg": "/home/park/Projects/agentic-workflow/evidence/scientist-renderer/runtime.svg",
+    "png": "/home/park/Projects/agentic-workflow/evidence/scientist-renderer/runtime.png",
+    "dimensions": [
+      184,
+      84
+    ]
+  },
+  "model_calls": 0,
+  "limit": "Tool and renderer checks; no generated research paper or full Autoillustrate model workflow."
+}

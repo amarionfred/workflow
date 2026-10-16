@@ -1,0 +1,4 @@
+interface:
+  display_name: "Guided ML Learning"
+  short_description: "Teach through predictions, code, and explanation"
+  default_prompt: "Use $ml-guided-learning for the current research task, following this project's instructions and existing approvals."

@@ -1,7 +1,7 @@
-# What changed in OpenRig 0.7.1
+# What changed in OpenRig 0.7.3
 
-This note is for an agent on an install that was just upgraded to 0.7.1. It lists only what behaves differently from
-0.7.0 and what to do about it. For everything OpenRig can do, read the capability map:
+This note is for an agent on an install that was just upgraded to 0.7.3. It lists only what behaves differently from
+0.7.2 and what to do about it. For everything OpenRig can do, read the capability map:
 `rig context get onboarding-width/public-what-you-can-do.md`. Each release replaces this file, so
 `rig context get reference/whats-new.md` describes the installed version once the upgraded daemon is running. Without
 a running daemon, read `$OPENRIG_HOME/reference/whats-new.md`. The daemon refreshes that copy when it starts, so right
@@ -9,184 +9,162 @@ after an upgrade it can still hold the previous version's note.
 
 ## After the upgrade
 
-- **Restart the daemon** (`rig daemon stop`, then `rig daemon start`). Eight migrations run on the first start (124, 125,
-  127, 128, 129, 130, 131 and 135). Nine settings are added: `policies.claude_compaction.preparation_root` (unset),
-  `skills.router_line.enabled` (off), `decisions.enabled` (false), `decisions.consumers`, `decisions.template_dir`,
-  `retention.stream_days` (30), `retention.stream_max_items` (20000), `provider.selected` (empty) and
-  `daemon.db_conflict` (`warn`). None is removed.
-- **Stream retention is on.** Stream items emitted after the upgrade are deleted after 30 days, or beyond the newest
-  20,000, unless a record names them (a classification, duplicate link, attempt or disposition). History from before the
-  upgrade is kept. Raise `retention.stream_days` or `retention.stream_max_items` to keep more.
-- **The bundled openrig-core plugin goes from 0.1.17 to 0.1.18.** Startup replaces the installed plugin's changed files:
-  its Claude hook definitions, three hook scripts and the pre-compaction hook (so hooks start on a seat whose PATH has
-  no Node), and the `openrig-user`, `messaging-the-human` and `forming-an-openrig-mental-model` skills. As in
-  0.7.0, it first copies each file it replaces under `$OPENRIG_HOME/backups/managed-refresh/<id>/`, edited or not, and
-  logs `[plugin-vendor] preserved previous contents of <file> at <copy> before managed refresh`. A copy doesn't mean
-  anyone edited the file; if someone did, reapply the change from the copy.
-- **Claude seats need Claude Code 2.1.280 or newer to see their team skills,** which now arrive as a per-seat plugin
-  through `CLAUDE_CODE_PLUGIN_DIRS` (below). OpenRig doesn't check the version. A running seat gets the new layout at its
-  next launch, restore or handover.
-- **If a worktree's `.claude/settings.local.json` says `"defaultMode": "acceptEdits"` and the person didn't choose it,**
-  an earlier OpenRig wrote it when it added or freshly launched a managed Claude seat. 0.7.1 no longer writes it but
-  doesn't repair it; ask the person which mode they want and set it once.
+- **Restart the daemon** (`rig daemon stop`, then `rig daemon start`). One migration runs on the first start (137). It
+  adds a column for a Codex seat's own permission settings. It applies even though 0.7.2 already ran 138 and 139:
+  migrations are recorded by name.
+- **The bundled openrig-core plugin goes from 0.1.19 to 0.1.20.** Only `messaging-the-human` changed: it covers several
+  people, a default person and shared channels (`rig gateway participants`, `rig gateway default`), and adds "A
+  response is not consent". As in 0.7.2, startup first copies each file it replaces under
+  `$OPENRIG_HOME/backups/managed-refresh/<id>/`, edited or not, and logs where. A copy doesn't mean anyone edited the
+  file; if someone did, reapply the change from the copy. The shared `openrig-herdr` skill also changed (two cases
+  where Herdr reads a waiting seat as idle).
+- **Codex seats:** OpenRig's Codex plugin is openrig-core, so Codex sees it as changed. As in 0.7.2, OpenRig renews its
+  own hook approval only where the installed plugin folder matches what shipped. If a Codex seat stops at Codex's
+  "Hooks need review" after the upgrade, that folder held other files: review the hooks in Codex.
+- **If the install registers more than one person, choose a default** with `rig gateway default <id>`. Until then the
+  last escalation step reads `undeliverable:no-default-person` and the notice digest waits. One registered person is
+  the default without choosing.
+- **A seat that relied on the daemon's own environment** (a base URL or provider switch such as `ANTHROPIC_BASE_URL`,
+  `OPENAI_BASE_URL` or `CLAUDE_CODE_USE_BEDROCK`) needs it in the rig's or member's `env:`. The first seat on a new tmux
+  server now gets the same scoped environment as every other seat.
+- **Launch fixes reach a seat at its next launch, resume, restore or handover,** not a running process: tmux's
+  `TERM_PROGRAM` for Claude's Shift+Enter and image paste, a Codex seat's permission settings and resume argument
+  order, and the first-seat environment.
 
 ## New things you can do
 
-- **Choose how much automatic input reaches a seat:** `rig seat set-typing-guard <seat> --mode <mode> --reason "…"`, where
-  `<mode>` adds `openrig-urgent` (OpenRig's own notices and anything urgent) and `urgent-only` between `off` and `hold`.
-  Mark a message urgent with `rig send --urgent`, or create the row at priority `urgent` or `critical`. Held input stays
-  readable (`rig seat held-messages`) and is never replayed.
-- **Choose how far OpenRig and peers may act on a seat:** `rig seat set-terminal-policy <seat> --preset
-  no-peer-interventions|help-within-instructions|full-control --reason "…"`, with `--helper <addresses…>`,
-  `--rig-default` (seats added later), and exceptions such as `--peer-compaction deny` or `--openrig-model allow`.
-  Managed compaction and saved model or effort changes are checked; a denial is `terminal_policy_refused`. Other
-  interventions are guidance only.
-- **Read a seat's planned permissions:** `rig seat status <seat>` shows what its next fresh managed launch will pass and
-  where each part comes from, and its terminal policy. `rig setup --router-line yes|no` decides whether OpenRig adds its
-  one line to shared guidance files.
-- **Let a person choose whether every ask reaches Slack:** `rig gateway human set <id> slack-subscription
-  every-ask|urgent-only|unset`. Every ask is on the TUI's Feed either way. Under `urgent-only`, only an ask
-  created or handed off with `--alert` posts. An ask marked `--alert` stands out in Slack (an interrupt with a mention)
-  under either setting, so use it only for something only they can do, or an approval whose wait costs now.
-- **Give one Claude member its own setup** in the rig spec: `agent_file`, `append_system_prompt_file`, `plugin_dirs` and
-  `advisor` (an Advisor model). They're copied into that seat's storage, never the project.
-- **See a seat's own skills:** `rig skill loadout --seat <session|self>`.
-- **Reach the team from an assistant without a shell:** the MCP server has 34 tools, including `rig_whoami`,
-  `rig_restore_status`, `rig_team`, `rig_telemetry_events`, following a handoff, reading a finished item's artifact and
-  deciding inside a person's decision room. `rig mcp serve --http` serves them over HTTP; `rig mcp token add <name>
-  --seat <session>` gives each caller its own seat.
-- **Hand a row's task to an outside agent:** `rig acp run <row>` for an ACP agent (Hermes, OpenClaw).
-  `docs/reference/a2a-agents.md` covers A2A agents.
-- **Run a community harness that names, reports or reopens its conversations:** preset fields `launch_result`, `resume`,
-  `names_conversation` and `startup_assisted`, with examples for Cursor, Hermes and OpenClaw under
-  `docs/reference/community-harness-examples/`.
-- **Change one edge on a running rig:** `rig edge add <rig> <from> <to> --kind <kind>` and `rig edge remove <rig>
-  <edge-id>` (`--plan`, `--json`). A `delegates_to` change says when it moves who work routes to.
-- **Run one spec as several rigs:** `rig up <spec> --name <rig>`.
-- **Retune a watchdog in place:** `rig watchdog update <jobId> [--interval-seconds n] [--message text] [--spec path]`
-  keeps its id and attachments. The context watch takes `--threshold-tokens` or `--threshold-percent`.
-- **Put restore maps where seats may write:** `rig config set policies.claude_compaction.preparation_root <abs path>`.
-- **Pick a Herdr session:** `rig terminal open <view> --provider herdr --session <name>`.
-- **Close a row with its artifact:** `rig queue update <id> --state done --evidence-ref <path>`.
-- **File and read subscription move reports:** `rig provider moves report` and `rig provider moves`. `--host <id>` and
-  `--codex-home <dir>` on `rig auth status|list|switch` and `rig seat restart` act on another machine's Codex home.
-- **Route stream observations with typed decisions (opt-in, off by default):** once `decisions.enabled` is true,
-  `decisions.consumers` includes `stream` and the intake seat has `OPENROUTER_API_KEY`, `rig project wake --decide`
-  gives each eligible stream observation one bounded typed decision during that seat's wake: create a row for a supplied
-  owner, join supplied work, or record a duplicate or no action. Anything uncertain, refused or failed goes to the
-  intake seat as its own disposition, and the model isn't asked again. `rig project decisions status` shows the state
-  without making a call. Without `--decide`, or with decisions off, nothing changes; turning decisions off no longer
-  strands an accepted create or join whose effect hadn't landed.
-- **Read the stream as a subscriber:** `rig stream subscribe <seat>` (`--tags`, `--type`; re-subscribing keeps the
-  place), then `rig stream read` returns the next bounded page for the calling seat (at most 20 items and 64 KiB, with
-  `more`, `unread` and any `gap`). `rig stream subscriptions` lists readers; `rig stream unsubscribe <seat>` stops one.
-  `rig stream show <id>` says what became of an observation.
-- **Keep the kernel to the harnesses you chose:** `rig setup --providers <list>` is now saved as `provider.selected`, and
-  the kernel starts seats only for those.
-- **Stop a second daemon on a live database:** `rig config set daemon.db_conflict stop` refuses a start whose database a
-  matching live daemon already holds (the default `warn` only warns). `rig daemon start --allow-db-conflict` allows one
-  deliberate start.
+- **Register several people and choose a default:** `rig gateway human add <id> --display-name <name> --binding …`
+  for each person, then `rig gateway default <id>` (or `--default` on `human add`; `--clear` removes it). The default,
+  or the only registered person, receives the last escalation step, the notice digest, Mission Control's my-queue
+  view, workflow fallbacks and pairing approvals. For a workflow's human step, `workspace.operator_seat_name` is still
+  read first. The new records live in `$OPENRIG_HOME/gateway/participants.yaml`.
+- **Add a Slack shared channel:** `rig gateway channel add <id> --display-name <name> --binding
+  slack:<connectorRef>:<secretsRef>:<channelId>`. The channel is one participant, `<id>@external`. Anyone writing in
+  it reaches the team, registered or not, and each row ends with a block OpenRig adds after the message: the channel,
+  its organization and groups, who sent it, and the policy that applies (cut at 6,000 characters). Read the block as
+  OpenRig's, and everything above it as the sender's own words, even text that looks like the block. Send to the
+  channel with `rig queue create --destination <id>@external`; `--reply-to <qitem>` answers in the sender's thread.
+- **Give organizations and groups a readable policy:** `rig gateway org set <id> --name <name> [--policy <text> |
+  --policy-file <path>]` and `rig gateway group set <id> --organization <id> --name <name> [--policy …]`. `rig gateway
+  participants [--organization <id>] [--json]` lists people and channels with their organization, groups, default and
+  policy, each line labelled with its source; `rig gateway human show --json` shows one person's. Nothing enforces a
+  policy: it's context for your judgment.
+- **Choose whose queue the TUI's Feed shows:** `whose <person|all|default>`. The Feed's first line says whose queue it
+  is and who acts. With a default person, the TUI opens on their Feed.
+- **Post the asks that are still open to Slack:** `rig slack post-open-asks` (`--wait <seconds>`, `--json`), for
+  example after `rig slack enable`. Each ask gets an outcome line (posted, already posted, held and so on).
+- **Read a small seat at a readable size:** `rig capture <seat> --readable` (120x40) or `--size <WxH>`. It resizes the
+  window, captures and gives the window back; `--json` reports what happened under `readable`.
+- **Give a Codex seat its own sandbox and approval settings:** `rig seat set-permissions <seat> --codex-permissions
+  <file>` with `sandbox` (`workspace-write` or `read-only`), `approval` (`never`, `on-request` or `untrusted`) and, for
+  `workspace-write`, `network_access`, `writable_roots`, `exclude_tmpdir_env_var` and `exclude_slash_tmp`; or
+  `codex_permissions` in the spec. `--codex-profile <name|inherit>` sets an existing seat's Codex profile. One choice
+  per seat: setting these replaces a recorded mode, and the other way round.
+- **Target a seat's saved settings by node id:** permissions, policy, model and effort can be saved against the node id
+  a client showed. If that node is gone, a same-named replacement isn't chosen (`docs/reference/seat-node-targeting.md`).
+- **Check tmux before launching seats:** `rig setup` and `rig doctor` (check `tmux_capture`) test that tmux can capture
+  a pane, on a throwaway server.
+- **Write a community harness preset from the contract:** `docs/reference/community-harness-presets.md` says what a
+  community harness gets from OpenRig and what it doesn't, the five steps to write one, and how promotion is judged.
 
 ## Behaviour that changed
 
-- **Team skills live in each seat's own storage** (`$OPENRIG_HOME/state/seats/<rig id>/<logical seat>/<runtime>/`), not
-  in the project's `.claude/skills` or `.agents/skills`. Claude seats get them as a generated plugin (`openrig:<id>`),
-  Codex seats as their own catalog. If a link sits in that path, the seat starts without them and the result names
-  what wasn't delivered.
-- **Urgent wakes are labelled:** an urgent or critical row's wake starts with `Urgent (marked by …):` at every seat. A
-  seat on `hold` gets one held notice per wake instead of re-nudges, and lifecycle work is refused at the middle levels as
-  at `hold`.
-- **A daemon restart picks up a managed compaction where it stopped.** An owed restore step resumes, a `/compact` that
-  may have been sent is never sent again, and `rig compact --state` shows anything stranded or owed.
-- **A Claude seat whose startup turn is refused** (an expired login, say) holds the rest of its startup context as owed.
-  A startup input sent before the refusal is noticed can still be submitted (see Known issues in the
-  [0.7.1 release notes](https://github.com/mvschwarz/openrig/releases/tag/v0.7.1)).
-- **`rig send` refuses with `target_needs_input`** when a Claude seat's hook has just reported it running and its screen
-  shows an MCP enablement menu, a question or a permission prompt.
-- **`rig down` asks before stopping the caller's own rig.** Without a terminal it exits 1, stops nothing and prints the
-  `--yes` command.
-- **`rig up --plan` doesn't start a stopped daemon:** it exits 1 with `daemon_not_running` and names `rig daemon start`
-  and `--no-kernel`.
-- **`rig daemon start`** waits up to 20 seconds for a slow daemon, and starts with a warning when only a secondary
-  listener, such as Tailscale's, can't be verified.
-- **A seat joined with `rig attach` as an outside app** (Claude Desktop) stays attached through `rig down` and restore
-  (`left_attached`). To replace it, `rig unclaim <name>`, then launch.
-- **New seats get the daemon's `OPENRIG_DB` and `TMUX_TMPDIR`.**
-- **A rebuilt Codex seat keeps its observed permissions,** and a read-only Codex profile launches without OpenRig's
-  writable roots.
-- **A seat's own role** goes only to that seat, never into a shared `CLAUDE.md` or `AGENTS.md`, and `rig down` returns
-  guidance files byte for byte.
-- **Workflow actions** (`project`, `route`, `resume`, `abort`) record the calling agent; a request with neither identity
-  nor actor gets the shared `actor_required` error.
-- **`rig provider moves` is back** for subscription move reports. It switches nothing.
-- **`--dangerously-interact` into a seat's input box stops first** when the box already holds typed or pasted text: it
-  shows that text (apart from suggestions) and types nothing. Clear the box and retry, or pass `--type-without-checking`,
-  which clears nothing. Keys for a recognized native menu are sent as before.
-- **A terminal seat gets exactly the text sent to it,** without the From/To lines (the result says `envelopeOmitted`).
-  A queue wake to a terminal seat types nothing and fails `failed:terminal-seat`; the row stays queued.
-- **A daemon restart that can't see the seats' tmux server** no longer detaches seats whose recorded process still
-  runs, so it doesn't relaunch them beside themselves.
-- **Provider credentials and the activity-hook token stay off tmux, shell and `env` command lines** at launch and
-  handover. A launch whose staging fails stops instead of falling back.
-- **An answer retried from Slack or Steering** after an interrupted close reuses the first reply and finishes the
-  request once.
-- **One bad row no longer stops the stuck sweep** from flagging the others; **a malformed unrelated diagnosis row** no
-  longer stops health diagnoses from listing.
+- **Settling someone else's ask:** a registered person who answers, approves or resolves an ask that was asked of a
+  different person is refused with `answer_not_recorded`. A terminal no longer overrides that person's identity. From
+  the TUI, the primary user (the default person, or the only one registered) can settle it; the act is recorded as the
+  primary user's, and the note keeps the person asked. This is attribution on a trusted network, not a login, and only
+  a request without a seat identity carries it.
+- **A park addressed to a registered person** (`blocked_on: <id>@external`) can be resolved.
+- **A shared channel never acts:** it's refused for every action on a row. Its messages never answer, close or resume
+  an ask, and an act on a channel's ask is recorded as the person at the terminal. An ask sent to a channel is accepted
+  with an advisory that nothing there will answer it.
+- **An OpenClaw seat whose last local turn was refused** reads as needing attention (`OPENCLAW_TURN_NOT_RECOVERED`). A
+  send still goes through, with an advisory that it submits a new turn: inspect the pane with `rig capture` first.
+- **A Claude seat at its "Resume session" picker** reads as waiting for a person (`claude_resume_selection_prompt`).
+  A send there refuses with `target_needs_input`, and startup there reports `attention_required` at once.
+- **The reply hint on a person's message** carries `--reply-to <qitem>`, so following it answers in their Slack thread.
+- **`rig send --wait-for-idle` over 300 seconds** works as one request instead of failing at 300 seconds, and
+  `rig skill loadout --apply --wait-for-idle` waits as long as asked.
+- **A local `rig send` whose connection drops** says delivery is unconfirmed: capture the seat before sending again.
+- **Codex config:** a launch finds trust tables Codex saved with single-quoted keys instead of adding a duplicate that
+  stopped Codex starting; "Trust all" survives the next launch; OpenRig finds its own config tables wherever Codex moved
+  them, keeps your table between its markers, and refuses a write that would change anything beyond its own tables.
+- **A Codex resume command** reads `codex resume <id> --add-dir …`, so a path with a space can't be read as the id.
+- **A verified Codex seat started under a shell or launcher** gets its generation record.
+- **`rig scope --workspace <path> mission create`** creates the first mission in that workspace and refuses a path that
+  doesn't exist; `slice create` no longer falls back to the global missions root.
+- **`rig workflow project` past an unanswered human gate** adds an advisory and a transition note that it doesn't
+  record the person's consent. Nothing is refused.
+- **The TUI** keeps a registered remote host in its topology tree on every tab and lists its rigs when you drill in. A
+  TUI running inside cmux opens terminal views in cmux.
+- **After the web terminal or a capture resize,** a window gets its own size and sizing mode back.
+- **`rig config set feed.subscriptions.<host>.enabled`** accepts a host id with dots.
+- **A runtime switch to Claude Code** waits for Claude's input box before pasting the handover, and sends Enter again
+  while the handover is still in it.
 
 ## Output that changed shape
 
-- **`rig ps --nodes`** separates every cell with one space (the default row is 5 columns wider), adds an `ATTN` column
-  (`yes`, `no` or `?`) before `REASON`, and marks a `running` seat whose tmux couldn't be reached as unconfirmed.
-- **`rig queue show --json`** no longer has `lastNudgeInputBox`, and send results no longer describe the input box.
-- **`rig queue show` and `rig queue whoami`** print their human notices on stderr, so stdout is the JSON.
-- **A claimed row whose owner waits on a person** reads pickup `needs-input`, with the reason.
-- **`rig down --json`** adds `leftRunning`; `rig reconcile-session` says whether resume metadata was recorded.
-- **`rig compact-plan`** labels its thresholds as its own and says whether automatic compaction is on.
-- **A send held for a draft** in the seat's input box reports `inputPhase: "not_reached"`: it was never typed.
-- **A stream body over 16 KiB** is stored truncated, ending `[truncated by OpenRig: kept N of M bytes]`, and reads mark it
-  `bodyTruncated`. `rig stream list --after <sortKey>` from a pruned item returns 410 `stream_cursor_expired`, naming
-  `--since` to resume, instead of an empty list.
+- **`rig capture --json`** can carry `readable` (`resized`, `width`, `height`, `release`, `sizeBack`, or `resized:
+  false` with a `reason`), and the small-pane hint points to `--readable`.
+- **`rig down`** prints `Pane stopped: <seats>. A community harness's own processes may keep running after its pane;
+  see its preset's limits.` for community harness seats, and `--json` carries `paneOnly`.
+- **A row from a shared channel** ends with OpenRig's block and carries the tags `participant:<id>`, `shared-channel`
+  and, for a sender who isn't a registered person, `slack-sender:<slack user id>`.
+- **`GET /api/attention?view=<person|all|default>`** returns a `perspective` (who is viewed, and who acts).
+- **The delivery digest's watchdog history** says why a flush sent nothing: nobody registered, an unreadable registry,
+  held for quiet hours, or several people with no default.
+- **A queue verb outside a managed seat** says to set `OPENRIG_SESSION_NAME` and that its actor flag is ignored.
+- **A Slack channel-map change** says to restart the daemon, not to disable and enable Slack.
+- **`rig slack enable`** ends with a line pointing to `rig slack post-open-asks` when asks are still open.
+- **The generation-record refusal** for a Codex conversation that isn't the verified one has its own message.
+- **In the execution view,** a blocked row no longer carries a last-activity time.
+- **New codes:** `OPENCLAW_TURN_NOT_RECOVERED`, `claude_resume_selection_prompt` and `undeliverable:no-default-person`;
+  `answer_not_recorded` now also covers another person's ask.
 
 ## What to stop doing
 
-- **Don't read `lastNudgeInputBox`.** It's gone.
-- **Don't parse `rig ps --nodes` by column position.** Use `--json`, with `--fields` to pick fields.
-- **Don't look for a team seat's skills in the project folders.** Use `rig skill loadout --seat`.
-- **Don't stop and re-register a watchdog to change it.** Use `rig watchdog update`.
-- **Don't take a rig down to fix one edge.** Use `rig edge add` or `remove`.
-- **Don't print `OPENRIG_ACTIVITY_*` values** while looking for identity. Use `rig whoami`.
-- **Don't use `--dangerously-interact` to type over a half-written input box.** It stops and shows the text; choose
-  explicitly, or use `rig send --urgent` where the seat's interruption level allows it.
+- **Don't register a second person without choosing a default.** Run `rig gateway default <id>`.
+- **Don't disable and enable Slack to apply a channel-map change.** Restart the daemon; disabling marks waiting alerts
+  as already posted.
+- **Don't resize a small seat's window by hand to read it.** Use `rig capture --readable`.
+- **Don't answer another person's ask from a seat or the CLI.** Ask that person, or act from the TUI as the primary
+  user.
+- **Don't retry an OpenClaw seat's refused local turn blind.** Capture the pane first; OpenRig doesn't recover it.
+- **Don't rely on the first seat inheriting the daemon's environment.** Declare what a seat needs in `env:`.
+- **Don't treat a reply in Slack as approval.** A response isn't consent: read what the person decided.
 
-## Known gaps in 0.7.1
+## Known gaps in 0.7.3
 
-- **A new Claude seat's startup text can stay in its input box unsent.** If a fresh Claude seat sits idle with text at
-  its prompt, press Enter in its pane, or ask the person to.
-- **Claude seats on a macOS native install can read as needing attention after a restore.** Check the pane before
-  acting on it.
-- **A Slack channel-mapping change needs a daemon restart.** Don't use `rig slack disable` then `enable` for it: enabling
-  marks any alerts waiting to post to Slack as already seen.
-- **Ubuntu 22.04's tmux 3.2a:** the query known to crash its server is gone, but a narrower race remains. Avoid 3.2a
-  (`tmux -V`).
-- **`rig daemon start` can take 20 to 40 seconds** before its listener warning, longer than the TUI's 30-second "restore
-  everything" wait. On a slow host, start the daemon yourself first.
-- **A launch that warns "Scoped tmux environment unavailable; retaining the previous environment"** didn't give that seat
-  the clean environment. Check `env` in the seat before relying on OpenRig's variables.
-- **Going back to 0.7.0 with a Slack subscription set:** 0.7.0 can't read a person file that holds one, and its people
-  registry stops loading. Save the choice first (`rig gateway human show <id> --json > <id>.json`), then run
-  `rig gateway human set <id> slack-subscription unset` (`urgent-only` becomes every-ask, as on 0.7.0); set it again after
-  returning to 0.7.1. A person file still holding a `subscriptions:` entry fails on 0.7.0 too. Don't restore an older
-  gateway folder or database instead: that can lose newer people, bindings and delivery records.
-- **A Herdr tile over SSH** doesn't come back by itself after a Herdr restart. Reopen it with `rig terminal open <view>
-  --provider herdr`.
-- **Delegated decisions:** the ask is created before the decision, so without quiet hours it can post to the person
-  first. Pair a decision room with quiet hours, or decide before asking.
-- **`restore-check` still treats a missing startup file as rig-wide.** Trust `rig up --existing`'s per-seat result.
-- **Managed Claude launch requires `/usr/bin/env` support for `-0` and `-u`** (option support checked on GNU coreutils
-  and macOS 15; BusyBox and older macOS unverified). Without the required option support, launch stops instead of
-  falling back to credential-bearing command-line arguments.
-- **In draft-aware mode, an agent's multi-line message to a Claude seat can remain unsubmitted when the paste changes
-  Claude's footer hint.** OpenRig withholds Enter, leaving the text in the composer and later sends waiting. Observed on
-  Claude 2.1.309 with both 0.7.0 and the 0.7.1 pre-cut build; #14 remains open.
-- **A Claude seat signed in with a long-lived token (`claude setup-token`) gets no usage reading.** The reader accepts
-  only claude.ai subscription logins and reports `not_subscription_login`.
+- **OpenClaw's interrupted local turns aren't recovered** (#2092). Recognition covers OpenClaw 2026.10.6's local layout
+  with its complete two-rule editor; a cropped, changed or ambiguous layout isn't recognised, and any other full-width
+  rule in the captured lines leaves a real refusal reading unknown. For an unattended seat, use the Gateway preset
+  (`openclaw-gateway.yaml`), within what it declares. Checked against a retained OpenClaw screen, not yet against a
+  running OpenClaw.
+- **Whether processes a community harness starts outside its pane survive isn't exercised** (#2088). `rig down` stops
+  the pane only (#2077).
+- **Hermes:** a Hermes gateway runs per Hermes home, so one per seat with the example launcher (#2097). The preset
+  doesn't declare `resume`: reopening a named session, and a missing one, hasn't been checked with a real Hermes. The
+  remaining real-Hermes checks weren't run, whether a seat's gateway exits once idle is unknown, and the pane-only stop
+  hasn't been checked again on 0.7.3.
+- **Shared channels are Slack only.** If `participants.yaml` can't be read, no shared channel is known: no channel
+  sender is admitted, and `rig slack post-open-asks` can miss asks to channels. A broken `participants.yaml` never
+  disables the person registry.
+- **The primary user's authority** comes only from a current TUI; an older TUI's answer on someone else's ask is
+  refused.
+- **A Codex seat's permission settings are passed as launch flags; that Codex enforces them wasn't proven natively.**
+  An older OpenRig keeps them but doesn't read them, so its launches of that seat use the earlier, possibly broader,
+  posture. The Codex trust fixes stop new duplicate hook groups but don't remove existing ones.
+- **The cmux path wasn't tried in a real cmux.** A remote host's rigs are read over HTTP only: an SSH host stays listed,
+  but drilling in can't read it.
+- **The TUI crashes when started in a terminal that reports 0 rows or columns** (a detached or headless pane), as in
+  0.7.2. Start `rig` or `rig tui` in a terminal with a size.
+- **Window sizing:** a browser that closes while the daemon is down leaves the window at the browser's size until the
+  next web-terminal visit, and a `--readable` capture isn't atomic with a person's own edits.
+- **The runtime-switch handover change** hasn't been shown to cure the unsent-handover case that prompted it.
+- **The community harness field keeps its name** (`communityHarness`) and its original migration; renaming them would
+  break a same-database return to 0.7.2.
+- **Going back to 0.7.2** keeps every registered person, but not the default person, shared channels, organizations,
+  groups or policy.
+- **Not in 0.7.3:** per-instance tmux isolation (#1260), the read-only client submit retry (#2090), the prime-agent
+  runtime (#2069), hosted members on a team (#2095) and Cloud grants for `rig mcp serve --http` (#2096). The gaps
+  listed for 0.7.2 still apply unless a change above names them fixed.

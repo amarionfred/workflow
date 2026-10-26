@@ -316,6 +316,10 @@ from the commit tagged `v0.7.3`. The changes since 0.7.2:
   exits once idle is unknown, and the pane-only stop hasn't been checked again
   on 0.7.3. ([#2077](https://github.com/mvschwarz/openrig/pull/2077),
   [#2097](https://github.com/mvschwarz/openrig/pull/2097))
+- **`docs/reference/community-harness-presets.md` says a seat's Hermes gateway
+  exits once idle** ("Stopping"). That hasn't been checked: whether it exits is
+  unknown. Check with `ps` that a stopped seat's gateway has gone before relying
+  on it.
 - **Shared channels are Slack only.** A binding must be `slack:…`. If
   `participants.yaml` can't be read, no shared channel is known: no channel
   sender is admitted, and `rig slack post-open-asks` can miss asks to channels.
@@ -336,9 +340,11 @@ from the commit tagged `v0.7.3`. The changes since 0.7.2:
   read over HTTP only: an SSH host stays listed, but drilling in can't read it.
   ([#2080](https://github.com/mvschwarz/openrig/pull/2080),
   [#2052](https://github.com/mvschwarz/openrig/pull/2052))
-- **The TUI crashes when started in a terminal that reports 0 rows or
-  columns** (a detached or headless pane), as in 0.7.2. Start `rig` or
-  `rig tui` in a terminal with a size. A fix is not in this release.
+- **`rig` or `rig tui` started in a terminal that reports 0 rows or columns
+  crashes on its first frame** (a detached, headless or just-resizing pane).
+  It's present since 0.7.2 and fixed on main by
+  [#2099](https://github.com/mvschwarz/openrig/pull/2099) for the next release.
+  Start the TUI in a terminal with a size.
 - **Window sizing:** a browser that closes while the daemon is down leaves the
   window at the browser's size until the next web-terminal visit, and a
   `--readable` capture isn't atomic with a person's own edits to the window.

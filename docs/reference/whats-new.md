@@ -47,10 +47,12 @@ after an upgrade it can still hold the previous version's note.
 - **Serve newer MCP clients:** clients on protocol revision 2026-07-28 (no `initialize`, the version on every request,
   possibly opening with `server/discover`) work with `rig mcp serve` over stdio or `--http`, beside clients on the 2025
   revisions, on the same endpoint.
-- **List the conversations a seat could resume:** `rig seat history <seat>` (`--json`), read-only and without native
-  tokens; `--snapshot-id <id>` or `--history-session-id <id>` checks one reference it returned. A client can then ask the
-  daemon's startup review for that node to resume the history the person reviewed.
-- **Preview or open a task's current owners:** `rig terminal preview qitem:<id>` and `rig terminal open qitem:<id>`.
+- **List the conversations a seat could resume:** `rig seat history --rig <id> --node-id <id>` (`--json`), read-only and
+  without native tokens; `--snapshot-id <id>` with `--history-session-id <id>` checks one reference it returned. The IDs
+  are `rigId` in `rig ps --nodes --json` and `identity.nodeId` in `rig whoami --session <seat> --json`. A client can then
+  ask the daemon's startup review for that node to resume the history the person reviewed.
+- **Preview or open a task's current owners:** `rig terminal open qitem:<id>`; the daemon's preview,
+  `GET /api/terminal/preview?view=qitem:<id>`, returns the same view without opening it.
 
 ## Behaviour that changed
 

@@ -603,9 +603,10 @@ because someone lost work once.
 When your user says OpenRig isn't working, start with **`rig context get help`**: the one help guide for the installed
 version, from checking the environment to a useful report to the OpenRig team.
 
-- **`rig seat history <seat>`** — which recorded Claude or Codex conversations this exact node
-  could resume, read-only (`--json`; check one reference with `--snapshot-id` or
-  `--history-session-id`). A client can then ask the daemon's startup review for that node to resume
+- **`rig seat history --rig <id> --node-id <id>`** — which recorded Claude or Codex conversations this exact node
+  could resume, read-only (`--json`; check one reference with `--snapshot-id` and `--history-session-id` together).
+  The IDs are `rigId` in `rig ps --nodes --json` and `identity.nodeId` in `rig whoami --session <seat> --json`.
+  A client can then ask the daemon's startup review for that node to resume
   the history the person reviewed; it rechecks the choice and refuses rather than substitute another
   conversation or start fresh.
 - **`rig start`** — the box rebooted and everything is gone: bring the whole topology back in one

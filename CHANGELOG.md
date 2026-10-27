@@ -127,10 +127,11 @@ down. It is built from the commit tagged `v0.7.4`. The changes since 0.7.3:
 
 **Resuming the conversation you chose**
 
-- **`rig seat history <seat>`** lists the recorded Claude and Codex
+- **`rig seat history --rig <id> --node-id <id>`** lists the recorded Claude and Codex
   conversations this exact node could resume, read-only and without native
-  tokens (`--json`; `--snapshot-id` or `--history-session-id` checks one
-  reference). ([#2100](https://github.com/mvschwarz/openrig/pull/2100))
+  tokens (`--json`; `--snapshot-id` with `--history-session-id` checks one
+  reference it returned). The rig ID is `rigId` in `rig ps --nodes --json`, and the
+  node ID is `identity.nodeId` in `rig whoami --session <seat> --json`. ([#2100](https://github.com/mvschwarz/openrig/pull/2100))
 - **A client can resume the history a person reviewed** for an exact node,
   through the daemon's startup review. Applying it rechecks the choice and the
   settings through the existing restore path, and refuses, rather than
@@ -144,7 +145,7 @@ down. It is built from the commit tagged `v0.7.4`. The changes since 0.7.3:
 
 **Task views**
 
-- `rig terminal preview` and `open` accept `qitem:<id>`: the current local
+- `rig terminal open` and the daemon's terminal preview accept `qitem:<id>`: the current local
   owners of that task, meaning its pending, in-progress and blocked rows
   through explicitly linked successors, without closed predecessors or past
   senders. Stopped, missing, external and unresolved owners are named, and

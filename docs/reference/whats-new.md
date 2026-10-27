@@ -166,5 +166,5 @@ after an upgrade it can still hold the previous version's note.
 - **Going back to 0.7.2** keeps every registered person, but not the default person, shared channels, organizations,
   groups or policy.
 - **Not in 0.7.3:** per-instance tmux isolation (#1260), the read-only client submit retry (#2090), the prime-agent
-  runtime (#2069), hosted members on a team (#2095) and Cloud grants for `rig mcp serve --http` (#2096). The gaps
+  runtime (#2069), hosted members on a team (#2095) and grants from an external grant service for `rig mcp serve --http` (#2096). The gaps
   listed for 0.7.2 still apply unless a change above names them fixed.

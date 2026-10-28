@@ -61,6 +61,11 @@ daemon start and can still describe the previous version just after an upgrade.
   is still unconfirmed, with no automatic resend. A busy agent can hold delivered
   input off-screen: missing pane text does not prove non-delivery. Reconcile
   before another send or filing the same work as a queue item.
+- **Codex 0.164's two-row composer footer is recognized.** A departed Codex
+  agent's empty composer no longer reads as unconfirmed input that keeps its
+  tile. Delivery's draft-aware and openrig-urgent typing guards use the same
+  reader, so an empty Codex 0.164 composer there can now receive typed delivery.
+  ([#2206](https://github.com/mvschwarz/openrig/pull/2206))
 - **Unconfirmed panes are not counted as opened.** Terminal CLI and TUI results
   name `pane_unconfirmed` separately from skipped seats; an all-unconfirmed open
   exits nonzero. Inspect before retrying rather than assuming nothing opened.

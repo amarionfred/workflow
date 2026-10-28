@@ -64,6 +64,11 @@ are not established by that result. Changes since 0.7.4:
   follow command can reconsider it. Failed or incomplete reads retain the
   previous view with an explanation. Activity hooks do not trigger renders.
   ([#2199](https://github.com/mvschwarz/openrig/pull/2199))
+- **Codex 0.164's two-row composer footer is recognized.** A departed Codex
+  agent's empty composer no longer reads as unconfirmed input that keeps its
+  tile. Delivery's draft-aware and openrig-urgent typing guards use the same
+  reader, so an empty Codex 0.164 composer there can now receive typed
+  delivery. ([#2206](https://github.com/mvschwarz/openrig/pull/2206))
 - **Clients can ensure a missing viewer without relaying out existing panes**
   through `POST /api/terminal/viewer/ensure`. It rechecks task membership and
   existing viewer identity before creating or reusing a tile. Preview names
@@ -208,8 +213,10 @@ are not established by that result. Changes since 0.7.4:
 
 Thanks to @icey-zzz (#1772), @Aschenbath (#2153, #2159, #2162, #2169, #2179),
 @DeryFerd (#2164, #2165), @Nikhi00718 (#2172) and @dajiaohuang (#2188).
-Thanks also to @rudycelekli for the contribution from #1416 completed in #2160,
-and to the people whose reports and reviews led to these fixes.
+Thanks also to @rudycelekli for the contribution from #1416 completed in #2160;
+to @AdamWhitehurst (#1544, #2049), @kevinhsykes (#2151), @aanestesia (#605),
+@todie (#1419) and @tgrundtvig (#21), whose reports led to fixes here; and to
+the other people whose reports and reviews led to these fixes.
 
 ## [0.7.4]
 

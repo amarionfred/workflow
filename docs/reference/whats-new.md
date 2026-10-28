@@ -61,6 +61,19 @@ daemon start and can still describe the previous version just after an upgrade.
   is still unconfirmed, with no automatic resend. A busy agent can hold delivered
   input off-screen: missing pane text does not prove non-delivery. Reconcile
   before another send or filing the same work as a queue item.
+- **Protected Codex delivery no longer strands a message it can't submit.** On a
+  Codex seat whose typing guard is draft-aware or openrig-urgent, a message
+  whose complete text can't be confirmed visible before paste is retained, not
+  sent, instead of being pasted where it can't be submitted. The default (guard
+  off) is unchanged. Use a larger pane or a shorter message; turning the typing
+  guard off turns draft protection off and is not a recovery. Pastes over 1,000
+  code points are retained. Wrapped lines use a conservative bound, so most
+  wrapped wakes in common four-tile views can be retained even when they fit
+  natively; approximate standard-envelope examples are one-paragraph bodies over
+  about 115 characters at 80×22, 192 at 80×24, or 526 at 120×30 (examples, not
+  limits). A later resize is not atomic, and layouts with Codex's image-enabled
+  ambient pet are unqualified.
+  ([#2242](https://github.com/mvschwarz/openrig/pull/2242))
 - **Codex 0.164's two-row composer footer is recognized.** A departed Codex
   agent's empty composer no longer reads as unconfirmed input that keeps its
   tile. Delivery's draft-aware and openrig-urgent typing guards use the same

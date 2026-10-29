@@ -1,2 +1,0 @@
-#!/bin/sh
-exec /usr/bin/python3 /home/park/Projects/agentic-workflow/tools/workflow.py "$@"

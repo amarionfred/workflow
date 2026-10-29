@@ -1,4 +1,0 @@
-interface:
-  display_name: "ML Literature Review"
-  short_description: "Turn primary research into testable questions"
-  default_prompt: "Use $ml-literature-review for the current research task, following this project's instructions and existing approvals."

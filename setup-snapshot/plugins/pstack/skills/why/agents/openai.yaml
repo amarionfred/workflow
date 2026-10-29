@@ -1,5 +1,0 @@
-interface:
-  display_name: "why"
-  short_description: "Apply the pstack why workflow"
-policy:
-  allow_implicit_invocation: false

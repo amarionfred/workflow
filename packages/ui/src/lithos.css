@@ -1,0 +1,75 @@
+/* Lithos presentation layer. Keep upstream component and storage contracts. */
+html {
+  /* Maintenance-mode views still include literal SVG and utility colors. Apply
+     the final monochrome treatment at the document root so fixed overlays keep
+     their viewport containing block. */
+  filter: grayscale(1);
+}
+
+html:root {
+  color-scheme: light;
+  --background: 0 0% 97%;
+  --surface-container-lowest: 0 0% 100%;
+  --surface-container-low: 0 0% 95%;
+  --surface-container: 0 0% 92%;
+  --surface-container-high: 0 0% 89%;
+  --surface-container-highest: 0 0% 87%;
+  --on-surface: 0 0% 18%;
+  --on-surface-variant: 0 0% 36%;
+  --secondary: 0 0% 39%;
+  --secondary-container: 0 0% 90%;
+  --tertiary: 0 0% 20%;
+  --error: 0 0% 20%;
+  --primary: 0 0% 30%;
+  --inverse-surface: 0 0% 3.137%;
+  --outline: 0 0% 47%;
+  --outline-variant: 0 0% 68%;
+  --success: 0 0% 35%;
+  --warning: 0 0% 30%;
+}
+
+html.dark {
+  color-scheme: dark;
+  --background: 0 0% 3.137%; /* #080808 */
+  --surface-container-lowest: 0 0% 7.059%;
+  --surface-container-low: 0 0% 6.275%;
+  --surface-container: 0 0% 5.49%;
+  --surface-container-high: 0 0% 4.706%;
+  --surface-container-highest: 0 0% 3.922%;
+  --on-surface: 0 0% 65.098%; /* #a6a6a6 */
+  --on-surface-variant: 0 0% 54.118%;
+  --secondary: 0 0% 76.863%;
+  --secondary-container: 0 0% 10.196%; /* #1a1a1a */
+  --tertiary: 0 0% 87.843%;
+  --error: 0 0% 87.843%;
+  --primary: 0 0% 87.843%; /* #e0e0e0 */
+  --inverse-surface: 0 0% 87.843%;
+  --outline: 0 0% 40%;
+  --outline-variant: 0 0% 32%;
+  --success: 0 0% 65.098%;
+  --warning: 0 0% 81.569%;
+  --destructive-foreground: 0 0% 3.137%;
+}
+
+html body,
+html.dark body {
+  font-family: "JetBrains Mono Variable", monospace;
+  background-image: none;
+}
+
+html.dark ::selection {
+  background: #1a1a1a;
+  color: #c4c4c4;
+}
+
+html.dark .df-root {
+  --df-paper: #080808;
+  --df-card: #121212;
+  --df-ink: #a6a6a6;
+  --df-ink-2: #8a8a8a;
+  --df-ink-3: #808080;
+  --df-line: #3d3d3d;
+  --df-rule: #262626;
+  --df-amber: #d0d0d0;
+  --df-green: #a6a6a6;
+}

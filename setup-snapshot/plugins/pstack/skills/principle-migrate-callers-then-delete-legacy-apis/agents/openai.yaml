@@ -1,5 +1,0 @@
-interface:
-  display_name: "principle-migrate-callers-then-delete-legacy-apis"
-  short_description: "Apply the pstack migrate-callers-then-delete-legacy-apis workflow"
-policy:
-  allow_implicit_invocation: false

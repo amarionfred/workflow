@@ -1,7 +1,0 @@
-dependencies:
-  tools:
-    - type: "mcp"
-      value: "science"
-      description: "ScienceMadeReadable scholarly paper search"
-      transport: "streamable_http"
-      url: "https://api.sciencemadereadable.com/mcp"

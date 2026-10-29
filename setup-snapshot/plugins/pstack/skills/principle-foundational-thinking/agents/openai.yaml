@@ -1,5 +1,0 @@
-interface:
-  display_name: "principle-foundational-thinking"
-  short_description: "Apply the pstack foundational-thinking workflow"
-policy:
-  allow_implicit_invocation: false

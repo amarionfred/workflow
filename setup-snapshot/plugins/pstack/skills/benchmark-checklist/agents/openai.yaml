@@ -1,5 +1,0 @@
-interface:
-  display_name: "benchmark-checklist"
-  short_description: "Apply the pstack benchmark-checklist workflow"
-policy:
-  allow_implicit_invocation: false

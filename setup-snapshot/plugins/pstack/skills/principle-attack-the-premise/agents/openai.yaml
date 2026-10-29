@@ -1,5 +1,0 @@
-interface:
-  display_name: "principle-attack-the-premise"
-  short_description: "Apply the pstack attack-the-premise workflow"
-policy:
-  allow_implicit_invocation: false

@@ -1,4 +1,0 @@
-interface:
-  display_name: "AI and Retrieval Engineering"
-  short_description: "Build traceable retrieval and inference systems"
-  default_prompt: "Use $ai-retrieval-engineering for the current research task, following this project's instructions and existing approvals."

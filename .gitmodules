@@ -1,6 +1,0 @@
-[submodule "vendor/cursor-plugins"]
-	path = vendor/cursor-plugins
-	url = https://github.com/cursor/plugins.git
-[submodule "vendor/AI-Scientist-v3"]
-	path = vendor/AI-Scientist-v3
-	url = https://github.com/SakanaAI/AI-Scientist-v3.git

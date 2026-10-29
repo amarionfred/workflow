@@ -1,534 +1,0 @@
-Captured tool output excerpts. Package-manager output was truncated by the tool where indicated; this is not a complete build log.
-
-22-bookworm-slim: Pulling from library/node
-a8de9fa05220: Pulling fs layer
-f0400f4b55b0: Pulling fs layer
-7fd1ebe418b5: Pulling fs layer
-d22c69a95cf4: Pulling fs layer
-2cfab517365c: Pulling fs layer
-a8de9fa05220: Download complete
-f0400f4b55b0: Download complete
-2cfab517365c: Download complete
-3a871ad668c6: Download complete
-e6c0093c6abc: Download complete
-d22c69a95cf4: Download complete
-7fd1ebe418b5: Download complete
-7fd1ebe418b5: Pull complete
-f0400f4b55b0: Pull complete
-d22c69a95cf4: Pull complete
-a8de9fa05220: Pull complete
-2cfab517365c: Pull complete
-Digest: sha256:c3de60bf2f9dd0ac6370e6117950ff62d6e339527e7472301c9c78a017978392
-Status: Downloaded newer image for node:22-bookworm-slim
- ---> c3de60bf2f9d
-Step 2/33 : FROM python:3.12-slim
-3.12-slim: Pulling from library/python
-75b6a36c64a1: Pulling fs layer
-bbc5a1223747: Pulling fs layer
-6912e23eb445: Pulling fs layer
-ecc510c1e359: Pulling fs layer
-75b6a36c64a1: Download complete
-bbc5a1223747: Download complete
-97c6e8c8dabe: Download complete
-611ca50ea732: Download complete
-6912e23eb445: Download complete
-ecc510c1e359: Download complete
-ecc510c1e359: Pull complete
-75b6a36c64a1: Pull complete
-6912e23eb445: Pull complete
-bbc5a1223747: Pull complete
-Digest: sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
-Status: Downloaded newer image for python:3.12-slim
- ---> a6e34c598f24
-Step 3/33 : COPY --from=node-runtime /usr/local/bin/node /usr/local/bin/node
- ---> 5dde78f8831a
-Step 4/33 : COPY --from=node-runtime /usr/local/lib/node_modules /usr/local/lib/node_modules
- ---> a8a1cc7c439d
-Step 5/33 : RUN ln -s ../lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm     && ln -s ../lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
- ---> Running in 0718f235bcd0
- ---> Removed intermediate container 0718f235bcd0
- ---> 731f0eee74c5
-Step 6/33 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in 07692c363a94
- ---> Removed intermediate container 07692c363a94
- ---> 859107e816d4
-Step 7/33 : ARG DEBIAN_MIRROR=https://deb.debian.org/debian
- ---> Running in 69ee38f8985a
- ---> Removed intermediate container 69ee38f8985a
- ---> d41700889872
-Step 8/33 : ARG DEBIAN_SECURITY_MIRROR=https://deb.debian.org/debian-security
- ---> Running in f1f988a185a3
- ---> Removed intermediate container f1f988a185a3
- ---> 846db0841782
-Step 9/33 : ARG DEBIAN_FALLBACK_MIRROR=http://deb.debian.org/debian
- ---> Running in 9c6b12354656
- ---> Removed intermediate container 9c6b12354656
- ---> 21e335a8f110
-Step 10/33 : ARG DEBIAN_FALLBACK_SECURITY_MIRROR=http://deb.debian.org/debian-security
- ---> Running in 0353cd043aba
- ---> Removed intermediate container 0353cd043aba
- ---> fe318570dcf4
-Step 11/33 : RUN set -eux;     . /etc/os-release;     codename="${VERSION_CODENAME:-bookworm}";     rm -f /etc/apt/sources.list;     find /etc/apt/sources.list.d -type f \( -name '*.list' -o -name '*.sources' \) -delete;     write_apt_sources() {       mirror="$1";       security_mirror="$2";       printf 'deb %s %s main\n' "$mirror" "$codename" > /etc/apt/sources.list;       printf 'deb %s %s-updates main\n' "$mirror" "$codename" >> /etc/apt/sources.list;       printf 'deb %s %s-security main\n' "$security_mirror" "$codename" >> /etc/apt/sources.list;     };     apt_update_with_retries() {       apt-get update         -o Acquire::ForceIPv4=true         -o Acquire::Retries=5         -o Acquire::http::Timeout=30         -o Acquire::https::Timeout=30;     };     write_apt_sources "$DEBIAN_MIRROR" "$DEBIAN_SECURITY_MIRROR";     if ! apt_update_with_retries; then       echo "Primary APT mirrors unreachable; retrying with fallback mirrors" >&2;       write_apt_sources "$DEBIAN_FALLBACK_MIRROR" "$DEBIAN_FALLBACK_SECURITY_MIRROR";       apt_update_with_retries;     fi;     apt-get install -y --no-install-recommends       bash       ca-certificates       chromium       curl       git       jq       procps       texlive-bibtex-extra       texlive-fonts-recommended       texlive-latex-base       texlive-latex-extra       texlive-latex-recommended;     rm -rf /var/lib/apt/lists/*
- ---> Running in 92afbbd9cdad
-[91m+ . /etc/os-release
-+ PRETTY_NAME=Debian GNU/Linux 13 (trixie)
-+ NAME=Debian GNU/Linux
-+ VERSION_ID=13
-+ VERSION=13 (trixie)
-+ VERSION_CODENAME=trixie
-+ DEBIAN_VERSION_FULL=13.7
-[0m[91m+ ID=debian
-+ HOME_URL=https://www.debian.org/
-+ SUPPORT_URL=https://www.debian.org/support
-+ BUG_REPORT_URL=https://bugs.debian.org/
-[0m[91m+ codename=trixie
-+ rm -f /etc/apt/sources.list
-[0m[91m+ find /etc/apt/sources.list.d -type f ( -name *.list -o -name *.sources ) -delete
-[0m[91m+ write_apt_sources https://deb.debian.org/debian https://deb.debian.org/debian-security
-+ mirror=https://deb.debian.org/debian
-+ security_mirror=https://deb.debian.org/debian-security
-[0m[91m+ printf deb %s %s main\n https://deb.debian.org/debian trixie
-[0m[91m+ printf deb %s %s-updates main\n https://deb.debian.org/debian trixie
-[0m[91m+ printf deb %s %s-security main\n https://deb.debian.org/debian-security trixie
-+ apt_update_with_retries
-+ apt-get update -o Acquire::ForceIPv4=true -o Acquire::Retries=5 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30
-[0mHit:1 https://deb.debian.org/debian trixie InRelease
-Get:2 https://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
-Get:3 https://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
-Get:4 https://deb.debian.org/debian trixie/main amd64 Packages [9678 kB]
-Warning: truncated output (original token count: 4003)
-Total output lines: 206
-
-Get:5 https://deb.debian.org/debian trixie-updates/main amd64 Packages [4412 B]
-Get:6 https://deb.debian.org/debian-security trixie-security/main amd64 Packages [268 kB]
-Fetched 10.0 MB in 3min 16s (51.3 kB/s)
-Reading package lists...
-[91m+ apt-get install -y --no-install-recommends bash ca-certificates chromium curl git jq procps texlive-bibtex-extra texlive-fonts-recommended texlive-latex-base texlive-latex-extra texlive-latex-recommended
-[0mReading package lists...
-Building dependency tree...
-Reading state information...
-bash is already the newest version (5.2.37-2+b10).
-bash set to manually installed.
-ca-certificates is already the newest version (20250419).
-The following additional packages will be installed:
-  adwaita-icon-theme at-spi2-common chromium-common dbus dbus-bin dbus-daemon
-  dbus-session-bus-common dbus-system-bus-common dbus-user-session
-  dconf-gsettings-backend dconf-service fontconfig fontconfig-config
-  fonts-dejavu-core fonts-dejavu-mono fonts-lmodern git-man
-  gtk-update-icon-cache hicolor-icon-theme libapache-pom-java libapparmor1
-  libasound2-data libasound2t64 libasyncns0 libatk-bridge2.0-0t64
-  libatk1.0-0t64 libatomic1 libatspi2.0-0t64 libavahi-client3
-  libavahi-common-data libavahi-common3 libbibtex-parser-perl libbrotli1
-  libcairo-gobject2 libcairo2 libcloudproviders0 libcolord2 libcom-err2
-  libcommons-logging-java libcommons-parent-java libcups2t64
-  libcurl3t64-gnutls libcurl4t64 libdatrie1 libdav1d7 libdbus-1-3 libdconf1
-  libdeflate0 libdouble-conversion3 libdrm-amdgpu1 libdrm-common libdrm-intel1
-  libdrm2 libedit2 libelf1t64 libepoxy0 liberror-perl libexpat1 libflac14
-  libfontbox-java libfontconfig1 libfreetype6 libfribidi0 libgbm1
-  libgdbm-compat4t64 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgl1
-  libgl1-mesa-dri libglib2.0-0t64 libglvnd0 libglx-mesa0 libglx0
-  libgnutls30t64 libgraphite2-3 libgssapi-krb5-2 libgtk-3-0t64 libgtk-3-common
-  libharfbuzz-subset0 libharfbuzz0b libice6 libicu76 libidn2-0
-  libio-string-perl libjbig0 libjpeg62-turbo libjq1 libk5crypto3 libkeyutils1
-  libkpathsea6 libkrb5-3 libkrb5support0 liblatex-tounicode-perl liblcms2-2
-  libldap2 liblerc4 libllvm19 libminizip1t64 libmp3lame0 libmpfi0 libmpfr6
-  libmpg123-0t64 libnghttp2-14 libnghttp3-9 libngtcp2-16
-  libngtcp2-crypto-gnutls8 libnspr4 libnss3 libogg0 libonig5 libopenh264-8
-  libopenjp2-7 libopus0 libp11-kit0 libpam-systemd libpango-1.0-0
-  libpangocairo-1.0-0 libpangoft2-1.0-0 libpaper-utils libpaper2 libpciaccess0
-  libpdfbox-java libperl5.40 libpixman-1-0 libpng16-16t64 libpotrace0
-  libproc2-0 libpsl5t64 libptexenc1 libpulse0 libpython3-stdlib
-  libpython3.13-minimal libpython3.13-stdlib librtmp1 libsasl2-2
-  libsasl2-modules-db libsensors-config libsensors5 libsharpyuv0 libsm6
-  libsndfile1 libssh2-1t64 libsynctex2 libsystemd-shared libtasn1-6 libteckit0
-  libtexlua53-5 libtext-charwidth-perl libtext-wrapi18n-perl libthai-data
-  libthai0 libtiff6 libunistring5 libvorbis0a libvorbisenc2 libvulkan1
-  libwayland-client0 libwayland-cursor0 libwayland-egl1 libwayland-server0
-  libwebp7 libx11-6 libx11-data libx11-xcb1 libxau6 libxaw7 libxcb-dri3-0
-  libxcb-glx0 libxcb-present0 libxcb-randr0 libxcb-render0 libxcb-shape0
-  libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb1 libxcomposite1 libxcursor1
-  libxdamage1 libxdmcp6 libxext6 libxfixes3 libxft2 libxi6 libxinerama1
-  libxkbcommon0 libxkbfile1 libxml2 libxmu6 libxmuu1 libxnvctrl0 libxpm4
-  libxrandr2 libxrender1 libxshmfence1 libxt6t64 libxtst6 libxv1 libxxf86dga1
-  libxxf86vm1 libz3-4 libzzip-0-13t64 media-types mesa-libgallium perl
-  perl-modules-5.40 preview-latex-style python3 python3-minimal python3.13
-  python3.13-minimal sensible-utils shared-mime-info systemd systemd-sysv
-  t1utils tex-common texlive-base texlive-binaries texlive-pictures ucf
-  x11-common x11-utils xdg-utils xkb-data
-Suggested packages:
-  adwaita-icon-theme-legacy chromium-l10n chromium-shell chromium-driver
-  gettext-base git-doc git-email git-gui gitk gitweb git-cvs git-mediawiki
-  git-svn alsa-utils libasound2-plugins colord libavalon-framework-java
-  libexcalibur-logkit-java liblog4j1.2-java cups-common low-memory-monitor
-  gnutls-bin krb5-doc krb5-user gvfs liblcms2-utils libmpfi-doc opus-tools
-  libcryptsetup12 libtss2-rc0t64 pciutils pulseaudio lm-sensors
-  libarchive13t64 libbpf1 libdw1t64 libfido2-1 libgcrypt20 libip4tc2
-  libpwquality1 libqrencode4 perl-doc libterm-readline-gnu-perl
-  | libterm-readline-perl-perl make libtap-harness-archive-perl python3-doc
-  python3-tk python3-venv python3.13-venv python3.13-doc binutils
-  binfmt-support systemd-container systemd-homed systemd-userdbd systemd-boot
-  systemd-resolved systemd-repart libtss2-tcti-device0 polkitd debhelper
-  ghostscript gv | postscript-viewer perl-tk xpdf | pdf-viewer xzdec
-  texlive-binaries-sse2 hintview texlive-fonts-recommended-doc
-  texlive-latex-base-doc wp2latex python3-pygments icc-profiles
-  libfile-which-perl texlive-latex-extra-doc texlive-science
-  texlive-latex-recomme…1503 tokens truncated…trixie/main amd64 python3 amd64 3.13.5-1 [28.2 kB]
-Get:20 https://deb.debian.org/debian trixie/main amd64 libproc2-0 amd64 2:4.0.4-9 [65.6 kB]
-Get:21 https://deb.debian.org/debian trixie/main amd64 procps amd64 2:4.0.4-9 [882 kB]
-Get:22 https://deb.debian.org/debian trixie/main amd64 sensible-utils all 0.0.25 [25.0 kB]
-Get:23 https://deb.debian.org/debian trixie/main amd64 libpam-systemd amd64 257.13-1~deb13u1 [297 kB]
-Get:24 https://deb.debian.org/debian trixie/main amd64 perl-modules-5.40 all 5.40.1-6+deb13u1 [3014 kB]
-Get:25 https://deb.debian.org/debian trixie/main amd64 libgdbm-compat4t64 amd64 1.24-2 [50.3 kB]
-Get:26 https://deb.debian.org/debian trixie/main amd64 libperl5.40 amd64 5.40.1-6+deb13u1 [4326 kB]
-Get:27 https://deb.debian.org/debian trixie/main amd64 perl amd64 5.40.1-6+deb13u1 [268 kB]
-Get:28 https://deb.debian.org/debian trixie/main amd64 libtext-charwidth-perl amd64 0.04-11+b4 [9476 B]
-Get:29 https://deb.debian.org/debian trixie/main amd64 libtext-wrapi18n-perl all 0.06-10 [8808 B]
-Get:30 https://deb.debian.org/debian trixie/main amd64 ucf all 3.0052 [43.3 kB]
-Get:31 https://deb.debian.org/debian trixie/main amd64 libgdk-pixbuf2.0-common all 2.42.12+dfsg-4+deb13u1 [312 kB]
-Get:32 https://deb.debian.org/debian trixie/main amd64 libatomic1 amd64 14.2.0-19 [9308 B]
-Get:33 https://deb.debian.org/debian trixie/main amd64 libglib2.0-0t64 amd64 2.84.4-3~deb13u5 [1521 kB]
-Get:34 https://deb.debian.org/debian trixie/main amd64 libxml2 amd64 2.12.7+dfsg+really2.9.14-2.1+deb13u3 [700 kB]
-Get:35 https://deb.debian.org/debian trixie/main amd64 shared-mime-info amd64 2.4-5+b2 [760 kB]
-Get:36 https://deb.debian.org/debian trixie/main amd64 libjpeg62-turbo amd64 1:2.1.5-4 [168 kB]
-Get:37 https://deb.debian.org/debian-security trixie-security/main amd64 libpng16-16t64 amd64 1.6.48-1+deb13u6 [283 kB]
-Get:38 https://deb.debian.org/debian trixie/main amd64 libdeflate0 amd64 1.23-2 [47.3 kB]
-Get:39 https://deb.debian.org/debian trixie/main amd64 libjbig0 amd64 2.1-6.1+b2 [32.1 kB]
-Get:40 https://deb.debian.org/debian trixie/main amd64 liblerc4 amd64 4.0.0+ds-5 [183 kB]
-Get:41 https://deb.debian.org/debian trixie/main amd64 libsharpyuv0 amd64 1.5.0-0.1 [116 kB]
-Get:42 https://deb.debian.org/debian trixie/main amd64 libwebp7 amd64 1.5.0-0.1 [318 kB]
-Get:43 https://deb.debian.org/debian trixie/main amd64 libtiff6 amd64 4.7.0-3+deb13u3 [345 kB]
-Get:44 https://deb.debian.org/debian trixie/main amd64 libgdk-pixbuf-2.0-0 amd64 2.42.12+dfsg-4+deb13u1 [141 kB]
-Get:45 https://deb.debian.org/debian trixie/main amd64 gtk-update-icon-cache amd64 4.18.6+ds-2 [52.7 kB]
-Get:46 https://deb.debian.org/debian trixie/main amd64 hicolor-icon-theme all 0.18-2 [11.8 kB]
-Get:47 https://deb.debian.org/debian trixie/main amd64 adwaita-icon-theme all 48.1-1 [504 kB]
-Get:48 https://deb.debian.org/debian trixie/main amd64 at-spi2-common all 2.56.2-1+deb13u2 [171 kB]
-Get:49 https://deb.debian.org/debian trixie/main amd64 libasound2-data all 1.2.14-1+deb13u1 [21.2 kB]
-Get:50 https://deb.debian.org/debian trixie/main amd64 libasound2t64 amd64 1.2.14-1+deb13u1 [381 kB]
-Get:51 https://deb.debian.org/debian trixie/main amd64 libatk1.0-0t64 amd64 2.56.2-1+deb13u2 [52.0 kB]
-Get:52 https://deb.debian.org/debian trixie/main amd64 libxau6 amd64 1:1.0.11-1 [20.4 kB]
-Get:53 https://deb.debian.org/debian trixie/main amd64 libxdmcp6 amd64 1:1.1.5-1 [27.8 kB]
-Get:54 https://deb.debian.org/debian trixie/main amd64 libxcb1 amd64 1.17.0-2+b1 [144 kB]
-Get:55 https://deb.debian.org/debian trixie/main amd64 libx11-data all 2:1.8.12-1 [343 kB]
-Get:56 https://deb.debian.org/debian trixie/main amd64 libx11-6 amd64 2:1.8.12-1 [815 kB]
-Get:57 https://deb.debian.org/debian trixie/main amd64 libxext6 amd64 2:1.3.4-1+b3 [50.4 kB]
-Get:58 https://deb.debian.org/debian trixie/main amd64 libxi6 amd64 2:1.8.2-1 [78.9 kB]
-Get:59 https://deb.debian.org/debian trixie/main amd64 libatspi2.0-0t64 amd64 2.56.2-1+deb13u2 [81.1 kB]
-Get:60 https://deb.debian.org/debian trixie/main amd64 libatk-bridge2.0-0t64 amd64 2.56.2-1+deb13u2 [68.5 kB]
-Get:61 https://deb.debian.org/debian trixie/main amd64 libbrotli1 amd64 1.1.0-2+b7 [307 kB]
-Get:62 https://deb.debian.org/debian trixie/main amd64 libfreetype6 amd64 2.13.3+dfsg-1+deb13u1 [452 kB]
-Get:63 https://deb.debian.org/debian trixie/main amd64 fonts-dejavu-mono all 2.37-8 [489 kB]
-Get:64 https://deb.debian.org/debian trixie/main amd64 fonts-dejavu-core all 2.37-8 [840 kB]
-Get:65 https://deb.debian.org/debian trixie/main amd64 fontconfig-config amd64 2.15.0-2.3 [318 kB]
-Get:66 https://deb.debian.org/debian trixie/main amd64 libfontconfig1 amd64 2.15.0-2.3 [392 kB]
-Get:67 https://deb.debian.org/debian trixie/main amd64 libpixman-1-0 amd64 0.44.0-3 [248 kB]
-Get:68 https://deb.debian.org/debian trixie/main amd64 libxcb-render0 amd64 1.17.0-2+b1 [115 kB]
-Get:69 https://deb.debian.org/debian trixie/main amd64 libxcb-shm0 amd64 1.17.0-2+b1 [105 kB]
-Get:70 https://deb.debian.org/debian trixie/main amd64 libxrender1 amd64 1:0.9.12-1 [27.9 kB]
-Warning: truncated output (original token count: 3183)
-Total output lines: 131
-
-Get:71 https://deb.debian.org/debian trixie/main amd64 libcairo2 amd64 1.18.4-1+b1 [538 kB]
-Get:72 https://deb.debian.org/debian trixie/main amd64 libavahi-common-data amd64 0.8-16 [112 kB]
-Get:73 https://deb.debian.org/debian trixie/main amd64 libavahi-common3 amd64 0.8-16 [44.2 kB]
-Get:74 https://deb.debian.org/debian trixie/main amd64 libavahi-client3 amd64 0.8-16 [48.4 kB]
-Get:75 https://deb.debian.org/debian trixie/main amd64 libunistring5 amd64 1.3-2 [477 kB]
-Get:76 https://deb.debian.org/debian trixie/main amd64 libidn2-0 amd64 2.3.8-2 [109 kB]
-Get:77 https://deb.debian.org/debian trixie/main amd64 libp11-kit0 amd64 0.25.5-3 [425 kB]
-Get:78 https://deb.debian.org/debian trixie/main amd64 libtasn1-6 amd64 4.20.0-2+deb13u1 [50.1 kB]
-Get:79 https://deb.debian.org/debian trixie/main amd64 libgnutls30t64 amd64 3.8.9-3+deb13u4 [1469 kB]
-Get:80 https://deb.debian.org/debian trixie/main amd64 libkrb5support0 amd64 1.21.3-5+deb13u1 [33.1 kB]
-Get:81 https://deb.debian.org/debian trixie/main amd64 libcom-err2 amd64 1.47.2-3+b12 [25.0 kB]
-Get:82 https://deb.debian.org/debian trixie/main amd64 libk5crypto3 amd64 1.21.3-5+deb13u1 [81.2 kB]
-Get:83 https://deb.debian.org/debian trixie/main amd64 libkeyutils1 amd64 1.6.3-6 [9456 B]
-Get:84 https://deb.debian.org/debian trixie/main amd64 libkrb5-3 amd64 1.21.3-5+deb13u1 [326 kB]
-Get:85 https://deb.debian.org/debian trixie/main amd64 libgssapi-krb5-2 amd64 1.21.3-5+deb13u1 [138 kB]
-Get:86 https://deb.debian.org/debian trixie/main amd64 libcups2t64 amd64 2.4.10-3+deb13u2 [252 kB]
-Get:87 https://deb.debian.org/debian trixie/main amd64 libdav1d7 amd64 1.5.1-1 [559 kB]
-Get:88 https://deb.debian.org/debian trixie/main amd64 libdouble-conversion3 amd64 3.3.1-1 [41.8 kB]
-Get:89 https://deb.debian.org/debian trixie/main amd64 libogg0 amd64 1.3.5-3+b2 [23.8 kB]
-Get:90 https://deb.debian.org/debian trixie/main amd64 libflac14 amd64 1.5.0+ds-2 [210 kB]
-Get:91 https://deb.debian.org/debian trixie/main amd64 libdrm-common all 2.4.124-2 [8288 B]
-Get:92 https://deb.debian.org/debian trixie/main amd64 libdrm2 amd64 2.4.124-2 [39.0 kB]
-Get:93 https://deb.debian.org/debian trixie/main amd64 libwayland-server0 amd64 1.23.1-3 [34.4 kB]
-Get:94 https://deb.debian.org/debian trixie/main amd64 libdrm-amdgpu1 amd64 2.4.124-2 [22.6 kB]
-Get:95 https://deb.debian.org/debian trixie/main amd64 libpciaccess0 amd64 0.17-3+b3 [51.9 kB]
-Get:96 https://deb.debian.org/debian trixie/main amd64 libdrm-intel1 amd64 2.4.124-2 [64.1 kB]
-Get:97 https://deb.debian.org/debian trixie/main amd64 libelf1t64 amd64 0.192-4 [189 kB]
-Get:98 https://deb.debian.org/debian trixie/main amd64 libedit2 amd64 3.1-20250104-1 [93.8 kB]
-Get:99 https://deb.debian.org/debian trixie/main amd64 libz3-4 amd64 4.13.3-1 [8560 kB]
-Get:100 https://deb.debian.org/debian trixie/main amd64 libllvm19 amd64 1:19.1.7-3+b1 [26.0 MB]
-Get:101 https://deb.debian.org/debian trixie/main amd64 libsensors-config all 1:3.6.2-2 [16.2 kB]
-Get:102 https://deb.debian.org/debian trixie/main amd64 …1683 tokens truncated…ian trixie/main amd64 libxpm4 amd64 1:3.5.17-1+deb13u1 [55.9 kB]
-Get:173 https://deb.debian.org/debian trixie/main amd64 libxaw7 amd64 2:1.0.16-1 [212 kB]
-Get:174 https://deb.debian.org/debian trixie/main amd64 libxcb-shape0 amd64 1.17.0-2+b1 [106 kB]
-Get:175 https://deb.debian.org/debian trixie/main amd64 libxft2 amd64 2.3.6-1+b4 [54.5 kB]
-Get:176 https://deb.debian.org/debian trixie/main amd64 libxkbfile1 amd64 1:1.1.0-1+b4 [76.5 kB]
-Get:177 https://deb.debian.org/debian trixie/main amd64 libxmuu1 amd64 2:1.1.3-3+b4 [21.9 kB]
-Get:178 https://deb.debian.org/debian trixie/main amd64 libxtst6 amd64 2:1.2.5-1 [25.8 kB]
-Get:179 https://deb.debian.org/debian trixie/main amd64 libxv1 amd64 2:1.0.11-1.1+b3 [23.4 kB]
-Get:180 https://deb.debian.org/debian trixie/main amd64 libxxf86dga1 amd64 2:1.1.5-1+b3 [20.8 kB]
-Get:181 https://deb.debian.org/debian trixie/main amd64 x11-utils amd64 7.7+7 [182 kB]
-Get:182 https://deb.debian.org/debian trixie/main amd64 xdg-utils all 1.2.1-2 [75.8 kB]
-Get:183 https://deb.debian.org/debian-security trixie-security/main amd64 chromium-common amd64 155.0.8059.79-1~deb13u1 [31.3 MB]
-Get:184 https://deb.debian.org/debian-security trixie-security/main amd64 chromium amd64 155.0.8059.79-1~deb13u1 [91.3 MB]
-Get:185 https://deb.debian.org/debian trixie/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-9 [19.8 kB]
-Get:186 https://deb.debian.org/debian trixie/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-9 [57.5 kB]
-Get:187 https://deb.debian.org/debian trixie/main amd64 libldap2 amd64 2.6.10+dfsg-1 [194 kB]
-Get:188 https://deb.debian.org/debian trixie/main amd64 libnghttp2-14 amd64 1.64.0-1.1+deb13u1 [76.2 kB]
-Get:189 https://deb.debian.org/debian trixie/main amd64 libnghttp3-9 amd64 1.8.0-1 [67.7 kB]
-Get:190 https://deb.debian.org/debian trixie/main amd64 libpsl5t64 amd64 0.21.2-1.1+b1 [57.2 kB]
-Get:191 https://deb.debian.org/debian trixie/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2+b5 [58.8 kB]
-Get:192 https://deb.debian.org/debian trixie/main amd64 libssh2-1t64 amd64 1.11.1-1+deb13u2 [245 kB]
-Get:193 https://deb.debian.org/debian-security trixie-security/main amd64 libcurl4t64 amd64 8.14.1-2+deb13u7 [392 kB]
-Get:194 https://deb.debian.org/debian-security trixie-security/main amd64 curl amd64 8.14.1-2+deb13u7 [270 kB]
-Get:195 https://deb.debian.org/debian trixie/main amd64 fonts-lmodern all 2.005-1 [4540 kB]
-Get:196 https://deb.debian.org/debian trixie/main amd64 libngtcp2-16 amd64 1.11.0-1+deb13u1 [132 kB]
-Get:197 https://deb.debian.org/debian trixie/main amd64 libngtcp2-crypto-gnutls8 amd64 1.11.0-1+deb13u1 [29.5 kB]
-Get:198 https://deb.debian.org/debian-security trixie-security/main amd64 libcurl3t64-gnutls amd64 8.14.1-2+deb13u7 [385 kB]
-Get:199 https://deb.debian.org/debian trixie/main amd64 liberror-perl all 0.17030-1 [26.9 kB]
-Get:200 https://deb.debian.org/debian trixie/main amd64 git-man all 1:2.47.3-0+deb13u1 [2205 kB]
-Get:201 https://deb.debian.org/debian trixie/main amd64 git amd64 1:2.47.3-0+deb13u1 [8862 kB]
-Get:202 https://deb.debian.org/debian trixie/main amd64 libonig5 amd64 6.9.9-1+b1 [189 kB]
-Get:203 https://deb.debian.org/debian-security trixie-security/main amd64 libjq1 amd64 1.7.1-6+deb13u4 [168 kB]
-Get:204 https://deb.debian.org/debian-security trixie-security/main amd64 jq amd64 1.7.1-6+deb13u4 [78.9 kB]
-Get:205 https://deb.debian.org/debian trixie/main amd64 libapache-pom-java all 33-2 [5852 B]
-Get:206 https://deb.debian.org/debian trixie/main amd64 libio-string-perl all 1.08-4 [12.1 kB]
-Get:207 https://deb.debian.org/debian trixie/main amd64 liblatex-tounicode-perl all 0.55-1 [28.8 kB]
-Get:208 https://deb.debian.org/debian trixie/main amd64 libbibtex-parser-perl all 1.05+dfsg-1 [17.4 kB]
-Get:209 https://deb.debian.org/debian trixie/main amd64 libcommons-parent-java all 56-1 [10.8 kB]
-Get:210 https://deb.debian.org/debian trixie/main amd64 libcommons-logging-java all 1.3.0-2 [68.6 kB]
-Get:211 https://deb.debian.org/debian trixie/main amd64 libfontbox-java all 1:1.8.16-5 [211 kB]
-Get:212 https://deb.debian.org/debian trixie/main amd64 libicu76 amd64 76.1-4 [9722 kB]
-Get:213 https://deb.debian.org/debian trixie/main amd64 libkpathsea6 amd64 2024.20240313.70630+ds-6 [157 kB]
-Get:214 https://deb.debian.org/debian trixie/main amd64 libmpfr6 amd64 4.2.2-1 [729 kB]
-Get:215 https://deb.debian.org/debian trixie/main amd64 libmpfi0 amd64 1.5.4+ds-4 [35.5 kB]
-Get:216 https://deb.debian.org/debian trixie/main amd64 libpaper2 amd64 2.2.5-0.3+b2 [16.7 kB]
-Get:217 https://deb.debian.org/debian trixie/main amd64 libpaper-utils amd64 2.2.5-0.3+b2 [16.5 kB]
-Get:218 https://deb.debian.org/debian trixie/main amd64 libpdfbox-java all 1:1.8.16-5 [5527 kB]
-Get:219 https://deb.debian.org/debian trixie/main amd64 libpotrace0 amd64 1.16-2+b2 [25.6 kB]
-Get:220 https://deb.debian.org/debian trixie/main amd64 libptexenc1 amd64 2024.20240313.70630+ds-6 [49.3 kB]
-Get:221 https://deb.debian.org/debian trixie/main amd64 libsynctex2 amd64 2024.20240313.70630+ds-6 [62.9 kB]
-Get:222 https://deb.debian.org/debian trixie/main amd64 libteckit0 amd64 2.5.12+ds1-1+b1 [341 kB]
-Get:223 https://deb.debian.org/debian trixie/main amd64 libtexlua53-5 amd64 2024.20240313.70630+ds-6 [114 kB]
-Get:224 https://deb.debian.org/debian trixie/main amd64 libzzip-0-13t64 amd64 0.13.78+dfsg.1-0.1 [59.0 kB]
-Get:225 https://deb.debian.org/debian trixie/main amd64 tex-common all 6.19 [29.4 kB]
-Get:226 https://deb.debian.org/debian trixie/main amd64 preview-latex-style all 13.2-1.1 [350 kB]
-Get:227 https://deb.debian.org/debian trixie/main amd64 t1utils amd64 1.41-4 [62.1 kB]
-Get:228 https://deb.debian.org/debian trixie/main amd64 texlive-binaries amd64 2024.20240313.70630+ds-6 [8446 kB]
-Get:229 https://deb.debian.org/debian trixie/main amd64 texlive-base all 2024.20250309-1 [23.1 MB]
-Get:230 https://deb.debian.org/debian trixie/main amd64 texlive-latex-base all 2024.20250309-1 [1294 kB]
-Get:231 https://deb.debian.org/debian trixie/main amd64 texlive-bibtex-extra all 2024.20250309-2 [79.4 MB]
-Warning: truncated output (original token count: 11252)
-Total output lines: 713
-
-Get:232 https://deb.debian.org/debian trixie/main amd64 texlive-fonts-recommended all 2024.20250309-1 [4989 kB]
-Get:233 https://deb.debian.org/debian trixie/main amd64 texlive-latex-recommended all 2024.20250309-1 [8745 kB]
-Get:234 https://deb.debian.org/debian trixie/main amd64 texlive-pictures all 2024.20250309-1 [17.0 MB]
-Get:235 https://deb.debian.org/debian trixie/main amd64 texlive-latex-extra all 2024.20250309-2 [25.2 MB]
-Preconfiguring packages ...
-Fetched 429 MB in 3min 32s (2022 kB/s)
-Selecting previously unselected package libsystemd-shared:amd64.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5660 files and directories currently installed.)
-Preparing to unpack .../libsystemd-shared_257.13-1~deb13u1_amd64.deb ...
-Unpacking libsystemd-shared:amd64 (257.13-1~deb13u1) ...
-Selecting previously unselected package libapparmor1:amd64.
-Preparing to unpack .../libapparmor1_4.1.0-1_amd64.deb ...
-Unpacking libapparmor1:amd64 (4.1.0-1) ...
-Setting up libsystemd-shared:amd64 (257.13-1~deb13u1) ...
-Selecting previously unselected package systemd.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5673 files and directories currently installed.)
-Preparing to unpack .../systemd_257.13-1~deb13u1_amd64.deb ...
-Unpacking systemd (257.13-1~deb13u1) ...
-Setting up libapparmor1:amd64 (4.1.0-1) ...
-Setting up systemd (257.13-1~deb13u1) ...
-Created symlink '/etc/systemd/system/getty.target.wants/getty@tty1.service' → '/usr/lib/systemd/system/getty@.service'.
-Created symlink '/etc/systemd/system/multi-user.target.wants/remote-fs.target' → '/usr/lib/systemd/system/remote-fs.target'.
-Created symlink '/etc/systemd/system/sysinit.target.wants/systemd-pstore.service' → '/usr/lib/systemd/system/systemd-pstore.service'.
-Initializing machine ID from random generator.
-Creating group 'systemd-journal' with GID 999.
-Creating group 'systemd-network' with GID 998.
-Creating user 'systemd-network' (systemd Network Management) with UID 998 and GID 998.
-/usr/lib/tmpfiles.d/legacy.conf:14: Duplicate line for path "/run/lock", ignoring.
-Selecting previously unselected package systemd-sysv.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6610 files and directories currently installed.)
-Preparing to unpack .../0-systemd-sysv_257.13-1~deb13u1_amd64.deb ...
-Unpacking systemd-sysv (257.13-1~deb13u1) ...
-Selecting previously unselected package libdbus-1-3:amd64.
-Preparing to unpack .../1-libdbus-1-3_1.16.2-2_amd64…9252 tokens truncated…o-string-perl_1.08-4_all.deb ...
-Unpacking libio-string-perl (1.08-4) ...
-Selecting previously unselected package liblatex-tounicode-perl.
-Preparing to unpack .../188-liblatex-tounicode-perl_0.55-1_all.deb ...
-Unpacking liblatex-tounicode-perl (0.55-1) ...
-Selecting previously unselected package libbibtex-parser-perl.
-Preparing to unpack .../189-libbibtex-parser-perl_1.05+dfsg-1_all.deb ...
-Unpacking libbibtex-parser-perl (1.05+dfsg-1) ...
-Selecting previously unselected package libcommons-parent-java.
-Preparing to unpack .../190-libcommons-parent-java_56-1_all.deb ...
-Unpacking libcommons-parent-java (56-1) ...
-Selecting previously unselected package libcommons-logging-java.
-Preparing to unpack .../191-libcommons-logging-java_1.3.0-2_all.deb ...
-Unpacking libcommons-logging-java (1.3.0-2) ...
-Selecting previously unselected package libfontbox-java.
-Preparing to unpack .../192-libfontbox-java_1%3a1.8.16-5_all.deb ...
-Unpacking libfontbox-java (1:1.8.16-5) ...
-Selecting previously unselected package libicu76:amd64.
-Preparing to unpack .../193-libicu76_76.1-4_amd64.deb ...
-Unpacking libicu76:amd64 (76.1-4) ...
-Selecting previously unselected package libkpathsea6:amd64.
-Preparing to unpack .../194-libkpathsea6_2024.20240313.70630+ds-6_amd64.deb ...
-Unpacking libkpathsea6:amd64 (2024.20240313.70630+ds-6) ...
-Selecting previously unselected package libmpfr6:amd64.
-Preparing to unpack .../195-libmpfr6_4.2.2-1_amd64.deb ...
-Unpacking libmpfr6:amd64 (4.2.2-1) ...
-Selecting previously unselected package libmpfi0:amd64.
-Preparing to unpack .../196-libmpfi0_1.5.4+ds-4_amd64.deb ...
-Unpacking libmpfi0:amd64 (1.5.4+ds-4) ...
-Selecting previously unselected package libpaper2:amd64.
-Preparing to unpack .../197-libpaper2_2.2.5-0.3+b2_amd64.deb ...
-Unpacking libpaper2:amd64 (2.2.5-0.3+b2) ...
-Selecting previously unselected package libpaper-utils.
-Preparing to unpack .../198-libpaper-utils_2.2.5-0.3+b2_amd64.deb ...
-Unpacking libpaper-utils (2.2.5-0.3+b2) ...
-Selecting previously unselected package libpdfbox-java.
-Preparing to unpack .../199-libpdfbox-java_1%3a1.8.16-5_all.deb ...
-Unpacking libpdfbox-java (1:1.8.16-5) ...
-Selecting previously unselected package libpotrace0:amd64.
-Preparing to unpack .../200-libpotrace0_1.16-2+b2_amd64.deb ...
-Unpacking libpotrace0:amd64 (1.16-2+b2) ...
-Selecting previously unselected package libptexenc1:amd64.
-Preparing to unpack .../201-libptexenc1_2024.20240313.70630+ds-6_amd64.deb ...
-Unpacking libptexenc1:amd64 (2024.20240313.70630+ds-6) ...
-Selecting previously unselected package libsynctex2:amd64.
-Preparing to unpack .../202-libsynctex2_2024.20240313.70630+ds-6_amd64.deb ...
-Unpacking libsynctex2:amd64 (2024.20240313.70630+ds-6) ...
-Selecting previously unselected package libteckit0:amd64.
-Preparing to unpack .../203-libteckit0_2.5.12+ds1-1+b1_amd64.deb ...
-Unpacking libteckit0:amd64 (2.5.12+ds1-1+b1) ...
-Selecting previously unselected package libtexlua53-5:amd64.
-Preparing to unpack .../204-libtexlua53-5_2024.20240313.70630+ds-6_amd64.deb ...
-Unpacking libtexlua53-5:amd64 (2024.20240313.70630+ds-6) ...
-Selecting previously unselected package libzzip-0-13t64:amd64.
-Preparing to unpack .../205-libzzip-0-13t64_0.13.78+dfsg.1-0.1_amd64.deb ...
-Unpacking libzzip-0-13t64:amd64 (0.13.78+dfsg.1-0.1) ...
-Selecting previously unselected package tex-common.
-Preparing to unpack .../206-tex-common_6.19_all.deb ...
-Unpacking tex-common (6.19) ...
-Selecting previously unselected package preview-latex-style.
-Preparing to unpack .../207-preview-latex-style_13.2-1.1_all.deb ...
-Unpacking preview-latex-style (13.2-1.1) ...
-Selecting previously unselected package t1utils.
-Preparing to unpack .../208-t1utils_1.41-4_amd64.deb ...
-Unpacking t1utils (1.41-4) ...
-Selecting previously unselected package texlive-binaries.
-Preparing to unpack .../209-texlive-binaries_2024.20240313.70630+ds-6_amd64.deb ...
-Unpacking texlive-binaries (2024.20240313.70630+ds-6) ...
-Warning: truncated output (original token count: 3630)
-Total output lines: 276
-
-Selecting previously unselected package texlive-base.
-Preparing to unpack .../210-texlive-base_2024.20250309-1_all.deb ...
-Unpacking texlive-base (2024.20250309-1) ...
-Selecting previously unselected package texlive-latex-base.
-Preparing to unpack .../211-texlive-latex-base_2024.20250309-1_all.deb ...
-Unpacking texlive-latex-base (2024.20250309-1) ...
-Selecting previously unselected package texlive-bibtex-extra.
-Preparing to unpack .../212-texlive-bibtex-extra_2024.20250309-2_all.deb ...
-Unpacking texlive-bibtex-extra (2024.20250309-2) ...
-Selecting previously unselected package texlive-fonts-recommended.
-Preparing to unpack .../213-texlive-fonts-recommended_2024.20250309-1_all.deb ...
-Unpacking texlive-fonts-recommended (2024.20250309-1) ...
-Selecting previously unselected package texlive-latex-recommended.
-Preparing to unpack .../214-texlive-latex-recommended_2024.20250309-1_all.deb ...
-Unpacking texlive-latex-recommended (2024.20250309-1) ...
-Selecting previously unselected package texlive-pictures.
-Preparing to unpack .../215-texlive-pictures_2024.20250309-1_all.deb ...
-Unpacking texlive-pictures (2024.20250309-1) ...
-Selecting previously unselected package texlive-latex-extra.
-Preparing to unpack .../216-texlive-latex-extra_2024.20250309-2_all.deb ...
-Unpacking texlive-latex-extra (2024.20250309-2) ...
-Setting up media-types (13.0.0) ...
-Setting up libgraphite2-3:amd64 (1.3.14-2+deb13u1) ...
-Setting up liblcms2-2:amd64 (2.16-2+deb13u2) ...
-Setting up libpixman-1-0:amd64 (0.44.0-3) ...
-Setting up libtext-charwidth-perl:amd64 (0.04-11+b4) ...
-Setting up libsharpyuv0:amd64 (1.5.0-0.1) ...
-Setting up libwayland-server0:amd64 (1.23.1-3) ...
-Setting up libpciaccess0:amd64 (0.17-3+b3) ...
-Setting up systemd-sysv (257.13-1~deb13u1) ...
-Setting up libxau6:amd64 (1:1.0.11-1) ...
-Setting up libxdmcp6:amd64 (1:1.1.5-1) ...
-Setting up libdouble-conversion3:amd64 (3.3.1-1) ...
-Setting up libkeyutils1:amd64 (1.6.3-6) ...
-Setting up libxcb1:amd64 (1.17.0-2+b1) ...
-Setting up libxcb-xfixes0:amd64 (1.17.0-2+b1) ...
-Setting up libogg0:amd64 (1.3.5-3+b2) ...
-Setting up liblerc4:amd64 (4.0.0+ds-5) ...
-Setting up hicolor-icon-theme (0.18-2) ...
-Setting up libdatrie1:amd64 (0.2.13-3+b1) ...
-Setting up libgdbm-compat4t64:amd64 (1.24-2) ...
-Setting up libxcb-render0:amd64 (1.17.0-2+b1) ...
-Setting up libglvnd0:amd64 (1.7.0-1+b2) ...
-Setting up libxcb-glx0:amd64 (1.17.0-2+b1) ...
-Setting up libbrotli1:amd64 (1.1.0-2+b7) ...
-Setting up libfontbox-java (1:1.8.16-5) ...
-Setting up libedit2:amd64 (3.1-20250104-1) ...
-Setting up libg…2330 tokens truncated…b13u7) ...
-Setting up libgbm1:amd64 (25.0.7-2+deb13u1) ...
-Setting up preview-latex-style (13.2-1.1) ...
-Setting up libgl1-mesa-dri:amd64 (25.0.7-2+deb13u1) ...
-Setting up libcurl3t64-gnutls:amd64 (8.14.1-2+deb13u7) ...
-Setting up dconf-service (0.40.0-5) ...
-Setting up libxaw7:amd64 (2:1.0.16-1) ...
-Setting up libbibtex-parser-perl (1.05+dfsg-1) ...
-Setting up git (1:2.47.3-0+deb13u1) ...
-Setting up texlive-binaries (2024.20240313.70630+ds-6) ...
-update-alternatives: using /usr/bin/xdvi-xaw to provide /usr/bin/xdvi.bin (xdvi.bin) in auto mode
-update-alternatives: using /usr/bin/bibtex.original to provide /usr/bin/bibtex (bibtex) in auto mode
-update-alternatives: warning: skip creation of /usr/share/man/man1/bibtex.1.gz because associated file /usr/share/man/man1/bibtex.original.1.gz (of link group bibtex) doesn't exist
-Setting up curl (8.14.1-2+deb13u7) ...
-Setting up texlive-base (2024.20250309-1) ...
-tl-paper: setting paper size for dvips to a4: /var/lib/texmf/dvips/config/config-paper.ps
-tl-paper: setting paper size for dvipdfmx to a4: /var/lib/texmf/dvipdfmx/dvipdfmx-paper.cfg
-tl-paper: setting paper size for xdvi to a4: /var/lib/texmf/xdvi/XDvi-paper
-tl-paper: setting paper size for pdftex to a4: /var/lib/texmf/tex/generic/tex-ini-files/pdftexconfig.tex
-Setting up libglx-mesa0:amd64 (25.0.7-2+deb13u1) ...
-Setting up libglx0:amd64 (1.7.0-1+b2) ...
-Setting up dconf-gsettings-backend:amd64 (0.40.0-5) ...
-Setting up libgl1:amd64 (1.7.0-1+b2) ...
-Setting up texlive-latex-base (2024.20250309-1) ...
-Setting up texlive-latex-recommended (2024.20250309-1) ...
-Setting up texlive-pictures (2024.20250309-1) ...
-Setting up texlive-fonts-recommended (2024.20250309-1) ...
-Setting up x11-utils (7.7+7) ...
-Setting up chromium-common (155.0.8059.79-1~deb13u1) ...
-Setting up libgtk-3-common (3.24.49-3) ...
-Setting up texlive-latex-extra (2024.20250309-2) ...
-Setting up texlive-bibtex-extra (2024.20250309-2) ...
-Setting up libgtk-3-0t64:amd64 (3.24.49-3) ...
-Setting up chromium (155.0.8059.79-1~deb13u1) ...
-update-alternatives: using /usr/bin/chromium to provide /usr/bin/x-www-browser (x-www-browser) in auto mode
-update-alternatives: using /usr/bin/chromium to provide /usr/bin/gnome-www-browser (gnome-www-browser) in auto mode
-Processing triggers for systemd (257.13-1~deb13u1) ...
-Processing triggers for libc-bin (2.41-12+deb13u4) ...
-Processing triggers for tex-common (6.19) ...
-Running updmap-sys. This may take some time... done.
-Running mktexlsr /var/lib/texmf ... done.
-Building format(s) --all.
-	This may take some time... done.
-[91m+ rm -rf /var/lib/apt/lists/auxfiles /var/lib/apt/lists/deb.debian.org_debian-security_dists_trixie-security_InRelease /var/lib/apt/lists/deb.debian.org_debian-security_dists_trixie-security_main_binary-amd64_Packages.lz4 /var/lib/apt/lists/deb.debian.org_debian_dists_trixie-updates_InRelease /var/lib/apt/lists/deb.debian.org_debian_dists_trixie-updates_main_binary-amd64_Packages.lz4 /var/lib/apt/lists/deb.debian.org_debian_dists_trixie_InRelease /var/lib/apt/lists/deb.debian.org_debian_dists_trixie_main_binary-amd64_Packages.lz4 /var/lib/apt/lists/lock /var/lib/apt/lists/partial
-[0m ---> Removed intermediate container 92afbbd9cdad
- ---> 60725d1e71fd
-Step 12/33 : RUN npm install -g     @openai/codex@0.153.4     @anthropic-ai/claude-code@2.1.285     @google/gemini-cli     @earendil-works/pi-coding-agent@0.85.1     opencode-ai@1.18.29
- ---> Running in beff42801b83
-[91mnpm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
-[0m
-added 144 packages in 2m
-
-15 packages are looking for funding
-  run `npm fund` for details
-[91mnpm notice
-npm notice New major version of npm available! 10.9.9 -> 12.2.0
-npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
-npm notice To update run: npm install -g npm@12.2.0
-npm notice
-[0m

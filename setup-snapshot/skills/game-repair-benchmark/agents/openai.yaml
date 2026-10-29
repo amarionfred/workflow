@@ -1,4 +1,0 @@
-interface:
-  display_name: "Historical Game Repair Benchmark"
-  short_description: "Qualify real bugs without leaking their repairs"
-  default_prompt: "Use $game-repair-benchmark for the current research task, following this project's instructions and existing approvals."

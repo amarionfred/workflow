@@ -1,5 +1,0 @@
-interface:
-  display_name: "principle-test-behavior-not-implementation"
-  short_description: "Apply the pstack test-behavior-not-implementation workflow"
-policy:
-  allow_implicit_invocation: false

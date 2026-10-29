@@ -1,0 +1,8 @@
+Lithos is a modified distribution based on OpenRig.
+OpenRig: https://github.com/mvschwarz/openrig
+Copyright and license notices in the upstream source are retained.
+Upstream license: Apache License, Version 2.0, in LICENSE.
+
+Lithos includes its own name, presentation, and local changes. It incorporates
+upstream development through 5bc95cb6cd5a794d93202209d28182bd4a23142a and the
+v0.7.5 release. See the Git history for the original contributions.

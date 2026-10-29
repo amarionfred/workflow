@@ -1,4 +1,0 @@
-interface:
-  display_name: "ML Experiment Design and Review"
-  short_description: "Check controls, uncertainty, cost, and claims"
-  default_prompt: "Use $ml-experiment-review for the current research task, following this project's instructions and existing approvals."

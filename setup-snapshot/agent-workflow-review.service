@@ -1,7 +1,0 @@
-[Unit]
-Description=Summarize reviewed agent workflow receipts
-
-[Service]
-Type=oneshot
-ExecStart=/home/park/.local/bin/agent-workflow report --days 7
-NoNewPrivileges=true

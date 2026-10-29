@@ -1,4 +1,0 @@
-interface:
-  display_name: "Public DeepMind Research"
-  short_description: "Inspect public papers and scope faithful reproductions"
-  default_prompt: "Use $deepmind-paper-reproduction for the current research task, following this project's instructions and existing approvals."

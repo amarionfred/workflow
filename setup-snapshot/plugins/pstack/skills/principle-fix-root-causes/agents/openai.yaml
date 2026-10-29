@@ -1,5 +1,0 @@
-interface:
-  display_name: "principle-fix-root-causes"
-  short_description: "Apply the pstack fix-root-causes workflow"
-policy:
-  allow_implicit_invocation: false

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Empryo
-Comment=Open an agent workspace
-Exec=/home/park/.local/bin/agent-desk
-Icon=utilities-terminal
-Terminal=false
-Categories=Development;
-StartupWMClass=empryo

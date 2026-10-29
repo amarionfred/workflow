@@ -1,5 +1,0 @@
-interface:
-  display_name: "no-comments"
-  short_description: "Apply the pstack no-comments workflow"
-policy:
-  allow_implicit_invocation: false

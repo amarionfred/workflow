@@ -1,5 +1,0 @@
-interface:
-  display_name: "reflect"
-  short_description: "Apply the pstack reflect workflow"
-policy:
-  allow_implicit_invocation: false

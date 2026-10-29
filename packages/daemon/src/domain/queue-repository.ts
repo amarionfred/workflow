@@ -1111,7 +1111,7 @@ export class QueueRepository {
     const row = this.getById(qitemId);
     const urgent = row?.priority === "urgent" || row?.priority === "critical";
     // OpenRig's own row is marked urgent by OpenRig, not by the person whose obligation it's about.
-    return { source: trigger, urgent, ...(urgent && row ? { urgentBy: trigger === "openrig" ? "OpenRig" : row.sourceSession } : {}) };
+    return { source: trigger, urgent, ...(urgent && row ? { urgentBy: trigger === "openrig" ? "Lithos" : row.sourceSession } : {}) };
   }
 
   private classifyWakeResult(res: Awaited<ReturnType<QueueNudgeTransport["send"]>>): WakeAttemptOutcome {

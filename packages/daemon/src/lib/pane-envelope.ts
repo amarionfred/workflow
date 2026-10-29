@@ -127,7 +127,7 @@ export function wrapPaneEnvelope(
   const reply = senderLabel.endsWith("@external")
     ? `↩ Reply if needed: rig queue create --destination ${senderLabel}${meta?.replyToQitem ? ` --human-intent update --reply-to ${meta.replyToQitem}` : ""} --summary "<one line>" --body "..." --verify`
     : isOpenRigSender(senderLabel)
-      ? "↩ Sent by OpenRig itself, not by a seat. Act on the row it names."
+      ? "↩ Sent by Lithos itself, not by a seat. Act on the row it names."
       : `↩ Reply: rig send ${senderLabel} "..."`;
   return [...header, "---", body, "---", reply].join("\n");
 }

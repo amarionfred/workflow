@@ -207,10 +207,10 @@ export async function executeDestroy(plan: DestroyPlan, deps: DestroyDeps): Prom
           await deps.sleep(100);
         }
       } else {
-        warnings.push(`OpenRig responded on port ${plan.daemonPort}, but no listener pid was found.`);
+        warnings.push(`Lithos responded on port ${plan.daemonPort}, but no listener pid was found.`);
       }
     } else if (before.kind === "other_http") {
-      warnings.push(`Port ${plan.daemonPort} is occupied by a live non-OpenRig HTTP listener. State was left untouched.`);
+      warnings.push(`Port ${plan.daemonPort} is occupied by a live non-Lithos HTTP listener. State was left untouched.`);
     }
 
     const after = await deps.inspectListener(plan.daemonHost, plan.daemonPort);

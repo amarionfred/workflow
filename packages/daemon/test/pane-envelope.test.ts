@@ -42,7 +42,7 @@ describe("wrapPaneEnvelope — slice 23 envelope renderer (daemon-side)", () => 
     for (const sender of ["daemon@kernel", "system:health"]) {
       const out = wrapPaneEnvelope(sender, "driver@rig", "Queue handoff: qitem-X - check your queue.");
       expect(out).toContain(`From: ${sender}`);
-      expect(out.split("\n").at(-1)).toBe("↩ Sent by OpenRig itself, not by a seat. Act on the row it names.");
+      expect(out.split("\n").at(-1)).toBe("↩ Sent by Lithos itself, not by a seat. Act on the row it names.");
       expect(out).not.toContain("rig send");
     }
     expect(wrapPaneEnvelope("ops-lead@system", "driver@rig", "Status.")).toContain('↩ Reply: rig send ops-lead@system "..."');

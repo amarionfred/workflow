@@ -1,15 +1,15 @@
-# OpenRig setup reference
+# Lithos setup reference
 
-> For Lithos installation, use the [Lithos getting-started guide](lithos-getting-started.md). The reference below describes the upstream project and its original installation.
+> For the short installation steps, use the [Lithos getting-started guide](lithos-getting-started.md). This page provides more technical detail.
 
-This is the full reference for installing and running OpenRig, written for the agent doing the setup and for anyone
+This is the full reference for installing and running Lithos, written for the agent doing the setup and for anyone
 who wants the detail. The short version for people is [Getting started](quickstart.md).
 
 ## For the agent doing the setup
 
 The `rigs` skill is the procedure: follow it in order. This page is what it looks things up in.
 
-- **Done** means the person is talking to the operator in a visible OpenRig view. A healthy daemon, a started kernel
+- **Done** means the person is talking to the operator in a visible Lithos view. A healthy daemon, a started kernel
   or an opened window isn't done on its own. If they'd rather talk later, the handoff is still pending: say so, and
   leave them the exact command.
 - **Read readiness; don't assume it:**
@@ -21,15 +21,15 @@ The `rigs` skill is the procedure: follow it in order. This page is what it look
 - **Prerequisites:** check the person's existing toolchain first (mise, nvm, Homebrew or the nodejs.org installer)
   and the PATH. Use what's there. Don't change a shared Homebrew's ownership, and don't make a local workaround the
   standard route. If Node.js is installed after your session started, check that new shells and the session's hooks
-  can find it. In one published-0.6.11 Mac run, OpenRig's Claude hooks reported `node: command not found` until the
+  can find it. In an upstream 0.6.11 Mac run, the Claude hooks reported `node: command not found` until the
   PATH was fixed.
 - **Ask once, then reuse the answer:** the provider (Claude Code, Codex or both), Herdr, Ghostty on macOS,
   remembered command allowances, and the team.
 - **Before changing their machine:** say what applies to their route, then wait for a yes. See
-  [what OpenRig changes on your machine](../../README.md#what-openrig-changes-on-your-machine).
+  [what Lithos changes on your machine](#before-you-start).
 - **When something stops:**
   - [Incomplete setup and restart](#incomplete-setup-and-restart) maps what you see to the next action.
-  - [What can interrupt installation and the OpenRig view](#what-can-interrupt-installation-and-the-openrig-view)
+  - [What can interrupt installation and the Lithos view](#what-can-interrupt-installation-and-the-lithos-view)
     covers the view.
   - [Headless or SSH handoff](#headless-or-ssh-handoff) covers no-display cases.
   - A timed-out command may still have taken effect. Read `rig ps` or `rig seat status <seat>` before you run it
@@ -44,34 +44,34 @@ The `rigs` skill is the procedure: follow it in order. This page is what it look
 Setup and launch are separate: declining `rig setup` avoids its `~/.tmux.conf` change, but starting Codex seats can
 still write workspace trust and selected MCP/config fragments. `runtime.codex.hooks_enabled=false` controls hooks;
 it isn't a no-global-config option. Setup has no project-only mode. Trusted project `.codex/config.toml` settings
-don't redirect OpenRig's home-config writes. A separate selected `CODEX_HOME` keeps Codex config, login and sessions
+don't redirect Lithos's home-config writes. A separate selected `CODEX_HOME` keeps Codex config, login and sessions
 together in that home; it needs its own working sign-in and doesn't relocate `~/.tmux.conf`.
 
-> **What OpenRig changes on your machine**
-> - **Install:** `@openrig/cli` goes in globally with npm.
-> - **Setup:** `rig setup` adds an OpenRig block to `~/.tmux.conf`. It can install tmux (with Homebrew on macOS), and
->   Herdr unless you pass `--no-herdr`. Plain `rig setup`, which is what the one-command install runs, checks both
+> **What Lithos changes on your machine**
+> - **Install:** the checkout builds and installs `@lithos/cli` globally with npm.
+> - **Setup:** `rig setup` adds a Lithos block to `~/.tmux.conf`. It can install tmux (with Homebrew on macOS), and
+>   Herdr unless you pass `--no-herdr`. Plain `rig setup` checks both
 >   Claude Code and Codex and may install a missing one; `rig setup --providers claude` (or `codex`) limits it to
 >   yours.
-> - **Starting OpenRig, for the coding agent you use** (paths are the usual defaults):
+> - **Starting Lithos, for the coding agent you use** (paths are the usual defaults):
 >   - Codex: hooks, workspace trust and team-selected config fragments (including MCP) in the selected
 >     `CODEX_HOME/config.toml`, default `~/.codex/config.toml`. These affect other Codex sessions using that home.
 >   - Claude Code: workspace trust in `~/.claude.json`, and activity hooks in the project's
 >     `.claude/settings.local.json`, plus a status line unless you already have your own.
 >   - Discovery skills go in `~/.claude/skills` and `~/.agents/skills`.
->   - Each seat's `CLAUDE.md` or `AGENTS.md` gets OpenRig's managed blocks (culture, identity, onboarding). One more
+>   - Each seat's `CLAUDE.md` or `AGENTS.md` gets Lithos's managed blocks (culture, identity, onboarding). One more
 >     line, pointing an agent at its seat skills, is added only on a yes: saved at setup, or set where the daemon runs
 >     (`OPENRIG_SKILLS_ROUTER_LINE_ENABLED`).
 > - **Starting a team in your project:** adds managed guidance to `AGENTS.md` or `CLAUDE.md`, plus the team's skills
 >   and plugins.
-> - **Permissions:** by default, OpenRig's own kernel gets broader permissions than a project team gets by default.
+> - **Permissions:** by default, Lithos's own kernel gets broader permissions than a project team gets by default.
 >   On Codex that's full access with no approval prompts (`-s danger-full-access -a never`). On Claude Code, its file
 >   tools, web fetches and operational commands, including reads under your home folder, run without asking. A
 >   permission policy, per-agent choice or Codex profile changes that. What your team can do depends on the team you
 >   choose and your settings; `workshop`, for example, ships with broad access.
-> - **Backups:** OpenRig doesn't guarantee it can preserve or roll back these files, so back them up first.
+> - **Backups:** Lithos doesn't guarantee it can preserve or roll back these files, so back them up first.
 >
-> [Everything OpenRig writes, and why →](https://github.com/mvschwarz/openrig#what-openrig-changes-on-your-machine)
+> [Upstream background on configuration changes →](https://github.com/mvschwarz/openrig#what-openrig-changes-on-your-machine)
 
 You need Node.js 22 or 24 and tmux, on macOS or Linux, and one working Claude
 Code or Codex account: one is enough, since the kernel operator adapts the
@@ -92,7 +92,7 @@ administrator password, and `npm install -g` then installs into your nvm folder.
 If nvm's installer says you need Apple's command line tools, run
 `xcode-select --install`, then its install command again. Native Windows isn't
 supported. On Windows, use WSL2: it's the Windows route
-OpenRig supports, though OpenRig's automated tests don't run on it yet. One
+Lithos supports, though Lithos's automated tests don't run on it yet. One
 user's [working setup](#wsl2-a-reported-working-setup) is below. Node 20 and
 odd-numbered releases (23, 25 and so on) are not supported; Node 26 and later
 even-numbered releases are untested.
@@ -101,28 +101,28 @@ On Linux, if Codex cannot run commands and reports `bwrap: loopback: Failed RTM_
 ask the machine owner to follow [OpenAI's sandbox prerequisites](https://developers.openai.com/codex/concepts/sandboxing#prerequisites),
 including its `bwrap` AppArmor profile guidance; changes to AppArmor are the owner's choice.
 
-**Choose permissions before starting the team.** Ordinary OpenRig launches use
+**Choose permissions before starting the team.** Ordinary Lithos launches use
 Codex's `-s workspace-write`, with approval policy from your native configuration,
 or Claude Code's `acceptEdits`, which still leaves commands subject to native
 rules and prompts. A team seat with no permission policy, per-seat choice or
 (for Codex) named profile also gets a per-launch
 [team default](rig-spec.md#team-launch-defaults): Claude runs ordinary `rig`
 commands, project reads and common tests without prompting, while lifecycle
-commands such as `rig up` and `rig down` still ask; Codex also gets the OpenRig
+commands such as `rig up` and `rig down` still ask; Codex also gets the Lithos
 workspace root and its pod's state directory as writable directories. The
 kernel's own seats get a wider operational default. Codex's
-sandbox normally blocks network access, including the local OpenRig daemon, so
-before that plain launch OpenRig asks Codex for its own configuration and adds
+sandbox normally blocks network access, including the local Lithos daemon, so
+before that plain launch Lithos asks Codex for its own configuration and adds
 network access inside the sandbox only when Codex answers that no configuration
 layer sets `sandbox_workspace_write.network_access` and no managed requirement
 could restrict it; if Codex can't be asked or doesn't answer in time, the launch
 is left unchanged. To keep it off, set `network_access = false` under
 `[sandbox_workspace_write]` in your Codex configuration. If Codex does not answer
 within a few seconds, the seat starts without it. A command allowance does not
-change general sandbox/network settings. The starter's `profile: default` selects OpenRig resources, not a native
+change general sandbox/network settings. The starter's `profile: default` selects Lithos resources, not a native
 permission profile.
 Agent-guided setup [recommends keeping the team default](#have-your-agent-configure-permissions)
-and offers to remember selected OpenRig commands in your native settings only if
+and offers to remember selected Lithos commands in your native settings only if
 you want that. An existing explicit choice is reused; No or no answer keeps the
 team default and leaves settings unchanged. Broader access is separate.
 
@@ -139,10 +139,10 @@ before-install view explain that access before you choose it.
 
 ## WSL2: a reported working setup
 
-WSL2 is the Windows route OpenRig supports. OpenRig's automated tests don't run on
+WSL2 is the Windows route Lithos supports. Lithos's automated tests don't run on
 it yet; this is one user's working setup.
 [dajiaohuang](https://github.com/dajiaohuang)
-[ran OpenRig 0.6.6 under WSL2](https://github.com/mvschwarz/openrig/issues/88#issuecomment-6043925546)
+[ran the upstream project under WSL2](https://github.com/mvschwarz/openrig/issues/88#issuecomment-6043925546)
 on Ubuntu 24.04, with Node.js 24.14.1, tmux 3.4, Codex CLI 0.161.0 and Pi
 (`@earendil-works/pi-coding-agent`) 1.0.4, headless, as the distribution's root
 user.
@@ -152,7 +152,7 @@ user.
   `rig send` and `rig capture`, and stopping with `rig down --snapshot`
   followed by a warm restore with `rig up --existing`.
 - **What mattered:**
-  - the install and the OpenRig instance on the Linux filesystem;
+  - the install and the Lithos instance on the Linux filesystem;
   - Linux-native Node.js and harnesses, not the Windows `npm` or `pi` that WSL
     inherits;
   - Pi credentials the managed seat can reach, because a global Pi login isn't
@@ -170,42 +170,9 @@ user.
 
 ## Install and sign in
 
-**Agents:** if you're setting OpenRig up for someone, load the `rigs` skill and follow it. It carries the install, the
-OpenRig view and the handoff to the operator as one procedure. From 0.6.7, OpenRig installs it as `rigs` in
-`~/.claude/skills` and `~/.agents/skills` when the daemon starts. To add it manually, use the release tag matching
-your installed `rig --version`: replace `<release-tag>` below with that tag, including its `v` prefix.
-`rig --version` prints the version and a commit, for example `0.6.11 (379f0a0d)`; the tag is `v0.6.11`.
-The skill is in the repository from v0.6.6; on an older install, use the v0.6.6 tag or upgrade first.
-Choose the command for the agent doing the setup:
+Install from the Lithos checkout using the [getting-started guide](lithos-getting-started.md). The installer builds this checkout and installs its `@lithos/cli` package; it does not install a package from a registry.
 
-```sh
-# Claude Code
-npx skills add "https://github.com/mvschwarz/openrig/tree/<release-tag>/skills/rigs" --skill rigs --agent claude-code
-
-# Codex
-npx skills add "https://github.com/mvschwarz/openrig/tree/<release-tag>/skills/rigs" --skill rigs --agent codex
-```
-
-These are the pinned, per-agent forms used on the [rigs pages](https://openrig.dev/rigs).
-You can also read [`skills/rigs/SKILL.md`](../../skills/rigs/SKILL.md) directly.
-
-**One command, for the full setup.** It needs Node.js 22 or 24 with npm already installed. The preview prints what the
-script will do and changes nothing:
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/mvschwarz/openrig/v0.7.5/scripts/install.sh | sh -s -- --dry-run
-```
-
-The same command without `--dry-run`,
-`curl -fsSL https://raw.githubusercontent.com/mvschwarz/openrig/v0.7.5/scripts/install.sh | sh`, installs the
-latest published `@openrig/cli` with `npm install -g`,
-runs the Node.js and SQLite check, then `rig setup --dry-run` and `rig setup`. `rig setup` checks both Claude Code and
-Codex and may install a missing one, as described below. A failed step prints
-`FAILED [n/4] <command or check> (exit <code>)`. Where a provider isn't signed in yet, step 4 ends that way and
-`rig setup` lists each sign-in under "Some steps need attention". If the only remaining failures are provider
-sign-ins, the install steps finished: sign in to each selected provider as below, then continue at
-[Start the kernel](#start-the-kernel-and-check-its-state). To install only what the selected providers need, go step
-by step instead:
+Agents helping someone set up Lithos can read the [`rigs` skill](../../skills/rigs/SKILL.md) in this checkout. Check the selected provider's sign-in before starting the operator.
 
 ### Choose your providers
 
@@ -213,7 +180,7 @@ Ask: **“Which working account do you want this team to use: Claude Code, Codex
 or both?”** Reuse an explicit choice already made. Recommend the account the
 user already has working; a second subscription is not a prerequisite.
 
-Install OpenRig (`npm install -g @openrig/cli`) and check `tmux -V`. With npm 11 or later, an `npm warn install-scripts` line for `@openrig/cli` is expected: only the postinstall Node.js and SQLite check was skipped, and `node "$(npm root -g)/@openrig/cli/scripts/check-abi.mjs"` runs it. Check **only the selected providers**:
+After installing Lithos from the checkout, check `tmux -V`. The installer runs the Node.js and SQLite compatibility check. Check **only the selected providers**:
 
 - Claude Code: `claude --version` and `claude auth status`. If sign-in is missing,
   ask once: “Please run `claude auth login` in your launch environment.”
@@ -231,17 +198,17 @@ the other out, so it reads not selected instead of failed. On
 macOS it uses an existing Homebrew (it does not install Homebrew) to install a
 missing tmux (elsewhere tmux is checked, not installed). Herdr installs on
 macOS and Linux; pass `--no-herdr` to decline it. Setup also
-writes an OpenRig-managed block (mouse on, a longer history) into `~/.tmux.conf`.
+writes a Lithos-managed block (mouse on, a longer history) into `~/.tmux.conf`.
 It is optional for this selected-provider path, not a requirement to fix an unused
 provider.
 
-Setup also prints the one line OpenRig can add to each seat's `CLAUDE.md` or
-`AGENTS.md`, plus OpenRig's markers around it so it can be removed cleanly: the
+Setup also prints the one line Lithos can add to each seat's `CLAUDE.md` or
+`AGENTS.md`, plus Lithos's markers around it so it can be removed cleanly: the
 exact text it writes, which files it goes in, and what a no gives up. Show the person,
 ask, and save their answer with `rig setup --router-line yes` or
 `rig setup --router-line no`. No answer isn't a yes: with nothing saved and
 nothing set in the environment, the line isn't added. The answer covers only
-that line, and so does what setup says a no gives up; setup's "OpenRig may
+that line, and so does what setup says a no gives up; setup's "Lithos may
 modify" list names the other writes.
 
 The block keeps `terminal.history_limit` rows of scrollback per pane (default
@@ -254,7 +221,7 @@ New managed agents and handover successors on macOS/Linux start from the daemon'
 selected launch environment and declared seat values, rather than stored tmux globals.
 Values named by tmux's `update-environment` option, including its default SSH-agent
 and display variables, come from the daemon's environment.
-Normal shell startup and configured tmux shell commands still run. OpenRig reasserts its
+Normal shell startup and configured tmux shell commands still run. Lithos reasserts its
 selected `OPENRIG_DB` and configured `TMUX_TMPDIR` when starting the runtime after shell startup.
 If your custom setup intentionally supplies values through tmux's global environment,
 opt in with
@@ -281,7 +248,7 @@ rig ps --nodes --rig kernel
 ```
 
 Starting the kernel, including its operator and advisor, is part of installing
-OpenRig. Keep it for a normal install: it helps you choose and start your project
+Lithos. Keep it for a normal install: it helps you choose and start your project
 team. `rig daemon start --no-kernel` is for automation or an explicit request to
 omit the kernel; it leaves you without that operator.
 
@@ -335,7 +302,7 @@ restore's outcome instead of starting another. Explicitly repeating the saved
 
 `rig start --last` restores a rig unless every seat it launched was stopped on
 purpose with `rig down` or `rig seat stop`. A rig whose stop was never recorded
-counts as last running: one taken down with `rig down` before OpenRig 0.6.12, or
+counts as last running: one taken down with `rig down` before upstream 0.6.12, or
 one whose seats exited or were lost without `rig down`. So does a rig with no snapshot
 whose saved state can be restored. To keep such a rig down, run `rig down <rig>`
 once, by rig id when names are shared; it records the stop, and `--last` then
@@ -361,18 +328,18 @@ when it starts the daemon.
 
 ## Open the kernel conversations
 
-This is the **OpenRig view**, in a new terminal window or tab.
+This is the **Lithos view**, in a new terminal window or tab.
 Below 120 measured columns, the operator fills the first page; from 120, the dashboard and operator share it equally.
 The advisor always has a separate tab or tmux window.
 **Agents:** the `rigs` skill says when to open it, what to check, what to do when it can't open, and how to hand the
 person's goal to the operator; [Install and sign in](#install-and-sign-in) says how to load it.
 
 `rig setup` installs Herdr by default on macOS and Linux. If the person declines
-Herdr, use `rig setup --no-herdr`; the OpenRig view can use plain tmux. Setup
+Herdr, use `rig setup --no-herdr`; the Lithos view can use plain tmux. Setup
 checks both PATH and the installer's default `~/.local/bin/herdr` location. It
 leaves existing cmux settings alone and does not open a view during setup.
 
-On a Mac, the installing agent also asks once, "Install Ghostty for the OpenRig
+On a Mac, the installing agent also asks once, "Install Ghostty for the Lithos
 view?" On Yes it reruns setup with `--ghostty`, preserving earlier choices such
 as `--no-herdr` and `--providers`. This installs the
 [documented Homebrew cask](https://ghostty.org/docs/install/binary) and checks for
@@ -394,8 +361,8 @@ for a local macOS desktop session and opens a new Ghostty window if its scriptin
 support is confirmed (1.3 or newer), otherwise Terminal.app with an explanation.
 That window uses the app's own profile defaults because
 there is no hosting window to copy. Before running the command, the agent should say that clicking **Allow**
-on macOS's one-time control prompt is fine: it lets OpenRig open the requested
-OpenRig view. A denied or uncertain action is reported once, not replayed in
+on macOS's one-time control prompt is fine: it lets Lithos open the requested
+Lithos view. A denied or uncertain action is reported once, not replayed in
 another app. If macOS remembers a denial, enable the calling app in System Settings
 → Privacy & Security → Automation, or use the printed command in a terminal yourself.
 Unknown width keeps the operator-only layout.
@@ -423,10 +390,10 @@ what actually appeared. SSH, headless, CI and unsupported Linux hosts get a
 no-window result with the reason, a command for the person to run, and any
 follow-up the agent needs to perform.
 
-OpenRig's Herdr launch and its printed manual command keep your personal Herdr
-config when present. If it is absent, OpenRig creates private sidebar defaults;
+Lithos's Herdr launch and its printed manual command keep your personal Herdr
+config when present. If it is absent, Lithos creates private sidebar defaults;
 the new desktop terminal selects them from its measured width. The manual command
-uses the collapsed default. If private settings cannot be prepared, OpenRig
+uses the collapsed default. If private settings cannot be prepared, Lithos
 reports why and keeps the ordinary launch or manual command with Herdr's usual settings.
 
 The command runs Herdr when installed, using the daemon's configured session and
@@ -436,7 +403,7 @@ installing agent's terminal. Existing conversations continue in their original
 sessions.
 
 Opening the same Herdr view with the same current plan selects its existing
-OpenRig workspace in the new window, preserving its tabs and contents. The receipt
+Lithos workspace in the new window, preserving its tabs and contents. The receipt
 reports reuse and any currently absent or degraded seats; it does not claim to
 refresh the layout or create new tiles. Changed membership or attachment targets
 create a fresh workspace. A note identifies older workspaces and gives the command
@@ -446,7 +413,7 @@ inventory problem.
 
 Terminal.app copies the person's front-window bounds to the new view without
 changing the original. Ghostty keeps the current window size when adding a tab.
-OpenRig keeps an existing personal Herdr config unchanged. Only when that config
+Lithos keeps an existing personal Herdr config unchanged. Only when that config
 is absent, its private default starts the sidebar open at 160 columns or more,
 and collapsed below that width. Unknown widths use the collapsed default.
 
@@ -457,7 +424,7 @@ uses the viewing terminal's measured width. Below 120 columns (or when width is
 unknown), **the operator** fills the first page, followed by dashboard and advisor
 pages. From 120 columns, dashboard and operator share the first page equally, with
 the advisor on a separate page. Select a Herdr tab to switch; in plain tmux, press
-**Ctrl-b, then w** and choose a `view-*` window; `view-1` is the OpenRig view's first page.
+**Ctrl-b, then w** and choose a `view-*` window; `view-1` is the Lithos view's first page.
 Missing roles are reported rather than filled with another conversation. The queue worker remains
 reachable through the dashboard. The composition uses the installed kernel's current
 bindings; no YAML edit, seat launch or daemon restart is needed. A custom saved
@@ -475,7 +442,7 @@ Opening the view can happen while the kernel finishes starting. Report its actua
 state; do not start or restore seats just to obtain a view. If the kernel is absent
 or blocked, follow [Incomplete setup and restart](#incomplete-setup-and-restart).
 
-### What can interrupt installation and the OpenRig view
+### What can interrupt installation and the Lithos view
 
 For an installing agent, a blocked step needs an explanation, not silence. Name
 the command, the reported reason and what remains unfinished. These checks cover
@@ -483,9 +450,9 @@ different points in the same journey:
 
 | What you see | Why and what to do next |
 | --- | --- |
-| Codex offers to switch to a cheaper model near a rate limit | This is Codex's own menu. Ask the person to choose in the seat's terminal; do not silently change the team's configured model. OpenRig disables Codex's startup update check for managed launches, but does not answer this model-choice menu. |
+| Codex offers to switch to a cheaper model near a rate limit | This is Codex's own menu. Ask the person to choose in the seat's terminal; do not silently change the team's configured model. Lithos disables Codex's startup update check for managed launches, but does not answer this model-choice menu. |
 | A missing Node.js, npm or tmux; an install download or command fails | The named prerequisite or install step did not finish. Read its error and the [platform and provider instructions](#install-and-sign-in), resolve that step, then recheck it. `FAILED [4/4]` with only selected-provider sign-ins outstanding means the package installed but those logins still need the person. |
-| The installing harness refuses a tool call or asks for permission | Its native rules, sandbox or automatic permission decision apply before OpenRig can run. Claude Code's [auto mode can deny calls](https://code.claude.com/docs/en/auto-mode-config) as well as approve them. Show the specific refusal and ask the person to review it in the harness permission controls or run that named step themselves. Keep their chosen restrictions; a refused call does not prove the OpenRig command failed. |
+| The installing harness refuses a tool call or asks for permission | Its native rules, sandbox or automatic permission decision apply before Lithos can run. Claude Code's [auto mode can deny calls](https://code.claude.com/docs/en/auto-mode-config) as well as approve them. Show the specific refusal and ask the person to review it in the harness permission controls or run that named step themselves. Keep their chosen restrictions; a refused call does not prove the Lithos command failed. |
 | Herdr or Ghostty installation is unavailable or declined | Herdr is optional for the view: `--window` uses plain tmux when Herdr is absent, and its install failure is a warning. On macOS, Terminal.app is the fallback when supported Ghostty is absent. An explicitly requested Ghostty install can fail setup; resolve that install or decline it with `--no-ghostty`, preserving earlier choices. Address separate required-tool or login failures. Existing cmux remains supported. |
 | macOS asks for Automation access, or the window action is denied | The command asks the desktop terminal app to open a new surface. Let the person answer the system prompt. Read the error and inspect any new window before retrying an uncertain action; do not silently switch apps and open a duplicate. |
 | No local display, or the configured daemon is remote | `--window` needs the daemon's desktop. An SSH shell or remote daemon address alone does not give the agent that desktop. Explain the limit and use the [manual](#talk-to-the-operator-in-any-terminal) or [SSH handoff](#headless-or-ssh-handoff) with the actual operator binding. |
@@ -543,7 +510,7 @@ is separate from the first-install desktop action above.
 ### Plain terminal: a new viewing session
 
 `rig terminal open saved:kernel --provider tmux --window --json` creates and opens
-the same width-based OpenRig view layout, with the advisor in a separate window. It reuses
+the same width-based Lithos view layout, with the advisor in a separate window. It reuses
 the daemon's composition and preserves existing sessions. The result names the viewing session. No pane names or shell
 commands need to be assembled by the person.
 
@@ -564,13 +531,13 @@ filled-in command.
 
 The kernel's operator takes the person's goal and project folder, helps them choose and start a team, and hands the
 goal to the team's lead. The person can type the goal in the operator's pane (attach with the command
-[above](#talk-to-the-operator-in-any-terminal)), or the agent that installed OpenRig sends it. The `rig tui --shared`
+[above](#talk-to-the-operator-in-any-terminal)), or the agent that installed Lithos sends it. The `rig tui --shared`
 fallback shows the dashboard, not this conversation. If the operator needs attention, use the
 [recovery routes](#incomplete-setup-and-restart).
 
 **Agents:** the `rigs` skill's step 2 has the exact `rig send` to the operator and says when installation is finished.
 
-Stopping OpenRig keeps a team's work, and the branch a team makes is your
+Stopping Lithos keeps a team's work, and the branch a team makes is your
 change: an agent tidying up says what's on it before offering to remove it. The
 operator starts a team when you ask for one in its conversation, so an agent
 reporting back checks `rig ps` or the team's tasks before saying a team started
@@ -600,7 +567,7 @@ Codex reviewer. If you already have a rig named `first-project` (or `starter`),
 `rig up first-project` refuses instead and names the `rig up <name> --existing`
 command that brings that rig back.
 
-Claude seats use the native default model, as the Claude kernel does: OpenRig
+Claude seats use the native default model, as the Claude kernel does: Lithos
 does not pass a model override. Read the selected harness's configured model and
 show it alongside the team and launch command before proceeding. Confirm account access to any pin; if unavailable,
 ask for a supported model choice rather than silently substituting a model or
@@ -710,10 +677,10 @@ partial terminal view is not a healthy team. Each `--provider herdr` open adds
 a new workspace, numbered when the name is taken; return to the one already open
 when you want to preserve it. From inside Herdr, `rig terminal open <view> --window`
 focuses a matching space instead of adding one. Herdr's own status for a seat can
-read idle or unknown while OpenRig shows it waiting (`needs-input`), for example in
+read idle or unknown while Lithos shows it waiting (`needs-input`), for example in
 a narrow tile that wraps Claude's footer, or in a tile that shows the inner tmux
-status line (with `terminal.status_bar` on, or for a seat session OpenRig
-adopted rather than created). Use OpenRig's view or the Feed to find waiting
+status line (with `terminal.status_bar` on, or for a seat session Lithos
+adopted rather than created). Use Lithos's view or the Feed to find waiting
 seats. This is terminal integration, not native plugin enrollment.
 
 For team views with interactive panes, the open result distinguishes the dashboard
@@ -725,13 +692,13 @@ complete when sharing them; a created workspace alone does not confirm visibilit
 
 ### Built by the community
 
-Tools built around OpenRig are maintained by their authors. We have not tested them;
-this list does not promise support or compatibility with your OpenRig version.
+Tools built around Lithos are maintained by their authors. We have not tested them;
+this list does not promise support or compatibility with your Lithos version.
 
 - **[Rig HQ](https://github.com/dmelo/rig-hq)**, by [dmelo](https://github.com/dmelo):
   a read-only pixel-office viewer for rigs, seats, attention and queue handoffs, as
   described in the [author's introduction](https://github.com/mvschwarz/openrig/discussions/879).
-  The author reports testing it with OpenRig 0.6.5. See its repository for setup and support.
+  The author reports testing it with upstream 0.6.5. See its repository for setup and support.
 
 ## Continue real project work
 
@@ -752,7 +719,7 @@ being built. When repeated coordination warrants a workflow, discover with
 selected name with `rig workflow instantiate --help`. A workflow is not needed
 merely to make the first local change.
 
-For a continuing team, [OpenRig Software Factory](../../packages/daemon/specs/agents/shared/skills/core/openrig-software-factory/SKILL.md)
+For a continuing team, [Lithos Software Factory](../../packages/daemon/specs/agents/shared/skills/core/openrig-software-factory/SKILL.md)
 offers manual/team work, queue-supported orchestration without Workflow, and an
 optional explicit Workflow path, with wake defaults, token costs and permission
 choices visible. Give its short request to your existing agent. After
@@ -893,7 +860,7 @@ restore; inspect its event before attributing it to the latest reboot.
 
 **When the kernel's seats all fail at the first start.** A report on Oracle Linux 10
 ([#980](https://github.com/mvschwarz/openrig/issues/980)) traced this to the distribution's packaged tmux, whose
-`tmux -V` prints `next-3.4`: its server exited on every `capture-pane -p`, also outside OpenRig. `rig setup` (its tmux
+`tmux -V` prints `next-3.4`: its server exited on every `capture-pane -p`, also outside Lithos. `rig setup` (its tmux
 step) and `rig doctor` (`tmux_capture` in `rig doctor --json`) run this check for you on a throwaway server and name the
 fix when capture fails; they test what tmux does, not its version. To run it by hand, without touching your own
 sessions:
@@ -925,11 +892,11 @@ were all lost, not seats that failed. `rig status` then reads `Kernel: skipped` 
 and ready, so check `rig ps --nodes --rig kernel --full`.
 
 **When every agent stops at once on Ubuntu 22.04.** Ubuntu 22.04's packaged tmux, 3.2a, can exit its whole server
-when it's asked about a pane or session that has just closed. OpenRig checks each seat about once a second, so when a
+when it's asked about a pane or session that has just closed. Lithos checks each seat about once a second, so when a
 seat's session closes, the next check can stop every agent on that tmux server, and tmux reports "server exited
 unexpectedly". This was reproduced with Ubuntu 22.04's `tmux 3.2a-4ubuntu0.3` for a closed pane, a closed session,
 and a closed pane in a window that stayed open. If `tmux -V` prints `tmux 3.2a`, put tmux 3.4 or later first on
-your `PATH`. Newer versions weren't tested against this crash; #980's reporter runs 3.5a, and none of OpenRig's own
+your `PATH`. Newer versions weren't tested against this crash; #980's reporter runs 3.5a, and none of Lithos's own
 machines runs 3.2a. One way to get one is to build a current release from the tmux project, as that reporter did:
 
 ```sh
@@ -1026,7 +993,7 @@ retain who acts next. Creating or editing a mission does not start work. You can
 instantiate a named workflow with `rig workflow instantiate <name> --root-objective <text> --created-by <session>` (both options are needed), or explicitly
 inspect an authored lifecycle with `rig workflow compile` and create its runtime
 with `rig workflow instantiate-lifecycle`. Compilation alone does not start work.
-[OpenRig Software Factory](../../packages/daemon/specs/agents/shared/skills/core/openrig-software-factory/SKILL.md)
+[Lithos Software Factory](../../packages/daemon/specs/agents/shared/skills/core/openrig-software-factory/SKILL.md)
 shows a small reviewed example and how to retain custody through a genuine wait.
 
 ## Have your agent configure permissions
@@ -1036,7 +1003,7 @@ For a team with no permission policy, your agent recommends keeping the
 explicit choice for these harnesses and this scope. It offers additional
 remembered allowances only if you want them:
 
-> Remember these selected OpenRig commands in your native settings for this
+> Remember these selected Lithos commands in your native settings for this
 > project? This is separate from the team launch default; stricter rules and
 > Claude lifecycle asks remain. **Yes / No — keep the team default**
 
@@ -1055,7 +1022,7 @@ managed restriction is reported; it is not permission to grant broader access.
 
 The agent remembers an explicit choice, scope and exact additions in existing
 onboarding context, so setup does not ask again. You do not need to approve each
-routine edit separately. To undo, say **“Undo the OpenRig command allowances
+routine edit separately. To undo, say **“Undo the Lithos command allowances
 added by this setup; keep my other rules.”** The agent removes only its recorded
 additions, preserves earlier rules and later edits, and verifies reloading.
 Other pre-existing allowances may still permit commands after this undo.
@@ -1068,7 +1035,7 @@ rig context get skills/applying-a-permission-policy/SKILL.md
 
 In a source checkout, read [its source](../../packages/daemon/assets/plugins/openrig-core/skills/applying-a-permission-policy/SKILL.md).
 In an npm installation, the same file is under
-`@openrig/cli/daemon/assets/plugins/openrig-core/skills/applying-a-permission-policy/SKILL.md`
+`@lithos/cli/daemon/assets/plugins/openrig-core/skills/applying-a-permission-policy/SKILL.md`
 below the matching `npm root -g` or local `npm root`. Use the version supplying
 your `rig` executable. It covers Codex/Claude command rules, actual config roots,
 preserving restrictions and verifying the target conversation. A missing guide or
@@ -1112,7 +1079,7 @@ codex_config_profile: starter-permissive
 ```
 
 Leave `permission_policy` absent or set it to `none`, with no member-level YOLO
-override. OpenRig then passes `-p starter-permissive` instead of its default
+override. Lithos then passes `-p starter-permissive` instead of its default
 `-s workspace-write`, so the native profile supplies both settings. Higher-priority
 native project configuration or managed requirements can still change/refuse the
 result. Inspect native `/status` before assigning work.
@@ -1123,14 +1090,14 @@ rig up ./openrig-specs/rigs/launch/starter/rig.yaml --cwd . --plan
 rig up ./openrig-specs/rigs/launch/starter/rig.yaml --cwd .
 ```
 
-OpenRig's `permission_policy: builtin:yolo` setting selects
+Lithos's `permission_policy: builtin:yolo` setting selects
 `-s danger-full-access -a never` on fresh, resume and fork launches, replacing
 the named-profile argument. The profile recipe above remains useful when you
 want to maintain those choices in native configuration. The legacy
 environment-only `OPENRIG_YOLO=1` path remains sandbox-only when no resolved
-policy is present. A standalone `codex --yolo` command is not an OpenRig setting.
+policy is present. A standalone `codex --yolo` command is not a Lithos setting.
 At full access, Codex can show its full-access and GPT-5.1 migration notices at
-first launch. When OpenRig itself selects full bypass for the seat (`builtin:yolo`,
+first launch. When Lithos itself selects full bypass for the seat (`builtin:yolo`,
 a `full_bypass` flag policy, or an explicit seat `full_bypass`), `rig up <spec> --non-interruptive` hides them
 with per-launch `-c` overrides (see [non-interruptive mode](non-interruptive-mode.md)).
 Full access chosen inside a native Codex profile, with `permission_policy` absent or
@@ -1168,7 +1135,7 @@ also replaces any team or kernel launch default with the plain floor flags;
 
 Codex and Claude accept `floor` and `full_bypass`. Additional Claude native modes,
 including `auto`, require support advertised by the managed executable's help.
-OpenRig resolves the first executable on its managed launch PATH at the seat's
+Lithos resolves the first executable on its managed launch PATH at the seat's
 absolute working directory, then uses that exact path for discovery and launch.
 It does not use interactive shell aliases or a shell's modified PATH. Relative
 PATH entries and a relative `CLAUDE_CONFIG_DIR` resolve from the seat directory.
@@ -1209,7 +1176,7 @@ and `off` for ordinary automatic sends (`--enabled false`).
 ### Claude Code: a different launch flag
 
 In the shipped `starter`, `dev-build` runs Claude Code. For a **Claude Code** seat,
-OpenRig normally passes `--permission-mode acceptEdits`: edits can proceed, while
+Lithos normally passes `--permission-mode acceptEdits`: edits can proceed, while
 other actions follow native rules and prompts. For a seat with no permission
 policy or per-seat choice it also passes the per-launch team default (`--settings` allowing ordinary
 `rig` commands, project reads and common tests, with a session hook asking for
@@ -1225,7 +1192,7 @@ This records `permission_policy: builtin:yolo`; the next managed launch passes
 `--dangerously-skip-permissions`. Member-level policies take precedence.
 
 On a machine where nobody has accepted it yet, Claude Code then shows its
-bypass-permissions warning in each new seat, and OpenRig reports the seat as
+bypass-permissions warning in each new seat, and Lithos reports the seat as
 needing attention without sending its startup context. Either accept the warning
 once beforehand (run `claude --dangerously-skip-permissions` in your repository,
 accept, then `/exit`; Claude Code remembers it), or accept it in the seat and run
@@ -1321,7 +1288,7 @@ daemon start.
 
 ## Custom settings and precedence
 
-- **OpenRig:** member `permission_policy` overrides rig `permission_policy`.
+- **Lithos:** member `permission_policy` overrides rig `permission_policy`.
   Normal managed launches bind the default mode explicitly when neither is set;
   exporting `OPENRIG_YOLO=1` in a client shell is not a reliable per-team recipe.
   A custom policy file is relative to the declaring rig spec, with no absolute
@@ -1333,7 +1300,7 @@ daemon start.
   trusted project settings live in `.codex/config.toml`. Current precedence is
   CLI overrides, trusted project settings, selected profile, user settings,
   cloud defaults when supplied, `/etc/codex/config.toml` on Unix, then built-in
-  defaults, subject to managed requirements. OpenRig's explicit sandbox flag
+  defaults, subject to managed requirements. Lithos's explicit sandbox flag
   wins over a file's `sandbox_mode`; use `codex_config_profile` for a custom
   sandbox instead. For workspace edits with network access while retaining
   approvals, use a named profile with `sandbox_mode = "workspace-write"`,
@@ -1345,12 +1312,12 @@ daemon start.
   `.claude/settings.json`, or personal project `.claude/settings.local.json`.
   Managed settings precede launch flags, then project-local, project-shared and
   user settings. Permission-rule lists combine; a higher-level allow is not a
-  way to defeat a deny. OpenRig's `acceptEdits` launch flag overrides a file's
+  way to defeat a deny. Lithos's `acceptEdits` launch flag overrides a file's
   `permissions.defaultMode`; selected runtime resources may also merge into
   project-local settings. See [Claude settings and precedence](https://code.claude.com/docs/en/settings)
-  and [OpenRig's runtime config disclosure](agent-startup-guide.md#runtime-config-disclosure).
+  and [Lithos's runtime config disclosure](agent-startup-guide.md#runtime-config-disclosure).
 
 These recipes do not establish every provider/version/config combination.
 Check the installed version and effective settings. Newer permission-profile or
-automatic review features are provider choices, not implicit OpenRig capabilities.
+automatic review features are provider choices, not implicit Lithos capabilities.
 Selecting rules or a broader mode does not change the shipped defaults.

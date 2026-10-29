@@ -141,7 +141,7 @@ it("writes clean lifecycle evidence only after every phase has drained", async (
   const receipt = f.receipt();
   expect(receipt).toMatchObject({ outcome: "clean", phase: "complete", failures: [] });
   // The begin and finish lines carry the receipt's own PID and times.
-  expect(f.log).toHaveBeenNthCalledWith(1, `OpenRig daemon received SIGTERM; shutting down (budget ${DAEMON_SHUTDOWN_TIMEOUT_MS}ms); pid=${receipt.pid}; callback started ${receipt.startedAt}`);
+  expect(f.log).toHaveBeenNthCalledWith(1, `Lithos daemon received SIGTERM; shutting down (budget ${DAEMON_SHUTDOWN_TIMEOUT_MS}ms); pid=${receipt.pid}; callback started ${receipt.startedAt}`);
   expect(f.log).toHaveBeenLastCalledWith(`[shutdown] clean; phase=complete; budget=${DAEMON_SHUTDOWN_TIMEOUT_MS}ms; exit=0; pid=${receipt.pid}; started=${receipt.startedAt}; completed=${receipt.completedAt}`);
 });
 it("keeps both shutdowns' timing in a shared log when the second replaces the receipt", async () => {

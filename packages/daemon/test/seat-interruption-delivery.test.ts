@@ -158,7 +158,7 @@ describe("queue wakes: who triggered the wake decides its source", () => {
     const findingWake = await wakeFor(finding.qitemId);
     expect(findingWake).toContain("From: daemon@kernel");
     expect(findingWake).not.toContain("peer@test");
-    expect(findingWake).toContain("↩ Sent by OpenRig itself, not by a seat. Act on the row it names.");
+    expect(findingWake).toContain("↩ Sent by Lithos itself, not by a seat. Act on the row it names.");
     expect(f.queue.getById(finding.qitemId)!.sourceSession).toBe("peer@test");
     // A source that's already OpenRig's keeps its more specific name.
     expect(await wakeFor(health.qitemId)).toContain("From: system:health");
@@ -175,7 +175,7 @@ describe("queue wakes: who triggered the wake decides its source", () => {
     await f.level("urgent-only");
     const escalation = await f.queue.create({ sourceSession: "workflow-owner@test", destinationSession: seat, body: "Workflow exception", priority: "urgent", wakeTrigger: "openrig" });
     await vi.waitFor(() => expect(f.typed.join("\n")).toContain(escalation.qitemId));
-    expect(f.typed.join("\n")).toContain("Urgent (marked by OpenRig):");
+    expect(f.typed.join("\n")).toContain("Urgent (marked by Lithos):");
   });
 });
 
@@ -191,7 +191,7 @@ describe("an urgent queue wake shows who marked it, typed or held, exactly once"
     const heldFor = (id: string) => f.held().find((h) => h.body.includes(id))!;
     expect(heldFor(agentRow.qitemId)).toMatchObject({ urgency: "urgent", senderSession: "peer@test" });
     expect(heldFor(agentRow.qitemId).body).toContain("Urgent (marked by peer@test):");
-    expect(heldFor(openrigRow.qitemId).body).toContain("Urgent (marked by OpenRig):");
+    expect(heldFor(openrigRow.qitemId).body).toContain("Urgent (marked by Lithos):");
     expect(heldFor(openrigRow.qitemId)).toMatchObject({ senderSession: "daemon@kernel" });
     expect(lines(heldFor(openrigRow.qitemId).body)).toBe(1);
   });

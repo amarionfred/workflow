@@ -1,6 +1,6 @@
-# OpenRig: the world and its purpose
+# Lithos: the world and its purpose
 
-OpenRig exists so a human can decide what is worth building while a structured team of agents
+Lithos exists so a human can decide what is worth building while a structured team of agents
 does the routing, remembering, implementation, and checking. The scarce human contribution is
 intent and judgment. Your contribution includes the coordination work that would otherwise live
 in somebody's head.

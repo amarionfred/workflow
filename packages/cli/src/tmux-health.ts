@@ -20,8 +20,8 @@ export function isTmuxNoServerMessage(message: string): boolean {
 export function buildTmuxControlFailure(message: string): { message: string; reason: string; fix: string } {
   return {
     message: "tmux installed, but the default control socket is unhealthy.",
-    reason: `OpenRig uses tmux control commands to launch, inspect, and manage agent sessions. The default tmux socket is returning: ${message}`,
-    fix: "Capture any needed state from visible tmux panes, then restart the default tmux server before retrying OpenRig. If this happened after a machine restore, treat it as attention required rather than a healthy running state.",
+    reason: `Lithos uses tmux control commands to launch, inspect, and manage agent sessions. The default tmux socket is returning: ${message}`,
+    fix: "Capture any needed state from visible tmux panes, then restart the default tmux server before retrying Lithos. If this happened after a machine restore, treat it as attention required rather than a healthy running state.",
   };
 }
 
@@ -31,8 +31,8 @@ export type TmuxCaptureResult = { status: "pass" } | { status: "fail"; detail: s
 export const TMUX_CAPTURE_PROBE_TIMEOUT_MS = 5_000;
 
 /**
- * Whether this tmux can serve `capture-pane -p`, which OpenRig uses to read every agent's screen. A tmux whose server exits
- * on it fails every seat at launch (#980: Oracle Linux 10's packaged `next-3.4`, also outside OpenRig). It runs the
+ * Whether this tmux can serve `capture-pane -p`, which Lithos uses to read every agent's screen. A tmux whose server exits
+ * on it fails every seat at launch (#980: Oracle Linux 10's packaged `next-3.4`, also outside Lithos). It runs the
  * getting-started guide's check on a throwaway socket with no config, so the person's own sessions are never touched.
  * Every command is bounded, and the throwaway server always gets a cleanup attempt, even after a create that failed or
  * timed out (it may have started anyway). A throwaway server that won't start is reported as not checked, not a failure.
@@ -57,8 +57,8 @@ export function probeTmuxCapture(exec: (cmd: string, opts: { timeoutMs: number }
 export function buildTmuxCaptureFailure(version: string | null, detail: string): { message: string; reason: string; fix: string } {
   return {
     message: `This tmux (${version ?? "unknown version"}) can't capture a pane: \`capture-pane -p\` failed on a throwaway server (${detail}).`,
-    reason: "OpenRig reads each agent's screen with `capture-pane -p`. A tmux whose server exits on it makes every seat fail at launch. " +
-      "Oracle Linux 10's packaged tmux (`tmux -V` shows `next-3.4`) does this, also outside OpenRig (issue #980).",
+    reason: "Lithos reads each agent's screen with `capture-pane -p`. A tmux whose server exits on it makes every seat fail at launch. " +
+      "Oracle Linux 10's packaged tmux (`tmux -V` shows `next-3.4`) does this, also outside Lithos (issue #980).",
     fix: "Put a tmux that passes this check first on your PATH (one report built tmux 3.5a into /usr/local/bin), then restart the daemon " +
       "from a shell where `tmux -V` shows it. The getting-started guide's \"When the kernel's seats all fail at the first start\" has the steps.",
   };

@@ -31,8 +31,8 @@ export function blockedConnectionGuidance(
   const blocked = `This machine blocked the connection (${code}), so the daemon may still be running.`;
   if (env.CODEX_SANDBOX_NETWORK_DISABLED === "1") {
     return {
-      consequence: `${blocked} This shell runs in a Codex sandbox with network access off, which blocks the local OpenRig daemon (#275). The seat cannot change its own sandbox.`,
-      action: `Do not start another daemon. Tell the user this seat cannot reach OpenRig from its sandbox; whether it gets network access is their choice. See ${guide}.`,
+      consequence: `${blocked} This shell runs in a Codex sandbox with network access off, which blocks the local Lithos daemon (#275). The seat cannot change its own sandbox.`,
+      action: `Do not start another daemon. Tell the user this seat cannot reach Lithos from its sandbox; whether it gets network access is their choice. See ${guide}.`,
     };
   }
   return {

@@ -154,7 +154,7 @@ export function createDaemonShutdown(options: {
       finish("timed-out");
     }, timeoutMs);
     // startedAt is when this callback ran, not when the kernel delivered the signal.
-    log(`OpenRig daemon received ${signal}; shutting down (budget ${timeoutMs}ms); pid=${process.pid}; callback started ${startedAt}`);
+    log(`Lithos daemon received ${signal}; shutting down (budget ${timeoutMs}ms); pid=${process.pid}; callback started ${startedAt}`);
     void (async () => {
       for (const [name, run] of options.phases) {
         if (finished) return;

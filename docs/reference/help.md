@@ -1,17 +1,15 @@
 # Help your user get unstuck
 
-This page is for an agent whose user says OpenRig isn't working. It is the one place OpenRig keeps this guidance. The
-copy installed with OpenRig matches that installed version. Read it with `rig context get help`, which needs a running
+This page helps when Lithos isn't working. The installed copy matches that version. Read it with `rig context get help`, which needs a running
 daemon. If `rig` won't run or the daemon is down, open `daemon/docs/reference/help.md` inside the installed
-`@openrig/cli` package (under `npm root -g`); in the source
-repository the same file is `docs/reference/help.md`. The same text is online at
-[openrig.dev/help/agents](https://www.openrig.dev/help/agents), next to the ways people can contact OpenRig support.
+`@lithos/cli` package (under `npm root -g`); in the source
+repository the same file is `docs/reference/help.md`. The [Lithos repository](https://github.com/amarionfred/workflow) also has a getting-started guide.
 
 Each guide this page links to is installed too. Load one only when you need it, with the `rig context get` address
 shown beside its link where there is one; every linked file also sits beside this one in `daemon/docs/reference/`.
 
-Start with what your user was trying to do. Try the next useful step, check the result, and if you can't finish,
-prepare a message to OpenRig support at **hello@openrig.dev**. Your user doesn't need a GitHub account.
+Start with what the person was trying to do. Try the next useful step and check the result. If you can't finish,
+record the problem and what you tried so it can be discussed in the Lithos repository.
 
 ## Start with the environment
 
@@ -51,15 +49,13 @@ Supported platforms are macOS and Linux, and WSL2 on Windows; native Windows isn
 don't run on WSL2 yet; one user's [reported working setup](getting-started.md#wsl2-a-reported-working-setup) lists what
 mattered. OpenRig needs
 Node.js 22 or 24 and tmux. A Linux distribution's own Node.js can be older; check `node --version`. With npm 11 or
-later, an `npm warn install-scripts` line for `@openrig/cli` means only the postinstall Node.js and SQLite check was
-skipped; `node "$(npm root -g)/@openrig/cli/scripts/check-abi.mjs"` runs it. A WSL error needs its actual versions,
+later, an `npm warn install-scripts` line for `@lithos/cli` means only the postinstall Node.js and SQLite check was
+skipped; `node "$(npm root -g)/@lithos/cli/scripts/check-abi.mjs"` runs it. A WSL error needs its actual versions,
 commands and error text; don't assume a Windows-related pull request fixes it.
 
-The one-command install ([getting-started](getting-started.md#install-and-sign-in)) prints its plan with
-`--dry-run` and changes nothing. When a step fails it prints `FAILED [n/4] <command or check> (exit <code>)` and
-stops. Read its diagnostic: if it names a runnable command, run that command by hand for the full error and record it
-in a report; otherwise follow the accompanying diagnostic. If the only remaining failures are provider sign-ins under
-"Some steps need attention", the install steps finished: sign in to each selected provider and continue.
+The [Lithos getting-started guide](lithos-getting-started.md) explains how to build and install this checkout.
+`sh scripts/install.sh --dry-run` prints the install plan without changing anything. If a step fails, use its output
+to identify the problem before trying again.
 
 ### Installation finished, but there is nobody to talk to
 

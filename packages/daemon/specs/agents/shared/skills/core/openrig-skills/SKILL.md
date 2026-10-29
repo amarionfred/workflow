@@ -112,12 +112,10 @@ General engineering skills OpenRig ships as vendored copies. Open when the task 
 - **frontend-design** — designing frontend / UI.
 - **dogfood** — web-QA / dogfooding a shipped UI.
 
-## When OpenRig itself misbehaves
+## When Lithos itself misbehaves
 
-Run `rig context get help`: the one help guide for your installed version, from symptom to next step, known problems,
-and a useful report to the OpenRig team if you are still stuck. If `rig` won't run, read
-`daemon/docs/reference/help.md` inside the installed `@openrig/cli` package, or https://www.openrig.dev/help/agents
-(the same text).
+Run `rig context get help` for guidance matched to your installed version. If `rig` won't run, read
+`daemon/docs/reference/help.md` inside the installed `@lithos/cli` package, or in the Lithos source repository.
 
 ## Developing OpenRig itself
 

@@ -1,17 +1,17 @@
 ---
 name: openrig-skills
-description: "Use when an agent running inside OpenRig needs the right skill or context for fleet recovery, seat handover, new-seat orientation, a watchdog wake, cross-host reach to an agent on another machine, rig packaging, an OpenRig upgrade, systematic debugging, queue triage, or implementation planning; also when the agent doesn't know what applies or nothing is projected on cold boot. Installing, starting or updating OpenRig, getting back to a team or bringing a stopped one back from a person's own session is the rigs skill."
+description: "Use when an agent running inside Lithos needs the right skill or context for fleet recovery, seat handover, new-seat orientation, a watchdog wake, cross-host reach to an agent on another machine, rig packaging, a Lithos upgrade, systematic debugging, queue triage, or implementation planning; also when the agent doesn't know what applies or nothing is projected on cold boot. Installing, starting or updating Lithos, getting back to a team or bringing a stopped one back from a person's own session is the rigs skill."
 allowed-tools: Bash(rig:*)
 metadata:
   openrig:
     stage: shipped
 ---
 
-# OpenRig skills — the index (start here)
+# Lithos skills — the index (start here)
 
-You're running inside OpenRig. OpenRig ships a set of **skills** — small documents that tell you *when* to do something and *how*. This file is the map: what ships, when to reach for each, and how to load it. If you don't know which skill applies, or nothing is projected into your context, **start here.**
+You're running inside Lithos. Lithos ships a set of **skills** — small documents that tell you *when* to do something and *how*. This file is the map: what ships, when to reach for each, and how to load it. If you don't know which skill applies, or nothing is projected into your context, **start here.**
 
-## How OpenRig context works (30 seconds)
+## How Lithos context works (30 seconds)
 
 Skills are **progressive disclosure**: a skill's *name + description* sit in your context ambiently (the "hot tier"); its *body* loads only when you open it. So you don't pre-read everything — you pattern-match a skill's "when" to your moment, then open just that one. This file recommends skills from the shipped set. (For bounded procedures, open `agent-operated-workflows`; for ongoing agent-backed applications, open `agent-operated-software`.)
 
@@ -64,15 +64,15 @@ These are auto-delivered to every rig; their name+description are already in you
 - **mission-slice-sop** — you're working a mission/slice (the SDLC: intent → mini-requirements + proof contract → build → QA → proof). The operating manual.
 - **messaging-the-human** — composing a message to the human. Plain language, no insider jargon.
 - **agent-operated-workflows** — a bounded real-world procedure needs an agent to interpret state and operate exact tools, or you are deciding whether ordinary code should own the loop.
-- **agent-operated-software** — you are designing or operating an ongoing application whose live backend includes OpenRig agents.
+- **agent-operated-software** — you are designing or operating an ongoing application whose live backend includes Lithos agents.
 - **software-for-agents** — compatibility redirect for the former `agent-operated-software` name; remove in 0.6.0.
 - **openrig-skills** — this index (you're reading it). Always loaded; the entry point to everything below.
 
 ### Load when your role or task calls for it (repo-shipped, profile-selected)
-These ship in the OpenRig repo and reach a seat when its profile selects them. To use one, select it in your profile's `uses.skills`, or open it directly at `packages/daemon/specs/agents/shared/skills/core/<skill>/SKILL.md`.
+These ship in the Lithos repo and reach a seat when its profile selects them. To use one, select it in your profile's `uses.skills`, or open it directly at `packages/daemon/specs/agents/shared/skills/core/<skill>/SKILL.md`.
 
 - **openrig-software-factory** — a user wants continuing reviewed work: manual/team, queue-only orchestration or an explicit Workflow; add one or two seats to the running starter when useful, with context, ownership, concurrency, spend and permission limits. Load `rig context get skills/core/openrig-software-factory/SKILL.md`.
-- **openrig-architect** — authoring a rig or topology (NOT for changing OpenRig itself — that's `developing-openrig`).
+- **openrig-architect** — authoring a rig or topology (NOT for changing Lithos itself — that's `developing-openrig`).
 - **openrig-cmux** — driving the `cmux` terminal provider.
 - **openrig-herdr** — opening/managing seat terminals via the default proof-gated provider.
 - **agent-startup-and-context-ingestion** — a seat is booting and ingesting its startup context.
@@ -80,13 +80,13 @@ These ship in the OpenRig repo and reach a seat when its profile selects them. T
 - **rig-lifecycle** — rig up / down / pause / resume lifecycle operations.
 - **rig-bundles-and-shareable-artifacts** — packaging or installing a rig bundle / shareable artifact.
 - **cross-host-rig-commands** — reaching seats or queues on another host (`--host`).
-- **openrig-upgrade** — upgrading OpenRig or the daemon.
+- **openrig-upgrade** — upgrading Lithos or the daemon.
 - **agent-starters** — composing an agent's starter context / priming packs.
 - **specification-system** — authoring or reading AgentSpecs and rig specs.
 - **human-in-the-loop** — deciding when to involve the human vs. proceed on your own authority.
 - **watchdog** — monitoring or recovering a seat (health, restore, stuck state).
 - **session-source-fork** — forking a session's source/context.
-- **context-engineering** — designing context systems. Provisional and non-normative: current OpenRig skills, explicit rulings, and measured practice outrank it on any conflict.
+- **context-engineering** — designing context systems. Provisional and non-normative: current Lithos skills, explicit rulings, and measured practice outrank it on any conflict.
 
 Pod handbooks (load when you're in that pod):
 - **orchestration-team** — you're orchestrating a rig: dispatching, monitoring, keeping the loop moving.
@@ -104,7 +104,7 @@ Product-management craft (load when shaping/reviewing work):
 - **ui-mockup** — producing a UI mockup for a slice.
 
 ### Vendored craft — load when you're coding (ships with upstream provenance)
-General engineering skills OpenRig ships as vendored copies. Open when the task matches; they carry "modified by OpenRig" provenance.
+General engineering skills Lithos ships as vendored copies. Open when the task matches; they carry "modified by OpenRig" provenance.
 
 - **verification-before-completion** — about to claim done / passing / fixed: have evidence that applies to the candidate you name first.
 - **systematic-debugging** — debugging: find the root cause before the fix.
@@ -117,9 +117,9 @@ General engineering skills OpenRig ships as vendored copies. Open when the task 
 Run `rig context get help` for guidance matched to your installed version. If `rig` won't run, read
 `daemon/docs/reference/help.md` inside the installed `@lithos/cli` package, or in the Lithos source repository.
 
-## Developing OpenRig itself
+## Developing Lithos itself
 
-If you're changing OpenRig's own source in a clone of the openrig repository, use that repository's
+If you're changing Lithos's own source in a clone of the Lithos repository, use that repository's
 `developing-openrig` skill (in the checkout's `.claude/skills/` or `.agents/skills/`). It maps the architecture, the
 areas where a small change has a large effect, and which tests to run before a pull request.
 

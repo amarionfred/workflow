@@ -14,7 +14,7 @@ record the problem and what you tried so it can be discussed in the Lithos repos
 ## Start with the environment
 
 Record the goal, what happened instead, the operating system and architecture, and the coding harness involved. When
-OpenRig is installed, check:
+Lithos is installed, check:
 
 ```sh
 rig --version
@@ -27,7 +27,7 @@ as setup, including a configured Codex provider credential variable. A set varia
 seats receive it. Doctor does not run an agent task: also inspect `rig ps --nodes --rig <rig>`. If the daemon is involved, `rig daemon status` and `rig daemon logs` show its state
 and recent output.
 
-**If OpenRig won't install or `rig` won't run, start here anyway.** Record the attempted package version, install
+**If Lithos won't install or `rig` won't run, start here anyway.** Record the attempted package version, install
 command and error. Leave unknown values unknown. A working daemon or a passing diagnostic is not required to ask for
 help.
 
@@ -45,9 +45,9 @@ rather than treating a newer command as installed.
 
 ### Installation or platform problems
 
-Supported platforms are macOS and Linux, and WSL2 on Windows; native Windows isn't supported. OpenRig's automated tests
+Supported platforms are macOS and Linux, and WSL2 on Windows; native Windows isn't supported. Lithos's automated tests
 don't run on WSL2 yet; one user's [reported working setup](getting-started.md#wsl2-a-reported-working-setup) lists what
-mattered. OpenRig needs
+mattered. Lithos needs
 Node.js 22 or 24 and tmux. A Linux distribution's own Node.js can be older; check `node --version`. With npm 11 or
 later, an `npm warn install-scripts` line for `@lithos/cli` means only the postinstall Node.js and SQLite check was
 skipped; `node "$(npm root -g)/@lithos/cli/scripts/check-abi.mjs"` runs it. A WSL error needs its actual versions,
@@ -59,7 +59,7 @@ to identify the problem before trying again.
 
 ### Installation finished, but there is nobody to talk to
 
-Load the `rigs` skill and follow its step 2: it opens the OpenRig view (`rig terminal open saved:kernel --window`),
+Load the `rigs` skill and follow its step 2: it opens the Lithos view (`rig terminal open saved:kernel --window`),
 gives the attach commands when the window can't open or over SSH, and hands the person's goal to the operator.
 [Install and sign in](getting-started.md#install-and-sign-in) says how to load it. The reference for the view, manual
 attachment and the table of what can interrupt it is
@@ -67,10 +67,10 @@ attachment and the table of what can interrupt it is
 (`rig context get reference/getting-started.md#open-the-kernel-conversations`). Started is not ready: the view can
 open while the kernel's agents finish starting, and opening it creates no other kernel or account.
 
-### A step interrupted setup or the OpenRig view
+### A step interrupted setup or the Lithos view
 
 Name the exact command and result, the reason it stopped and the next useful step. A harness's permission rules,
-sandbox or automatic permission decision can refuse an installing agent's tool call before OpenRig runs.
+sandbox or automatic permission decision can refuse an installing agent's tool call before Lithos runs.
 Claude Code's [auto mode can deny calls](https://code.claude.com/docs/en/auto-mode-config); explain the reported
 refusal and let the person review that step in their harness controls or run it themselves, within their chosen
 permissions. Do not silently claim installation failed or completed from a refused call.
@@ -82,7 +82,7 @@ Automation permission; a missing display or remote daemon needs the documented h
 Herdr may show an intro (Return to continue) and an agent-integration panel (Esc to close); the view does not
 require installing those integrations. Enlarge a cramped 80×24 window. Use authorized desktop tools to inspect the
 window contents, or state that visibility is unconfirmed and ask the person to check. A successful command or
-window listing alone is not visual proof. The [OpenRig view guide and friction table](getting-started.md#open-the-kernel-conversations)
+window listing alone is not visual proof. The [Lithos view guide and friction table](getting-started.md#open-the-kernel-conversations)
 connects each observation to its next step. Preserve existing conversations while resolving it.
 
 ### The team did not start, or a terminal is missing
@@ -143,7 +143,7 @@ issue's current status; a similar symptom alone is not a diagnosis.
   by the team.
 - A Codex seat on the default `workspace-write` sandbox starts without network access, so it can't reach the local
   daemon, when its Codex configuration sets network access off, a managed requirement could restrict it, or Codex
-  doesn't answer OpenRig's configuration read in time: [#275](https://github.com/mvschwarz/openrig/issues/275).
+  doesn't answer Lithos's configuration read in time: [#275](https://github.com/mvschwarz/openrig/issues/275).
 - Kernel seats fail within a second of the first start on a distribution tmux whose server exits on `capture-pane`
   (`tmux -V` prints `next-3.4`): [#980](https://github.com/mvschwarz/openrig/issues/980). `rig doctor` checks for
   it (`tmux_capture`); the manual check and recovery are in
@@ -167,17 +167,17 @@ platform or version isn't covered, the guidance conflicts with the result, or th
 
 ## Prepare a support request
 
-Email **hello@openrig.dev**. Prepare the message for your user to review. Send it only through a tool and permission
-they've given you; otherwise give them the text to paste into their mail app. Use the same thread for follow-ups.
+Prepare a short description for the person to review. If they want to ask publicly, they can use the
+[Lithos repository](https://github.com/amarionfred/workflow/issues).
 
 Keep the useful details. Remove credentials, private project content and unrelated logs. A short error excerpt is
 usually more useful than a full transcript. The template is optional; ordinary questions are welcome too.
 
 ```text
-Subject: OpenRig help — [short description]
+Subject: Lithos help — [short description]
 
 Goal:
-OpenRig version (or attempted version if install failed):
+Lithos version (or attempted version if install failed):
 OS / architecture (include distro and WSL version if relevant):
 Node and coding harness versions:
 What I ran:
@@ -190,6 +190,4 @@ The specific question I still need help with:
 
 Missing details are fine. Say what you know and what you still need to collect.
 
-If your user prefers a public conversation, use [GitHub Q&A](https://github.com/mvschwarz/openrig/discussions/categories/q-a).
-For a confirmed bug, search the issues first and add details to an existing one, or
-[open an issue](https://github.com/mvschwarz/openrig/issues/new/choose).
+For a confirmed bug, search the repository's issues first and add details to an existing one if appropriate.

@@ -4,7 +4,7 @@ import path from "node:path";
 import { reanchorBuiltinStartupFile, reanchorShippedProjectionEntry, runningBuiltinAssetsRoot, runningShippedSpecsRoot } from "../src/domain/builtin-startup-files.js";
 
 const RUNNING = "/new/lib/node_modules/@lithos/cli/daemon/assets";
-const OLD = "/mise/installs/npm-openrig-cli/0.6.2/node_modules/@lithos/cli/daemon/assets";
+const OLD = "/mise/installs/npm-openrig-cli/0.6.2/node_modules/@openrig/cli/daemon/assets";
 const meta = { deliveryHint: "guidance_merge" as const, required: true, appliesOn: ["fresh_start" as const, "restore" as const] };
 
 describe("reanchorBuiltinStartupFile", () => {
@@ -16,6 +16,12 @@ describe("reanchorBuiltinStartupFile", () => {
   ])("re-anchors %s from an old packaged install, preserving metadata", (name, rel) => {
     const stored = { path: name, absolutePath: `${OLD}/${rel}`, ownerRoot: OLD, ...meta, kind: "file" as const };
     expect(reanchorBuiltinStartupFile(stored, RUNNING)).toEqual({ ...stored, absolutePath: `${RUNNING}/${rel}`, ownerRoot: RUNNING });
+  });
+
+  it("also re-anchors a prior Lithos package", () => {
+    const oldLithos = OLD.replace("@openrig", "@lithos");
+    const stored = { path: "openrig-start.md", absolutePath: `${oldLithos}/guidance/openrig-start.md`, ownerRoot: oldLithos, ...meta };
+    expect(reanchorBuiltinStartupFile(stored, RUNNING).absolutePath).toBe(`${RUNNING}/guidance/openrig-start.md`);
   });
 
   it("re-anchors a built-in stored from a dev checkout (packages/daemon/assets)", () => {
@@ -59,7 +65,7 @@ describe("reanchorBuiltinStartupFile", () => {
 
 describe("reanchorShippedProjectionEntry", () => {
   const RUN_SPECS = "/new/lib/node_modules/@lithos/cli/daemon/specs";
-  const OLD_SPECS = "/mise/installs/npm-openrig-cli/0.6.2/node_modules/@lithos/cli/daemon/specs";
+  const OLD_SPECS = "/mise/installs/npm-openrig-cli/0.6.2/node_modules/@openrig/cli/daemon/specs";
   const base = { category: "runtime_resource", effectiveId: "shared:claude-default-settings", sourceSpec: "shared",
     resourcePath: "runtime/claude-settings.fragment.json", resourceType: "claude_settings_fragment", mergeStrategy: "managed_block", target: ".claude/settings.local.json" };
 
@@ -68,6 +74,12 @@ describe("reanchorShippedProjectionEntry", () => {
     expect(reanchorShippedProjectionEntry(stored, RUN_SPECS)).toEqual({
       ...base, sourcePath: `${RUN_SPECS}/agents/shared`, absolutePath: `${RUN_SPECS}/agents/shared/runtime/claude-settings.fragment.json`,
     });
+  });
+
+  it("also re-anchors a shipped resource from a prior Lithos package", () => {
+    const oldLithosSpecs = OLD_SPECS.replace("@openrig", "@lithos");
+    const stored = { ...base, sourcePath: `${oldLithosSpecs}/agents/shared`, absolutePath: `${oldLithosSpecs}/agents/shared/runtime/claude-settings.fragment.json` };
+    expect(reanchorShippedProjectionEntry(stored, RUN_SPECS).absolutePath).toBe(`${RUN_SPECS}/agents/shared/runtime/claude-settings.fragment.json`);
   });
 
   it("re-anchors kernel agent guidance stored under the rig's own shipped spec directory", () => {
@@ -104,7 +116,7 @@ describe("reanchorShippedProjectionEntry", () => {
 
 describe("reanchorBuiltinStartupFile — shipped-spec startup files", () => {
   const RUN_SPECS = "/new/lib/node_modules/@lithos/cli/daemon/specs";
-  const OLD_SPECS = "/mise/installs/npm-openrig-cli/0.6.2/node_modules/@lithos/cli/daemon/specs";
+  const OLD_SPECS = "/mise/installs/npm-openrig-cli/0.6.2/node_modules/@openrig/cli/daemon/specs";
   const KERNEL = "rigs/launch/kernel";
 
   it("re-anchors the kernel rig culture (pre-launch guidance_merge), preserving metadata", () => {

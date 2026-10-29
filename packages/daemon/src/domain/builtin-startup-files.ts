@@ -39,7 +39,7 @@ export function runningShippedSpecsRoot(): string {
 
 /** The layout of the OpenRig install whose daemon/<dir> root is `parts[0..i+1]`, if recognized. */
 function layoutAt(parts: string[], i: number): InstallLayout | null {
-  if (i >= 2 && parts[i - 1] === "cli" && parts[i - 2] === "@openrig") return "packaged";
+  if (i >= 2 && parts[i - 1] === "cli" && (parts[i - 2] === "@lithos" || parts[i - 2] === "@openrig")) return "packaged";
   if (i >= 1 && parts[i - 1] === "packages") return "dev-checkout";
   return null;
 }

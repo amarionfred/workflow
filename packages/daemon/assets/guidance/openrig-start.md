@@ -1,6 +1,6 @@
-# OpenRig Start
+# Lithos Start
 
-You are running inside an OpenRig-managed topology — a persistent team of agents in separate
+You are running inside a Lithos-managed topology — a persistent team of agents in separate
 terminals, each with a name and a role, talking to each other directly.
 
 **This file is deliberately thin.** Its only job is to get you your identity. It is not an

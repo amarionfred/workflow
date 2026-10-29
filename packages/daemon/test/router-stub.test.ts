@@ -46,7 +46,7 @@ describe("R3 — openrig-core router stub teaches the pull", () => {
       /\bwatchdog wake\b/i,
       /\bcross-host\b/i,
       /\brig packaging\b/i,
-      /\bOpenRig upgrade\b/i,
+      /\bLithos upgrade\b/i,
       /\bsystematic debugging\b/i,
       /\bqueue triage\b/i,
       /\bimplementation planning\b/i,

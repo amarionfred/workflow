@@ -13,13 +13,13 @@ function fixture(t, options = {}) {
   fs.mkdirSync(path.join(home, ".nvm"), { recursive: true });
   fs.mkdirSync(bin); fs.mkdirSync(scripts);
   fs.writeFileSync(path.join(scripts, "install-wsl.sh"), source);
-  fs.writeFileSync(path.join(scripts, "install.sh"), '#!/bin/sh\nprintf "install\\n" >> "$TEST_LOG"\n');
+  fs.writeFileSync(path.join(scripts, "install.sh"), '#!/bin/sh\nprintf "install\\n" >> "$TEST_LOG"\n[ -z "${npm_package_config_node_gyp_nodedir:-}" ] || printf "headers %s\\n" "$npm_package_config_node_gyp_nodedir" >> "$TEST_LOG"\n');
   fs.writeFileSync(path.join(home, ".nvm/nvm.sh"), 'nvm() { printf "nvm %s\\n" "$*" >> "$TEST_LOG"; }\n');
   for (const name of ["git", "curl", "tmux", "make", "g++", "python3", "npm"]) {
     fs.writeFileSync(path.join(bin, name), '#!/bin/sh\nexit 0\n', { mode: 0o755 });
   }
   fs.writeFileSync(path.join(bin, "node"), '#!/bin/sh\ncase "$1" in -p) echo "${TEST_NODE_PLATFORM:-linux}";; --version) echo v24.1.0;; esac\n', { mode: 0o755 });
-  const env = { ...process.env, HOME: home, NVM_DIR: path.join(home, ".nvm"), PATH: `${bin}:/usr/bin:/bin`, WSL_DISTRO_NAME: "Ubuntu", TEST_LOG: path.join(root, "calls"), ...options };
+  const env = { ...process.env, HOME: home, NVM_DIR: path.join(home, ".nvm"), PATH: `${bin}:/usr/bin:/bin`, WSL_DISTRO_NAME: "Ubuntu", npm_config_nodedir: "", npm_package_config_node_gyp_nodedir: "", TEST_LOG: path.join(root, "calls"), ...options };
   return { root, env, run: (...args) => spawnSync("/bin/bash", [path.join(scripts, "install-wsl.sh"), ...args], { env, encoding: "utf8" }),
     calls: () => fs.existsSync(env.TEST_LOG) ? fs.readFileSync(env.TEST_LOG, "utf8").trim().split("\n") : [] };
 }
@@ -51,4 +51,23 @@ test("stops if nvm cannot be downloaded", t => {
   const result = f.run();
   assert.notEqual(result.status, 0);
   assert.deepEqual(f.calls(), []);
+});
+
+test("outside WSL it explains where to run the installer", t => {
+  const f = fixture(t, { WSL_DISTRO_NAME: "" });
+  fs.writeFileSync(path.join(f.root, "bin/grep"), "#!/bin/sh\nexit 1\n", { mode: 0o755 });
+  const result = f.run();
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /inside Ubuntu on Windows/);
+  assert.deepEqual(f.calls(), []);
+});
+
+
+test("uses Node's installed headers for native modules", t => {
+  const f = fixture(t);
+  fs.mkdirSync(path.join(f.root, "include/node"), { recursive: true });
+  fs.writeFileSync(path.join(f.root, "include/node/node.h"), "");
+  const result = f.run();
+  assert.equal(result.status, 0, result.stderr);
+  assert.deepEqual(f.calls(), ["nvm install 24", "nvm use 24", "install", `headers ${f.root}`]);
 });

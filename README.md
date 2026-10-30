@@ -4,7 +4,7 @@ Lithos helps a team of AI assistants work together on a project. You describe wh
 
 You can use it to build software, explore an idea, or maintain a project. The team keeps its work and conversations organized so you can return to them later. You choose which assistants to use and what they are allowed to do.
 
-Lithos runs on your computer. It works with Codex and Claude Code; you need an account for at least one of them. Lithos runs on Mac, Linux, or Windows using WSL.
+Lithos runs on Mac, Linux, or Windows using WSL 2. It works with Codex and Claude Code; you need an account for at least one of them.
 
 [Get started](docs/reference/lithos-getting-started.md) · [Technical reference](docs/reference/help.md) · [License](LICENSE)
 

@@ -47,15 +47,16 @@ person needs in their project or home folder and name that path.
 ## 1. Install Lithos, if it isn't installed
 
 - **Check first:** `rig --version`. If it prints a version, go to step 2.
-- **What it needs:** macOS or Linux, Node.js 22 or 24, tmux, and Claude Code or Codex signed in. Check only what's
+- **What it needs:** macOS, Linux, or Windows with Ubuntu on WSL 2; Node.js 22 or 24, tmux, and Claude Code or Codex signed in. Check only what's
   missing: `node --version`, `tmux -V`, `claude auth status` or `codex login status`.
 - **A check that needs the network** (`gh auth status`, a registry or other fetch) can fail falsely in a sandbox without
   network access, such as Codex's default one. Re-run that one command with network access before you tell the person
   to sign in again or fix anything.
-- **Install:** from a Lithos checkout, run `sh scripts/install.sh`, then `rig setup --providers codex` (or `claude`, or `both`: the harness
+- **Windows:** use the [Windows getting-started steps](https://github.com/amarionfred/workflow/blob/main/docs/reference/lithos-getting-started.md#windows). In Ubuntu, run `bash scripts/install-wsl.sh`, load nvm and use Node 24, then run `rig setup --providers codex --no-herdr` (or choose Claude). Use the Linux provider login, not a Windows executable.
+- **Install on macOS or Linux:** from a Lithos checkout, run `sh scripts/install.sh`, then `rig setup --providers codex` (or `claude`, or `both`: the harness
   the person uses). Setup checks Node, tmux and the logins. It installs tmux (with Homebrew, when present) or the chosen
   harness (with npm) if either is missing, installs Herdr for the Lithos view unless they decline it (`--no-herdr`),
-  and adds an Lithos block to `~/.tmux.conf`, so say all of that first. It doesn't start the daemon. Then `rig doctor`.
+  and adds a Lithos block to `~/.tmux.conf`, so say all of that first. It doesn't start the daemon. Then `rig doctor`.
 - **Then go on to step 2:** say it's installed and ask what they want worked on, and in which repository. A plain
   "install Lithos" includes this. Stop here only if they say not to start a team.
 - **If something fails:** `rig context get help` is the help guide for the installed version. If `rig` itself won't
@@ -73,6 +74,7 @@ person needs in their project or home folder and name that path.
   after installing or starting Lithos, and the way back whenever they want their agents or Lithos again. Don't wait
   to be asked or for particular words. If they've said not now, give them that command for later. It opens a view
   itself, using herdr when installed or plain tmux otherwise:
+  - **In WSL:** if a desktop window cannot open, use an Ubuntu tab in Windows Terminal. Find the operator’s `tmuxAttachCommand` in `rig ps --nodes --rig kernel --json --fields logicalId,canonicalSessionName,tmuxAttachCommand` and run that exact command there after `env -u TMUX`; `rig tui` opens the dashboard separately.
   - **Inside Herdr** (you run in a Herdr pane): it switches the person's Herdr to an `openrig kernel` space, reusing a live
     one. No new window and no macOS prompt; their own spaces stay in the sidebar.
   - **Inside Rex** (you run in a Rex block, or in a tmux started in one): it opens an `openrig kernel` session on the same Rex server and asks the

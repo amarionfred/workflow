@@ -4,7 +4,7 @@ Lithos is a way to give a project to a team of AI assistants. Start with a small
 
 ## What you need
 
-- macOS, Linux, or Windows. On Windows, use Ubuntu through WSL.
+- macOS, Linux, or Windows. On Windows, use Ubuntu through WSL 2.
 - On macOS or Linux: Node.js 22 or 24, Git, and tmux installed.
 - Codex or Claude Code installed and signed in. One is enough.
 - A folder for the project you want to work on.
@@ -13,9 +13,9 @@ The setup below uses a terminal. If you are unfamiliar with it, you can ask some
 
 ## Windows
 
-Lithos runs on Windows using Ubuntu in Windows Subsystem for Linux (WSL). A direct Windows installation is not supported.
+Lithos runs on Windows using Ubuntu in Windows Subsystem for Linux (WSL 2). A direct Windows installation is not supported.
 
-1. Open PowerShell as an administrator and run `wsl --install -d Ubuntu`. Restart if Windows asks, then open Ubuntu and create your Linux username and password. If Ubuntu is already installed, open it instead. See [Microsoft's WSL guide](https://learn.microsoft.com/en-us/windows/wsl/install) if you need help.
+1. Open PowerShell as an administrator and run `wsl --install -d Ubuntu`. Restart if Windows asks, then open Ubuntu and create your Linux username and password. If Ubuntu is already installed, open it instead; `wsl --list --verbose` in PowerShell shows whether it uses version 2. If it shows version 1, run `wsl --set-version Ubuntu 2` in PowerShell. See [Microsoft's WSL guide](https://learn.microsoft.com/en-us/windows/wsl/install) if you need help.
 2. In the Ubuntu terminal, run these commands. Keep the checkout in your Linux home folder:
 
 ```sh

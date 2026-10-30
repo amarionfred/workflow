@@ -4,7 +4,7 @@ Lithos helps a team of AI assistants work together on your project. You give the
 
 ## What you need
 
-You need a Mac, Linux, or Windows computer, and a signed-in Codex or Claude Code account. On Windows, Lithos runs through WSL. You also need a project folder.
+You need a Mac, Linux, or Windows computer, and a signed-in Codex or Claude Code account. On Windows, Lithos runs through WSL 2. You also need a project folder.
 
 ## Install and start
 

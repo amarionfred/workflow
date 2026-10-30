@@ -50,5 +50,12 @@ nvm use 24
 case "$(node --version)" in v24.*) ;; *) echo 'Node.js 24 could not be selected.' >&2; exit 1 ;; esac
 command -v npm >/dev/null 2>&1 || { echo 'npm is missing from the selected Linux Node installation.' >&2; exit 1; }
 
+# The nvm distribution already includes its matching headers. Use them for
+# native npm modules instead of downloading the same headers a second time.
+node_root=$(CDPATH= cd -- "$(dirname -- "$(command -v node)")/.." && pwd)
+if [ -z "${npm_config_nodedir:-}" ] && [ -z "${npm_package_config_node_gyp_nodedir:-}" ] && [ -f "$node_root/include/node/node.h" ]; then
+  export npm_package_config_node_gyp_nodedir="$node_root"
+fi
+
 sh "$root/scripts/install.sh"
 printf '%s\n' 'Lithos is installed in WSL.' 'In your Ubuntu terminal, load nvm and run nvm use 24 before using lithos.' 'Continue with the Windows steps in docs/reference/lithos-getting-started.md.'

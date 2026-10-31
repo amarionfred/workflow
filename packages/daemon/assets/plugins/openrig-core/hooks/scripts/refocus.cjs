@@ -165,12 +165,32 @@ function readQueueWhoami(timeout = lookupTimeout()) {
   catch { return { unknown: "queue whoami answer was not JSON" }; }
 }
 
+function validatedTraceProjectRoot(candidate, workNodePath) {
+  if (typeof candidate !== "string" || !path.isAbsolute(candidate) || typeof workNodePath !== "string" || !path.isAbsolute(workNodePath)) return null;
+  try {
+    const root = fs.realpathSync(candidate);
+    const start = fs.realpathSync(workNodePath);
+    const rel = path.relative(root, start);
+    return !path.isAbsolute(rel) && rel !== ".." && !rel.startsWith(`..${path.sep}`) ? root : null;
+  } catch { return null; }
+}
+
 function deriveWorkStart(lookup) {
   if (process.env.OPENRIG_REFOCUS_WORK_NODE) return { start: process.env.OPENRIG_REFOCUS_WORK_NODE };
   const result = lookup();
   if (result.unknown) return result;
   const workNodePath = result.answer?.currentWork?.workNodePath;
-  if (typeof workNodePath === "string" && workNodePath) return { start: workNodePath };
+  if (typeof workNodePath === "string" && workNodePath) {
+    // The daemon only supplies projectRoot for an unambiguous, catalogue-validated
+    // project. Recheck real paths here so a changed symlink cannot widen the trace.
+    const candidate = result.answer?.currentWork?.projectRoot;
+    if (candidate !== undefined) {
+      const root = validatedTraceProjectRoot(candidate, workNodePath);
+      return root ? { start: workNodePath, projectRoot: root }
+        : { unknown: "catalogue project root or work node is unavailable or outside its project" };
+    }
+    return { start: workNodePath };
+  }
   const basis = result.answer?.currentWorkBasis;
   return typeof basis === "string" && basis ? { basis } : { unknown: "queue whoami named no current work and no basis" };
 }
@@ -260,6 +280,7 @@ function renderTrace() {
   }
   const packet = workPacketEnabled();
   let evidence = null;
+  let packetProjectRoot = null;
   if (packet) {
     args.push("--packet");
     if (trees !== "topology") {
@@ -268,7 +289,18 @@ function renderTrace() {
         whoami = timeout > 250 ? readQueueWhoami(timeout) : { unknown: "no budget left" };
       }
       const candidates = whoami.answer?.workCandidates;
-      if (candidates && typeof candidates === "object") evidence = JSON.stringify(candidates);
+      if (candidates && typeof candidates === "object") {
+        evidence = JSON.stringify(candidates);
+        const rows = candidates.candidates;
+        if (Array.isArray(rows) && rows.length === 1 && Array.isArray(candidates.unknown) && candidates.unknown.length === 0
+          && rows[0]?.kind === "tag" && !rows[0]?.unresolved) {
+          if (rows[0]?.projectRoot !== undefined) {
+            packetProjectRoot = validatedTraceProjectRoot(rows[0].projectRoot, rows[0].workNodePath);
+            if (!packetProjectRoot) evidence = JSON.stringify({ ...candidates, candidates: [{ ...rows[0],
+              workNodePath: null, intent: null, unresolved: "catalogue project root or work node is unavailable or outside its project" }] });
+          }
+        }
+      }
     }
   }
   // An explicit start always wins. Otherwise the candidates replace the strict answer: the
@@ -281,6 +313,13 @@ function renderTrace() {
   // With an explicit start, the evidence supplies only held and next work.
   if (explicitStart && evidence) args.push("--work-candidates", "-");
   const env = traceEnv(trees);
+  // Explicit caller roots and starts retain precedence. Only a strict answer or
+  // a single resolved direct candidate can supply its validated project root;
+  // an ambiguous packet must not silently choose a project.
+  const selectedProjectRoot = evidence ? packetProjectRoot : work.projectRoot;
+  if (!process.env.OPENRIG_WORKSPACE_ROOT && !explicitStart && selectedProjectRoot) {
+    env.OPENRIG_WORKSPACE_ROOT = selectedProjectRoot;
+  }
   const timeout = lookupTimeout(contentReserveMs());
   const result = timeout <= MIN_LOOKUP_MS
     ? { error: new Error("no time left in the refocus budget"), status: null, stdout: "", stderr: "" }

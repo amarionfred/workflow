@@ -29,6 +29,8 @@ describe("canonical project-workspace scaffold parity", () => {
     expect(parseYaml(files.get("project.yaml")!)).toMatchObject({
       schema: "openrig.project/v0alpha1",
       kind: "project",
+      id: "default",
+      metadata: { id: "default" },
       install: { intent: "SPEC.md", context: [], skills: [] },
       missions: { root: "missions" },
     });

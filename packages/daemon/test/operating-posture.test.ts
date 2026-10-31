@@ -84,6 +84,35 @@ it("joins project, mission, authored workstream and qitem; the most specific exp
   t.service.resolve({ qitemId: "alpha" }); expect(readFileSync(manifest)).toEqual(before);
 });
 
+it("resolves stable top-level project IDs without mistaking a display name for identity", async () => {
+  const t = await setup();
+  t.write("alpha/project.yaml", "id: alpha\nmetadata: {name: Alpha research project}\n");
+  expect(t.service.resolve({ projectId: "alpha" })).toMatchObject({
+    posture: "human-led", context: { projectId: "alpha" },
+  });
+  expect(t.service.resolve({ qitemId: "alpha" })).toMatchObject({
+    posture: "human-led", context: { projectId: "alpha", missionId: "release", workstreamId: "alpha/release/work-1" },
+  });
+  t.write("alpha/project.yaml", "id: alpha\nmetadata: {id: alpha, name: Alpha research project}\n");
+  expect(t.service.resolve({ qitemId: "alpha" }).context?.projectId).toBe("alpha");
+});
+
+it("rejects conflicting declared IDs while preserving legacy project identity formats", async () => {
+  const t = await setup();
+  t.write("alpha/project.yaml", "id: alpha\nmetadata: {id: beta, name: Alpha research project}\n");
+  for (const scope of [{ projectId: "alpha" }, { qitemId: "alpha" }]) {
+    expect(t.service.resolve(scope)).toMatchObject({ posture: "unknown", reason: expect.stringContaining("conflicting project") });
+  }
+  // The metadata identity matches the catalog, but the top-level identity
+  // disagrees; accepting this would silently choose one of two authorities.
+  t.write("alpha/project.yaml", "id: beta\nmetadata: {id: alpha, name: Alpha research project}\n");
+  expect(t.service.resolve({ qitemId: "alpha" })).toMatchObject({ posture: "unknown", reason: expect.stringContaining("conflicting project") });
+  for (const legacy of ["metadata: {id: alpha, name: Display name}\n", "metadata: {name: alpha}\n", "project: alpha\n"]) {
+    t.write("alpha/project.yaml", legacy);
+    expect(t.service.resolve({ qitemId: "alpha" })).toMatchObject({ posture: "human-led", context: { projectId: "alpha" } });
+  }
+});
+
 it("uses exact workflow packet phase and normalizes rig aliases; workflow existence does not delegate", async () => {
   const t = await setup();
   t.db.prepare("INSERT INTO workflow_instances(instance_id,workflow_name,workflow_version,created_by_session,created_at,bound_rig,lifecycle_binding_json) VALUES('workflow','fixture','1','owner@demo','2026-09-09',?,?)")
@@ -155,6 +184,53 @@ it("does not select one project's authority for a mixed finding even when both p
   const mixed = t.service.forHealth({ ...alpha, evidence: [...alpha.evidence, ...beta.evidence] });
   expect(mixed).toMatchObject({ posture: "unknown", context: null, reason: expect.stringContaining("different work contexts") });
   expect(mixed.members?.map(m => m.posture)).toEqual(["human-led", "human-led"]);
+});
+
+it("resolves a health mission directory and a queue mission ID to the same authored mission", async () => {
+  const t = await diagnosisSetup();
+  t.write("alpha/missions/release/SPEC.md", "---\nid: LUN.99.0.7\n---\n# Release\n");
+  for (const [qitemId, mission] of [["alias", "LUN.99.0.7"], ["directory", "release"]]) {
+    await t.queue.create({ qitemId, sourceSession: "author@demo", destinationSession: "owner@demo", body: "Scoped work", tags: ["project:alpha", "mission:" + mission], nudge: false });
+  }
+  expect((await t.put("delegated", "mission", "alpha/release")).status).toBe(200);
+  const base = t.projection.records().find(r => r.evidence.some(e => e.type === "queue-transition" && e.qitemId === "alpha"))!;
+  const evidence = (qitemId: string, transitionId: number) => adaptQueueTransitionEvidence({ transitionId, qitemId, ts: "2026-09-09T22:00:00Z", state: "in-progress", actorSession: "owner@demo" }, transitionId);
+  const finding = { ...base, scope: { type: "mission" as const, projectId: "alpha", missionId: "release" }, evidence: [evidence("alias", 1), evidence("directory", 2)] };
+  expect(t.service.forHealth(finding)).toMatchObject({ posture: "delegated", context: { projectId: "alpha", missionId: "release" }, members: [{ qitemId: "alias", posture: "delegated" }, { qitemId: "directory", posture: "delegated" }] });
+  expect(t.service.forHealth({ ...finding, scope: { ...finding.scope, missionId: "LUN.99.0.7" } })).toMatchObject({ posture: "delegated", context: { missionId: "release" } });
+});
+
+it("refuses different missions and ambiguous mission aliases in health findings", async () => {
+  const t = await diagnosisSetup();
+  t.write("alpha/missions/release/SPEC.md", "---\nid: LUN.99.0.7\n---\n# Release\n");
+  t.write("alpha/missions/other/SPEC.md", "---\nid: OTHER.1\n---\n# Other\n");
+  t.write("alpha/missions/other/mission.yaml", "metadata: {name: other, status: active}\n");
+  for (const [qitemId, mission] of [["alias", "LUN.99.0.7"], ["other", "OTHER.1"]]) {
+    await t.queue.create({ qitemId, sourceSession: "author@demo", destinationSession: "owner@demo", body: "Scoped work", tags: ["project:alpha", "mission:" + mission], nudge: false });
+  }
+  const base = t.projection.records().find(r => r.evidence.some(e => e.type === "queue-transition" && e.qitemId === "alpha"))!;
+  const evidence = (qitemId: string) => adaptQueueTransitionEvidence({ transitionId: 1, qitemId, ts: "2026-09-09T22:00:00Z", state: "in-progress", actorSession: "owner@demo" }, 0);
+  const finding = { ...base, scope: { type: "mission" as const, projectId: "alpha", missionId: "release" }, evidence: [evidence("other")] };
+  expect(t.service.forHealth(finding)).toMatchObject({ posture: "unknown", reason: expect.stringContaining("conflicting missionId") });
+  expect(t.service.forHealth({ ...finding, evidence: [evidence("beta")] })).toMatchObject({ posture: "unknown", reason: expect.stringContaining("conflicting projectId") });
+  t.write("alpha/missions/duplicate/SPEC.md", "---\nid: LUN.99.0.7\n---\n# Duplicate\n");
+  expect(t.service.forHealth({ ...finding, evidence: [evidence("alias")] })).toMatchObject({ posture: "unknown", reason: expect.stringContaining("ambiguous") });
+});
+
+it("keeps distinct slice families and mixed postures separate after mission alias resolution", async () => {
+  const t = await diagnosisSetup();
+  t.write("alpha/missions/release/SPEC.md", "---\nid: LUN.99.0.7\n---\n# Release\n");
+  t.write("alpha/missions/release/slices/02-work/SPEC.md", "---\nid: work-2\nmission: release\nstage: planning\n---\n# Other slice\n");
+  for (const [qitemId, mission, slice] of [["slice-a", "LUN.99.0.7", "work-1"], ["slice-b", "release", "work-2"], ["slice-c", "release", "work-1"]]) {
+    await t.queue.create({ qitemId, sourceSession: "author@demo", destinationSession: "owner@demo", body: "Scoped work", tags: ["project:alpha", "mission:" + mission, "slice:" + slice], nudge: false });
+  }
+  const base = t.projection.records().find(r => r.evidence.some(e => e.type === "queue-transition" && e.qitemId === "alpha"))!;
+  const evidence = (qitemId: string) => adaptQueueTransitionEvidence({ transitionId: 1, qitemId, ts: "2026-09-09T22:00:00Z", state: "in-progress", actorSession: "owner@demo" }, 0);
+  const finding = { ...base, scope: { type: "mission" as const, projectId: "alpha", missionId: "release" }, evidence: [evidence("slice-a"), evidence("slice-b")] };
+  expect(t.service.forHealth(finding)).toMatchObject({ posture: "unknown", reason: expect.stringContaining("different work contexts") });
+  expect(t.service.forHealth({ ...finding, scope: { type: "slice", projectId: "alpha", missionId: "release", sliceId: "work-1" }, evidence: [evidence("slice-b")] })).toMatchObject({ posture: "unknown" });
+  expect((await t.put("delegated", "qitem", "slice-c")).status).toBe(200);
+  expect(t.service.forHealth({ ...finding, evidence: [evidence("slice-a"), evidence("slice-c")] })).toMatchObject({ posture: "unknown", reason: expect.stringContaining("different operating postures") });
 });
 
 it("presents only unrelated delegated planning, keeps human-led and unknown findings inspectable, then quiets an existing occurrence without canceling it", async () => {

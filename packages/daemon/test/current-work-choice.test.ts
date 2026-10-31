@@ -6,6 +6,7 @@ import {
   CURRENT_WORK_CHOICE_INSTRUCTION,
   deriveCurrentWork,
   deriveCurrentWorkChoice,
+  deriveWorkCandidates,
   type CurrentWorkDerivation,
   type WorkCandidateLookups,
 } from "../src/domain/current-work.js";
@@ -41,6 +42,14 @@ const row = (qitemId: string, tags: string[], state = "in-progress") => ({ qitem
 const refusal = (currentWorkBasis: string): CurrentWorkDerivation => ({ currentWork: null, currentWorkBasis });
 
 describe("deriveCurrentWorkChoice — plain whoami names the candidates instead of a count", () => {
+  it("keeps a row with conflicting slice tags unknown in a work packet", () => {
+    const missions = missionsTree();
+    const rows = [row("q-conflict", ["mission:release", "slice:01-work", "slice:02-other"])];
+    const packet = deriveWorkCandidates(rows, missions, nothingElse);
+    expect(packet.candidates).toEqual([]);
+    expect(packet.unknown).toEqual([expect.objectContaining({ qitemId: "q-conflict", reason: expect.stringContaining("conflicting slice tags") })]);
+    expect(deriveCurrentWork(rows, missions).currentWork).toBeNull();
+  });
   it("offers no choice when one work node is settled (ordinary unambiguous work)", () => {
     const missions = missionsTree();
     const rows = [row("q-1", ["project:alpha", "mission:release", "slice:01-work"])];

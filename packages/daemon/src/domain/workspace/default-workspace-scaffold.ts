@@ -19,6 +19,9 @@ slice. Edit it to describe what your project is for and who benefits from it.
 
 const PROJECT_MANIFEST = `schema: openrig.project/v0alpha1
 kind: project
+id: default
+metadata:
+  id: default
 install:
   intent: SPEC.md
   context: []

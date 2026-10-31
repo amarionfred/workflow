@@ -1,10 +1,10 @@
 import { readdirSync, realpathSync } from "node:fs";
-import { dirname, join, relative } from "node:path";
+import { basename, dirname, join, relative } from "node:path";
 import { parse as parseYaml } from "yaml";
 import type { QueueRepository } from "./queue-repository.js";
 import type { HealthCheckpointSource } from "./health-checkpoints.js";
 import type { OperatingPostureService } from "./rig-mode/operating-posture.js";
-import { readHealthArtifact, healthSelectedContext } from "./health-context.js";
+import { readHealthArtifact, readHealthProgress, healthSelectedContext } from "./health-context.js";
 import { validateMissionComposition } from "./lifecycle-manifest.js";
 import { healthHash, type HealthPolicyStore } from "./health-policy.js";
 import type { HealthDetectorObservation, HealthObservationSource, HealthSourceCoverage } from "./health-detectors.js";
@@ -239,7 +239,11 @@ export class PassiveCeremonySource implements HealthObservationSource {
 
   private context(scope: Extract<HealthScope, { type: "mission" | "slice" }>, workspace = this.workspace, missionRoot = join(workspace, "missions", scope.missionId)): PassiveCeremony["context"] {
     const result = this.projectContext(workspace, missionRoot);
-    const add = (path: string, role: string) => { const r = readHealthArtifact(workspace, join(workspace, path), 65536); result.push({ ...r, role }); };
+    const add = (path: string, role: string) => {
+      const fullPath = join(workspace, path);
+      const r = basename(path) === "PROGRESS.md" ? readHealthProgress(workspace, fullPath) : readHealthArtifact(workspace, fullPath, 65536);
+      result.push({ ...r, role: r.excerpt ? role + "; prefix fingerprint only, remainder not fingerprinted" : role });
+    };
     const missionDir = relative(workspace, missionRoot);
     ["SPEC.md", "mission.yaml", "PROGRESS.md"].forEach((name) => add(join(missionDir, name), "mission authority / selected SDLC / progress"));
     const manifestPath = join(missionDir, "mission.yaml");

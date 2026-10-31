@@ -14,7 +14,7 @@ export interface HealthDisposition {
     effect: { state: "unobserved" | "observed"; summary: string; evidenceRefs: string[] };
   };
 }
-export interface AuthorityReference { level?: "project" | "mission" | "slice"; path: string; state: "available" | "unavailable"; sha256?: string; content?: string; role?: string; selectedBy?: string; reason?: string; }
+export interface AuthorityReference { level?: "project" | "mission" | "slice"; path: string; state: "available" | "unavailable"; sha256?: string; content?: string; role?: string; selectedBy?: string; reason?: string; excerpt?: { kind: "prefix"; byteLength: number; fileBytes: number; fileModifiedAtMs: number; fileChangedAtMs: number; sha256: string }; }
 interface Packet { schema: "openrig.health-diagnosis/v0alpha1"; finding: HealthRecord; policyVersion: string; authority: AuthorityReference[]; presentedAt: string; instructions: string; }
 interface Receipt { kind: "health-diagnosis"; at: string; action: "presented" | "observed" | "disposition" | "notification-readiness"; finding?: HealthRecord; disposition?: HealthDisposition; authority?: AuthorityReference[]; episodeCleared?: boolean; progressEvidence?: AuthorityReference[]; correctionEvidence?: AuthorityReference[]; actor?: string; transitionId?: number; notificationReadiness?: { ready: boolean; reason: string }; }
 interface DiagnosisAction { qitemId: string; findingId: string; action: "create" | "represent" | "observe" | "retained" | "deferred" | "notify" | "notification-deferred"; reason?: string; operatingPosture?: HealthRecord["operatingPosture"]; }

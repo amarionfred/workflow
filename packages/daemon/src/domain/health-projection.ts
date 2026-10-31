@@ -127,7 +127,7 @@ export interface PassiveCeremony {
   lineageId: string;
   basis: string;
   transitionIds: number[];
-  context: Array<{ path: string; state: "available" | "unavailable"; sha256?: string; role: string }>;
+  context: Array<{ path: string; state: "available" | "unavailable"; sha256?: string; role: string; excerpt?: { kind: "prefix"; byteLength: number; fileBytes: number; fileModifiedAtMs: number; fileChangedAtMs: number; sha256: string } }>;
   workflowReceipts: Array<{ trailId: string; instanceId: string; stepId: string; qitemId: string; closureReason: string; actor: string; at: string; evidence: unknown }>;
   assessment?: { result: CeremonyProgressAssessment; actor: string; at: string; transitionId: number; identityProvenance: string | null };
   missingFacts: string[];

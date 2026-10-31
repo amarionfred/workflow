@@ -74,6 +74,7 @@ export class OperatingPostureService {
 
   context(input: OperatorContextReadContext): OperatingContext {
     const ctx: OperatingContext = { ...input, phase: { value: null, source: null }, sources: [] };
+    const alternateMissions: Array<{ id: string; source: string }> = [];
     const rigIdentity = (value: string) => {
       const rigs = this.db.prepare("SELECT id FROM rigs WHERE id = ? OR name = ?").all(value, value) as Array<{ id: string }>;
       if (rigs.length !== 1) throw new Error("rig identity missing or ambiguous: " + value);
@@ -85,7 +86,17 @@ export class OperatingPostureService {
       if (value === undefined || value === null) return;
       if (typeof value !== "string" || !value.trim()) throw new Error("invalid " + key + " from " + source);
       if (key === "rigId") value = rigIdentity(value);
-      if (ctx[key] && ctx[key] !== value) throw new Error("conflicting " + key + " from " + source);
+      if (ctx[key] && ctx[key] !== value) {
+        // A mission can be addressed by its directory or SPEC frontmatter ID.
+        // Compare those claims only after selecting the project and resolving
+        // both to exactly one authored mission; other scope conflicts remain strict.
+        if (key === "missionId") {
+          alternateMissions.push({ id: value as string, source });
+          ctx.sources.push(source);
+          return;
+        }
+        throw new Error("conflicting " + key + " from " + source);
+      }
       ctx[key] = value as string; ctx.sources.push(source);
     };
     if (ctx.workstreamId?.includes("/")) {
@@ -146,7 +157,12 @@ export class OperatingPostureService {
       }
       const projectPath = join(projectRoot, "project.yaml");
       const project = yamlFile(projectPath)!;
-      const projectId = project.metadata?.id ?? project.metadata?.name ?? project.project;
+      if (project.id != null && project.metadata?.id != null && project.id !== project.metadata.id) {
+        throw new Error("conflicting project identities in " + projectPath);
+      }
+      // Match the project catalog reader: the top-level ID is the stable
+      // identity; metadata.name is only a legacy fallback, not a display-name override.
+      const projectId = project.id ?? project.metadata?.id ?? project.metadata?.name ?? project.project;
       merge("projectId", projectId, projectPath);
       if (!ctx.projectId) throw new Error("project identity missing");
       requiredSegment(ctx.projectId, "project");
@@ -157,6 +173,12 @@ export class OperatingPostureService {
         const missions = inside(projectRoot, resolve(projectRoot, project.missions?.root ?? "missions"));
         const matches = resolveWorkNodeDirs(missions, ctx.missionId);
         if (matches.length !== 1) throw new Error("mission identity missing or ambiguous: " + ctx.missionId);
+        for (const alternate of alternateMissions) {
+          requiredSegment(alternate.id, "mission");
+          const resolved = resolveWorkNodeDirs(missions, alternate.id);
+          if (resolved.length !== 1) throw new Error("mission identity missing or ambiguous: " + alternate.id);
+          if (resolved[0]!.dir !== matches[0]!.dir) throw new Error("conflicting missionId from " + alternate.source);
+        }
         ctx.missionId = matches[0]!.dir;
         const missionRoot = inside(projectRoot, join(missions, ctx.missionId));
         ctx.paths.mission = missionRoot;

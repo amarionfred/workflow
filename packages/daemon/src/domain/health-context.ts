@@ -1,5 +1,5 @@
-import { readFileSync, statSync, realpathSync } from "node:fs";
-import { join, relative, resolve } from "node:path";
+import { closeSync, constants, fstatSync, openSync, readFileSync, readSync, statSync, realpathSync } from "node:fs";
+import { extname, isAbsolute, join, relative, resolve } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { createHash } from "node:crypto";
 import { resolveAllowedFile } from "./files/path-safety.js";
@@ -26,6 +26,35 @@ export function readHealthArtifact(workspace: string, path: string, maxBytes = 1
   } catch { return { path, state: "unavailable" }; }
 }
 
+/** The passive context needs a bounded fingerprint even for growing progress logs.
+ * A prefix is not a whole-file digest and is never used as one. Do not embed bytes. */
+export function readHealthProgress(workspace: string, path: string): AuthorityReference {
+  const maxWholeBytes = 65536, prefixBytes = 8192;
+  let fd: number | undefined;
+  try {
+    const root = realpathSync(workspace);
+    const canonical = resolveAllowedFile([{ name: "workspace", canonicalPath: root }], "workspace", relative(resolve(workspace), resolve(workspace, path)));
+    fd = openSync(canonical, constants.O_RDONLY | constants.O_NOFOLLOW);
+    const before = fstatSync(fd);
+    if (!before.isFile() || before.size === 0) return { path, state: "unavailable" };
+    const length = before.size > maxWholeBytes ? prefixBytes : before.size;
+    const bytes = Buffer.alloc(length);
+    let read = 0;
+    while (read < length) {
+      const n = readSync(fd, bytes, read, length - read, read);
+      if (!n) return { path, state: "unavailable" };
+      read += n;
+    }
+    const after = fstatSync(fd);
+    if (before.dev !== after.dev || before.ino !== after.ino || before.size !== after.size || before.mtimeMs !== after.mtimeMs || before.ctimeMs !== after.ctimeMs) return { path, state: "unavailable" };
+    const sha256 = createHash("sha256").update(bytes).digest("hex");
+    return before.size > maxWholeBytes
+      ? { path, state: "available", excerpt: { kind: "prefix", byteLength: length, fileBytes: before.size, fileModifiedAtMs: before.mtimeMs, fileChangedAtMs: before.ctimeMs, sha256 } }
+      : { path, state: "available", sha256 };
+  } catch { return { path, state: "unavailable" }; }
+  finally { if (fd !== undefined) closeSync(fd); }
+}
+
 type AuthorityLevel = NonNullable<AuthorityReference["level"]>;
 
 /** Only read a canonical file at the selected work-tree node; aliases are unavailable. */
@@ -44,18 +73,21 @@ export function healthSelectedContext(workspace: string, missionRoot?: string): 
   const result: AuthorityReference[] = [];
   let remaining = 131072;
   let count = 0;
-  const add = (refs: unknown, source: string, root: string) => {
+  let intent: { value: unknown; source: string; root: string } | undefined;
+  const add = (refs: unknown, source: string, root: string, role = "selected context") => {
     if (refs === undefined) return;
-    if (!Array.isArray(refs) || refs.some(r => typeof r !== "string" || !r.trim()) || (count += refs.length) > 32) {
-      result.push({ path: source, state: "unavailable", role: "selected context", reason: "Context selection must contain at most 32 non-empty addresses in total." });
+    if (!Array.isArray(refs) || refs.some(r => typeof r !== "string" || !r.trim()) || (role !== "project intent" && (count += refs.length) > 32)) {
+      result.push({ path: source, state: "unavailable", role, reason: "Context selection must contain at most 32 non-empty addresses in total." });
       return;
     }
     for (const address of refs as string[]) {
-      const base = { path: address, role: "selected context", selectedBy: source };
+      const base = { path: address, role, selectedBy: source };
       try {
         const { ref, headerPath } = parseAddress(address);
         // Only explicitly selected local project files; unsupported transports stay visible.
         if (/^(?:[a-z]+:|\$)/i.test(ref)) throw Error("Unsupported local context address");
+        // Match the project work-install grammar rather than widening intent to arbitrary files.
+        if (role === "project intent" && (isAbsolute(ref) || ref.split(/[\\/]/).some(part => !part || part === "." || part === "..") || ![".md", ".markdown"].includes(extname(ref).toLowerCase()))) throw Error("Project intent must be a relative Markdown address");
         const path = resolve(root, ref);
         const file = readAuthorityFile(workspace, path);
         if (!file.content) throw Error("Selected file unavailable, aliased, outside project, or larger than 64 KiB");
@@ -75,6 +107,8 @@ export function healthSelectedContext(workspace: string, missionRoot?: string): 
       const doc = parseYaml(file.content);
       if (!doc || typeof doc !== "object" || Array.isArray(doc)) throw Error("Invalid selection manifest");
       if (name === "project.yaml") {
+        // SPEC.md is already included as project authority by both consumers.
+        if (doc.install?.intent !== undefined && doc.install.intent !== "SPEC.md") intent = { value: doc.install.intent, source: path + "#install.intent", root };
         add(doc.install?.context, path + "#install.context", root);
         if (doc.lifecycle?.profiles !== undefined) {
           const profile = doc.lifecycle.profiles[doc.lifecycle.profile];
@@ -84,6 +118,8 @@ export function healthSelectedContext(workspace: string, missionRoot?: string): 
       } else add(doc.lifecycle?.workflow?.context_refs, path + "#lifecycle.workflow.context_refs", root);
     } catch (error) { result.push({ path, state: "unavailable", role: "context selection", reason: String(error) }); }
   }
+  // Preserve the budget and ordering of existing selections before adding intent.
+  if (intent) add([intent.value], intent.source, intent.root, "project intent");
   return result;
 }
 

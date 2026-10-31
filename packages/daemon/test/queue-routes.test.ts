@@ -2416,8 +2416,9 @@ describe("queue routes", () => {
 
       const response = await app.request("/api/queue/whoami?session=bob@r");
       expect(response.status).toBe(200);
-      const body = await response.json() as { currentWork: { workNodePath: string } | null; currentWorkBasis: string };
+      const body = await response.json() as { currentWork: { workNodePath: string; projectRoot?: string } | null; currentWorkBasis: string };
       expect(body.currentWork?.workNodePath).toBe(path.join(temporaryWorkspace, "alpha", "work-items", "release", "slices", "01-work"));
+      expect(body.currentWork?.projectRoot).toBe(path.join(temporaryWorkspace, "alpha"));
       expect(body.currentWorkBasis).toContain("one typed in-progress work node");
 
       const withCandidates = await app.request("/api/queue/whoami?session=bob@r&candidates=1");
@@ -2435,40 +2436,46 @@ describe("queue routes", () => {
         name: "an unknown project tag",
         catalog: "projects:\n  - id: alpha\n    root: alpha\n",
         tags: ["project:missing", "mission:release", "slice:01-work"],
-        reason: "project:missing is not in the project catalogue; used configured root",
+        reason: "project:missing is not in the project catalogue; refusing configured-root fallback",
       },
       {
         name: "several distinct project tags",
         catalog: "projects:\n  - id: alpha\n    root: alpha\n  - id: beta\n    root: beta\n",
         tags: ["project:alpha", "project:beta", "mission:release", "slice:01-work"],
-        reason: "multiple project tags (alpha, beta); used configured root",
+        reason: "multiple project tags (alpha, beta); refusing configured-root fallback",
       },
       {
         name: "a missing catalog",
         catalog: null,
         tags: ["project:alpha", "mission:release", "slice:01-work"],
-        reason: "project:alpha could not be used because the workspace catalog is not configured; used configured root",
+        reason: "project:alpha could not be used because the workspace catalog is not configured; refusing configured-root fallback",
       },
       {
         name: "an invalid catalog",
         catalog: "projects: invalid\n",
         tags: ["project:alpha", "mission:release", "slice:01-work"],
-        reason: "project:alpha could not be used because the workspace catalog is unavailable; used configured root",
+        reason: "project:alpha could not be used because the workspace catalog is unavailable; refusing configured-root fallback",
       },
       {
         name: "duplicate catalog IDs",
         catalog: "projects:\n  - id: alpha\n    root: alpha\n  - id: alpha\n    root: other\n",
         tags: ["project:alpha", "mission:release", "slice:01-work"],
-        reason: "project:alpha could not be used because the workspace catalog is unavailable; used configured root",
+        reason: "project:alpha could not be used because the workspace catalog is unavailable; refusing configured-root fallback",
       },
       {
         name: "a catalog entry with a project error",
         catalog: "projects:\n  - id: alpha\n    root: alpha\n",
         tags: ["project:alpha", "mission:release", "slice:01-work"],
         projectError: true,
-        reason: "project:alpha is unavailable in the project catalogue; used configured root",
+        reason: "project:alpha is unavailable in the project catalogue; refusing configured-root fallback",
       },
-    ])("falls back to the configured root for $name and explains why", async ({ catalog, tags, projectError, reason }) => {
+      {
+        name: "an empty explicit project tag",
+        catalog: "projects:\n  - id: alpha\n    root: alpha\n",
+        tags: ["project:", "mission:release", "slice:01-work"],
+        reason: "empty project tag; refusing configured-root fallback",
+      },
+    ])("refuses the configured-root collision for $name and explains why", async ({ catalog, tags, projectError, reason }) => {
       temporaryWorkspace = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), "openrig-whoami-project-fallback-")));
       if (catalog !== null) fs.writeFileSync(path.join(temporaryWorkspace, "workspace.yaml"), catalog);
       const configuredRoot = path.join(temporaryWorkspace, "configured", "work-items");
@@ -2519,12 +2526,12 @@ describe("queue routes", () => {
           candidates: Array<{ workNodePath: string | null; unresolved: string | null }>;
         };
       };
-      expect(body.currentWork?.workNodePath).toBe(slice);
+      expect(body.currentWork).toBeNull();
       expect(body.currentWorkBasis).toContain(reason);
       expect(body.workCandidates.missionsRoot).toBe(configuredRoot);
       expect(body.workCandidates.missionsOnHost).toEqual(["release"]);
       expect(body.workCandidates.candidates).toEqual([
-        expect.objectContaining({ workNodePath: slice, unresolved: null, source: expect.stringContaining(reason) }),
+        expect.objectContaining({ workNodePath: null, unresolved: "no missions root configured", source: expect.stringContaining(reason) }),
       ]);
     });
 
@@ -2570,6 +2577,34 @@ describe("queue routes", () => {
       expect(body.workCandidates.candidates).toEqual([
         expect.objectContaining({ workNodePath: null, unresolved: expect.stringContaining("resolves to 0 directories") }),
       ]);
+    });
+
+    it("does not expose a project work node whose slice symlink escapes that project", async () => {
+      temporaryWorkspace = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), "openrig-whoami-project-symlink-")));
+      fs.writeFileSync(path.join(temporaryWorkspace, "workspace.yaml"), "projects:\n  - id: alpha\n    root: alpha\n");
+      const project = path.join(temporaryWorkspace, "alpha");
+      const slices = path.join(project, "missions", "release", "slices");
+      const outside = path.join(temporaryWorkspace, "outside-slice");
+      fs.mkdirSync(slices, { recursive: true });
+      fs.mkdirSync(outside, { recursive: true });
+      fs.writeFileSync(path.join(project, "project.yaml"), "id: alpha\n");
+      fs.writeFileSync(path.join(project, "SPEC.md"), "---\nid: alpha\n---\n# Alpha\n");
+      fs.writeFileSync(path.join(project, "missions", "release", "SPEC.md"), "---\nid: release\n---\n# Release\n");
+      fs.writeFileSync(path.join(outside, "SPEC.md"), "---\nid: 01-work\n---\n# Outside\n");
+      fs.symlinkSync(outside, path.join(slices, "01-work"), "dir");
+      app = buildApp({ eventBus: bus, queueRepo, inboxHandler: inbox, outboxHandler: outbox,
+        settingsStore: { resolveOne: (key) => ({ value: key === "workspace.root" ? temporaryWorkspace :
+          key === "workspace.catalog_path" ? path.join(temporaryWorkspace!, "workspace.yaml") : path.join(temporaryWorkspace!, "missions") }) } });
+      const item = await queueRepo.create({ sourceSession: "alice@r", destinationSession: "bob@r", body: "project work",
+        tags: ["project:alpha", "mission:release", "slice:01-work"], nudge: false });
+      await app.request(`/api/queue/${item.qitemId}/claim`, { method: "POST", headers: { "Content-Type": "application/json", "X-OpenRig-Session": "bob@r" }, body: "{}" });
+      const response = await app.request("/api/queue/whoami?session=bob@r&candidates=1");
+      const body = await response.json() as { currentWork: unknown; currentWorkBasis: string;
+        workCandidates: { candidates: Array<{ workNodePath: string | null; unresolved: string | null }> } };
+      expect(body.currentWork).toBeNull();
+      expect(body.currentWorkBasis).toContain("slice 01-work resolves to 0 directories");
+      expect(body.workCandidates.candidates[0]?.workNodePath).not.toBe(path.join(slices, "01-work"));
+      expect(body.workCandidates.candidates[0]?.unresolved).toContain("slice 01-work resolves to 0 directories");
     });
 
     it("keeps same-named work distinct when in-progress rows select different projects", async () => {
@@ -2657,7 +2692,10 @@ describe("queue routes", () => {
           mkdirSync(join(missions, mission!, "slices", slice!), { recursive: true });
           writeFileSync(join(missions, mission!, "SPEC.md"), "---\nintent: x\n---\n", "utf8");
         }
-        app = buildApp({ eventBus: bus, queueRepo, inboxHandler: inbox, outboxHandler: outbox, slicesRoot: missions });
+        writeFileSync(join(top, "SPEC.md"), "# Project\n", "utf8");
+        writeFileSync(join(top, "workspace.yaml"), "projects:\n  - id: alpha\n    root: .\n  - id: beta\n    root: .\n", "utf8");
+        app = buildApp({ eventBus: bus, queueRepo, inboxHandler: inbox, outboxHandler: outbox, slicesRoot: missions,
+          settingsStore: { resolveOne: (key) => ({ value: key === "workspace.root" ? top : key === "workspace.catalog_path" ? join(top, "workspace.yaml") : missions }) } });
         const claimed = async (tags: string[]) => {
           const item = await queueRepo.create({ sourceSession: "alice@r", destinationSession: "bob@r", body: "w", tags, nudge: false });
           const res = await app.request(`/api/queue/${item.qitemId}/claim`, {

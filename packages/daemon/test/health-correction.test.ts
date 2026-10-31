@@ -129,3 +129,48 @@ it("reads only the selected profile and mission context refs, with manifest-rela
   expect(refs.map(r => r.selectedBy)).toEqual([join(t.home, "project.yaml") + "#lifecycle.profiles.chosen.workflow.context_refs", join(t.home, "mission.yaml") + "#lifecycle.workflow.context_refs"]);
   expect(refs.every(r => r.state === "available")).toBe(true);
 });
+
+it("selects the declared project intent with provenance and contains unsafe addresses", async () => {
+  const t = await setup();
+  t.write("ROADMAP.md", "# Project intent\nCurrent objective.\n");
+  t.write("project.yaml", "metadata: {id: demo}\ninstall:\n  intent: ROADMAP.md\n");
+  expect(healthSelectedContext(t.home)).toContainEqual(expect.objectContaining({
+    path: join(t.home, "ROADMAP.md"), state: "available", content: "# Project intent\nCurrent objective.\n",
+    role: "project intent", selectedBy: join(t.home, "project.yaml") + "#install.intent",
+  }));
+  const id = await t.admit();
+  expect(t.service.show(id).packet.authority).toContainEqual(expect.objectContaining({
+    path: join(t.home, "ROADMAP.md"), role: "project intent", state: "available",
+    selectedBy: join(t.home, "project.yaml") + "#install.intent", content: "# Project intent\nCurrent objective.\n",
+  }));
+  t.write("project.yaml", "metadata: {id: demo}\ninstall:\n  intent: ROADMAP.md\n  context: " + JSON.stringify(Array(32).fill("trace.md")) + "\n");
+  const allSlots = healthSelectedContext(t.home);
+  expect(allSlots).toHaveLength(33);
+  expect(allSlots.every(r => r.state === "available")).toBe(true);
+  t.write("a.md", "a".repeat(60000));
+  t.write("b.md", "b".repeat(60000));
+  t.write("ROADMAP.md", "r".repeat(20000));
+  t.write("project.yaml", "metadata: {id: demo}\ninstall:\n  intent: ROADMAP.md\n  context: [a.md, b.md]\n");
+  const budget = healthSelectedContext(t.home);
+  expect(budget.map(r => [r.role, r.state])).toEqual([["selected context", "available"], ["selected context", "available"], ["project intent", "unavailable"]]);
+  expect(budget[2]!.reason).toContain("128 KiB total read budget");
+  symlinkSync(join(t.home, "ROADMAP.md"), join(t.home, "alias-intent.md"));
+  for (const intent of ["../outside.md", "alias-intent.md", "https://example.com/intent", join(t.home, "ROADMAP.md"), "secrets.env", "ROADMAP.md#"]) {
+    t.write("project.yaml", "metadata: {id: demo}\ninstall:\n  intent: " + JSON.stringify(intent) + "\n");
+    expect(healthSelectedContext(t.home)).toEqual([expect.objectContaining({
+      state: "unavailable", role: "project intent", selectedBy: join(t.home, "project.yaml") + "#install.intent",
+    })]);
+  }
+  t.write("project.yaml", "metadata: {id: demo}\ninstall:\n  intent: 42\n");
+  expect(healthSelectedContext(t.home)).toEqual([expect.objectContaining({ state: "unavailable", role: "project intent" })]);
+});
+
+it("does not duplicate the conventional SPEC.md project authority", async () => {
+  const t = await setup();
+  t.write("project.yaml", "metadata: {id: demo}\ninstall:\n  intent: SPEC.md\n");
+  const finding = t.projection.records()[0]!;
+  const spec = join(t.home, "SPEC.md");
+  const authority = healthAuthority(t.home, new HealthCheckpointSource(t.home, t.queue, t.policy), finding);
+  expect(authority.filter(r => r.path === spec)).toEqual([expect.objectContaining({ level: "project", state: "available", content: expect.stringContaining("Product authority") })]);
+  expect(finding.ceremony!.context.filter(r => r.path === spec)).toEqual([expect.objectContaining({ state: "available" })]);
+});

@@ -126,6 +126,8 @@ export interface CurrentWork {
   mission: string;
   slice: string;
   workNodePath: string;
+  /** Canonical, catalogue-validated owner of this work, when project-tagged. */
+  projectRoot?: string;
   basis: string;
 }
 
@@ -152,6 +154,7 @@ export interface CurrentWorkRow {
 export interface MissionsRootResolution {
   root: string | null;
   reason?: string;
+  projectRoot?: string;
 }
 
 export type MissionsRootResolver = string | null | ((row: CurrentWorkRow) => string | null | MissionsRootResolution);
@@ -206,7 +209,7 @@ function tagValues(tags: string[], prefix: string): string[] {
  * is named that, or because its SPEC.md frontmatter `id` is that. A directory can only
  * match once, so a name hit short-circuits its own frontmatter read.
  */
-export function resolveWorkNodeDirs(root: string, wanted: string): Match[] {
+export function resolveWorkNodeDirs(root: string, wanted: string, projectRoot?: string): Match[] {
   let entries: string[];
   try {
     entries = fs.readdirSync(root);
@@ -215,13 +218,17 @@ export function resolveWorkNodeDirs(root: string, wanted: string): Match[] {
   }
   const out: Match[] = [];
   for (const dir of entries.sort()) {
+    // Do not read a candidate SPEC through a symlink outside its selected project.
+    if (projectRoot && !validatedProjectRoot(projectRoot, path.join(root, dir))) continue;
+    const spec = path.join(root, dir, "SPEC.md");
+    if (projectRoot && fs.existsSync(spec) && !validatedProjectRoot(projectRoot, spec)) continue;
     if (dir === wanted) {
       out.push({ dir, form: "directory name" });
       continue;
     }
     let raw: string;
     try {
-      raw = fs.readFileSync(path.join(root, dir, "SPEC.md"), "utf8");
+      raw = fs.readFileSync(spec, "utf8");
     } catch {
       continue;
     }
@@ -234,7 +241,18 @@ interface Candidate {
   mission: string;
   slice: string;
   workNodePath: string;
+  projectRoot?: string;
   basis: string;
+}
+
+/** Revalidate the node against the catalogue root after filesystem resolution. */
+function validatedProjectRoot(projectRoot: string, node: string): string | null {
+  try {
+    const project = fs.realpathSync(projectRoot);
+    const work = fs.realpathSync(node);
+    const rel = path.relative(project, work);
+    return !path.isAbsolute(rel) && rel !== ".." && !rel.startsWith(`..${path.sep}`) ? project : null;
+  } catch { return null; }
 }
 
 /** Resolve one typed row to a work node, or to the reason it could not be resolved. */
@@ -242,9 +260,10 @@ function resolveRow(
   missionsRoot: string | null,
   mission: string,
   slice: string,
+  projectRoot?: string,
 ): { ok: true; value: Candidate } | { ok: false; reason: string } {
   if (!missionsRoot) return { ok: false, reason: "no missions root configured" };
-  const missionMatches = resolveWorkNodeDirs(missionsRoot, mission);
+  const missionMatches = resolveWorkNodeDirs(missionsRoot, mission, projectRoot);
   if (missionMatches.length !== 1) {
     return {
       ok: false,
@@ -254,7 +273,7 @@ function resolveRow(
   const missionMatch = missionMatches[0]!;
 
   const slicesRoot = path.join(missionsRoot, missionMatch.dir, "slices");
-  const sliceMatches = resolveWorkNodeDirs(slicesRoot, slice);
+  const sliceMatches = resolveWorkNodeDirs(slicesRoot, slice, projectRoot);
   if (sliceMatches.length !== 1) {
     return { ok: false, reason: `slice ${slice} resolves to ${sliceMatches.length} directories` };
   }
@@ -328,8 +347,16 @@ export function deriveCurrentWork(
   const failures: string[] = [];
   for (const { row, mission, slice, qitemId } of typed) {
     const root = resolveMissionsRoot(missionsRoot, row);
-    const resolved = resolveRow(root.root, mission, slice);
+    const resolved = resolveRow(root.root, mission, slice, root.projectRoot);
     if (resolved.ok) {
+      if (root.projectRoot) {
+        const project = validatedProjectRoot(root.projectRoot, resolved.value.workNodePath);
+        if (!project) {
+          failures.push(`${rowLabel(qitemId)} — project work node is unavailable or outside its catalogue root`);
+          continue;
+        }
+        resolved.value.projectRoot = project;
+      }
       if (root.reason) resolved.value.basis += `; ${root.reason}`;
       if (!byPath.has(resolved.value.workNodePath)) {
         byPath.set(resolved.value.workNodePath, resolved.value);
@@ -385,6 +412,7 @@ export interface WorkCandidate {
   slice: string | null;
   /** The slice node when the slice resolves, else the mission node; null when the mission does not. */
   workNodePath: string | null;
+  projectRoot?: string;
   intent: string | null;
   source: string;
   /** Why the tag did not fully resolve on this host, when it did not. */
@@ -462,10 +490,10 @@ function readIntent(nodePath: string): string | null {
   }
 }
 
-function resolveTagged(missionsRoot: string | null, mission: string, slice: string | null):
+function resolveTagged(missionsRoot: string | null, mission: string, slice: string | null, projectRoot?: string):
   Pick<WorkCandidate, "workNodePath" | "intent" | "unresolved"> {
   if (!missionsRoot) return { workNodePath: null, intent: null, unresolved: "no missions root configured" };
-  const missions = resolveWorkNodeDirs(missionsRoot, mission);
+  const missions = resolveWorkNodeDirs(missionsRoot, mission, projectRoot);
   if (missions.length !== 1) {
     return { workNodePath: null, intent: null,
       unresolved: `mission ${mission} resolves to ${missions.length} directories on this host` };
@@ -473,7 +501,7 @@ function resolveTagged(missionsRoot: string | null, mission: string, slice: stri
   const missionPath = path.join(missionsRoot, missions[0]!.dir);
   if (!slice) return { workNodePath: missionPath, intent: readIntent(missionPath), unresolved: null };
   const slicesRoot = path.join(missionPath, "slices");
-  const slices = resolveWorkNodeDirs(slicesRoot, slice);
+  const slices = resolveWorkNodeDirs(slicesRoot, slice, projectRoot);
   if (slices.length !== 1) {
     // The mission is the slice's own parent, not a substitute: its intent is still the work's.
     return { workNodePath: missionPath, intent: readIntent(missionPath),
@@ -481,6 +509,17 @@ function resolveTagged(missionsRoot: string | null, mission: string, slice: stri
   }
   const slicePath = path.join(slicesRoot, slices[0]!.dir);
   return { workNodePath: slicePath, intent: readIntent(slicePath), unresolved: null };
+}
+
+function resolveProjectCandidate(root: MissionsRootResolution, mission: string, slice: string | null):
+  Pick<WorkCandidate, "workNodePath" | "intent" | "unresolved" | "projectRoot"> {
+  const candidate = resolveTagged(root.root, mission, slice, root.projectRoot);
+  if (!root.projectRoot || !candidate.workNodePath) return candidate;
+  const projectRoot = validatedProjectRoot(root.projectRoot, candidate.workNodePath);
+  return projectRoot ? { ...candidate, projectRoot } : {
+    workNodePath: null, intent: null,
+    unresolved: "project work node is unavailable or outside its catalogue root",
+  };
 }
 
 function listMissions(missionsRoot: string | null): { names: string[]; truncated: boolean } {
@@ -532,13 +571,17 @@ export function deriveWorkCandidates(
 
     if (missions.length > 0) {
       const slices = tagValues(tags, SLICE_TAG);
+      if (slices.length > 1) {
+        unknown.push({ qitemId, summary, reason: `conflicting slice tags (${[...slices].sort().join(", ")}); no work node assumed` });
+        continue;
+      }
       // One slice tag belongs to its mission; anything else is shown without a slice rather
       // than paired by array position.
       const slice = missions.length === 1 && slices.length === 1 ? slices[0]! : null;
       const projects = tagValues(tags, PROJECT_TAG).sort();
       for (const mission of [...missions].sort()) {
         const root = resolveMissionsRoot(missionsRoot, row);
-        const resolved = resolveTagged(root.root, mission, slice);
+        const resolved = resolveProjectCandidate(root, mission, slice);
         add({ kind: "tag", qitemId, projects, mission, slice,
           ...resolved,
           source: `tag mission:${mission}${slice ? ` + slice:${slice}` : ""} on ${rowLabel(qitemId)}${root.reason ? `; ${root.reason}` : ""}` });
@@ -573,7 +616,7 @@ export function deriveWorkCandidates(
       const ancestorProjects = tagValues(ancestor.tags ?? [], PROJECT_TAG).sort();
       for (const mission of [...ancestorMissions].sort()) {
         const root = resolveMissionsRoot(missionsRoot, ancestor);
-        const resolved = resolveTagged(root.root, mission, null);
+        const resolved = resolveProjectCandidate(root, mission, null);
         add({ kind: "ancestry", qitemId, projects: ancestorProjects, mission, slice: null,
           ...resolved,
           source: `handoff ancestor ${ancestorId} carries mission:${mission}; ${rowLabel(qitemId)} itself is untagged${root.reason ? `; ${root.reason}` : ""}` });

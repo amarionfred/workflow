@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { spawnSync } from "node:child_process";
-import { chmodSync, existsSync, mkdtempSync, mkdirSync, readFileSync, realpathSync, rmSync, unlinkSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdtempSync, mkdirSync, readFileSync, realpathSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { deriveCurrentWork } from "../src/domain/current-work.js";
+import { deriveCurrentWork, deriveWorkCandidates } from "../src/domain/current-work.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const HOOK = resolve(HERE, "../assets/plugins/openrig-core/hooks/scripts/refocus.cjs");
@@ -567,6 +567,83 @@ exit 1
       expect(fallback.context).toContain(`FALLBACK — no current typed baton (${NO_BATON})`);
       expect(fallback.context).toContain("Builder learned");
       expect(fallback.calls).toEqual(["queue whoami --json", "config --json"]);
+    });
+
+    it("traces an unambiguous catalogue project without overriding an explicit workspace root", () => {
+      const f = fixture();
+      const project = join(root!, "external-project");
+      const work = join(project, "missions", "release", "slices", "01-work");
+      mkdirSync(work, { recursive: true });
+      writeFileSync(join(project, "SPEC.md"), "---\nintent: External project\n---\n# External\n");
+      writeFileSync(join(work, "SPEC.md"), "---\nintent: External slice\n---\n# Slice\n");
+      const answer = JSON.stringify({ currentWork: { workNodePath: work, projectRoot: project }, currentWorkBasis: "one typed in-progress work node" });
+      const valid = hook(f, { OPENRIG_REFOCUS_TREES: "work", RIG_QUEUE_WHOAMI_STDOUT: answer });
+      expect(valid.context).toContain(`root: ${realpathSync(project)}`);
+      expect(valid.context).toContain("intent: External slice");
+      expect(valid.context).not.toContain("start is outside configured root");
+
+      const explicit = hook(f, { OPENRIG_REFOCUS_TREES: "work", OPENRIG_WORKSPACE_ROOT: f.workspace, RIG_QUEUE_WHOAMI_STDOUT: answer });
+      expect(explicit.context).toContain("start is outside configured root");
+      expect(explicit.context).not.toContain("intent: External slice");
+
+      const invalid = hook(f, { OPENRIG_REFOCUS_TREES: "work", RIG_QUEUE_WHOAMI_STDOUT: JSON.stringify({ currentWork: { workNodePath: work, projectRoot: f.workspace } }) });
+      expect(invalid.context).toContain("catalogue project root or work node is unavailable or outside its project");
+      expect(invalid.context).not.toContain("intent: External slice");
+
+      // A raced or forged node can be inside the global workspace while outside
+      // its claimed project. It must not become a confident legacy-root trace.
+      const wrongProject = hook(f, { OPENRIG_REFOCUS_TREES: "work", RIG_QUEUE_WHOAMI_STDOUT: JSON.stringify({ currentWork: { workNodePath: f.workStart, projectRoot: project } }) });
+      expect(wrongProject.context).toContain("catalogue project root or work node is unavailable or outside its project");
+      expect(wrongProject.context).not.toContain("Deliver refocus");
+      const racedLink = join(project, "raced-work");
+      symlinkSync(f.workStart, racedLink, "dir");
+      const raced = hook(f, { OPENRIG_REFOCUS_TREES: "work", RIG_QUEUE_WHOAMI_STDOUT: JSON.stringify({ currentWork: { workNodePath: racedLink, projectRoot: project } }) });
+      expect(raced.context).toContain("catalogue project root or work node is unavailable or outside its project");
+      expect(raced.context).not.toContain("Deliver refocus");
+
+      const packet = { candidates: [{ kind: "tag", mission: "release", slice: "01-work", workNodePath: work,
+        projectRoot: project, unresolved: null, source: "validated project row" }], unknown: [], held: [], next: [] };
+      const candidate = hook(f, { OPENRIG_REFOCUS_TREES: "work", OPENRIG_REFOCUS_WORK_PACKET: "1",
+        RIG_QUEUE_WHOAMI_STDOUT: JSON.stringify({ currentWork: null, workCandidates: packet }) });
+      expect(candidate.context).toContain(`root: ${realpathSync(project)}`);
+      expect(candidate.context).toContain("intent: External slice");
+
+      const invalidCandidate = hook(f, { OPENRIG_REFOCUS_TREES: "work", OPENRIG_REFOCUS_WORK_PACKET: "1",
+        RIG_QUEUE_WHOAMI_STDOUT: JSON.stringify({ currentWork: null, workCandidates: { ...packet,
+          candidates: [{ ...packet.candidates[0], workNodePath: f.workStart }] } }) });
+      expect(invalidCandidate.context).toContain("catalogue project root or work node is unavailable or outside its project");
+      expect(invalidCandidate.context).not.toContain("Deliver refocus");
+
+      const ambiguous = hook(f, { OPENRIG_REFOCUS_TREES: "work", OPENRIG_REFOCUS_WORK_PACKET: "1",
+        RIG_QUEUE_WHOAMI_STDOUT: JSON.stringify({ currentWork: null, workCandidates: { ...packet,
+          candidates: [...packet.candidates, { ...packet.candidates[0], mission: "other" }] } }) });
+      expect(ambiguous.context).toContain("2 candidates are in flight");
+      expect(ambiguous.context).not.toContain("intent: External slice");
+    });
+
+    it("does not settle a two-slice work packet as an unsliced mission", () => {
+      const f = fixture();
+      const packet = deriveWorkCandidates([{ qitemId: "q-conflict", state: "in-progress",
+        tags: ["mission:release", "slice:one", "slice:two"] }], join(f.workspace, "missions"),
+        { getRow: () => null, continuationOf: () => null });
+      const result = hook(f, { OPENRIG_REFOCUS_TREES: "work", OPENRIG_REFOCUS_WORK_PACKET: "1",
+        RIG_QUEUE_WHOAMI_STDOUT: JSON.stringify({ currentWork: null, workCandidates: packet }) });
+      expect(result.context).toContain("conflicting slice tags");
+      expect(result.context).not.toContain("WORK FROM QUEUE EVIDENCE");
+      expect(result.context).not.toContain("no slice named");
+    });
+
+    it("refuses to read work sources that escape the selected root through symlinks", () => {
+      const f = fixture();
+      const outside = join(root!, "outside.md");
+      writeFileSync(outside, "---\nintent: DO NOT READ OUTSIDE\n---\n# Outside\n");
+      unlinkSync(join(f.workStart, "SPEC.md"));
+      symlinkSync(outside, join(f.workStart, "SPEC.md"));
+      const result = trace(["--trees", "work", "--work-start", f.workStart, "--check"],
+        { ...unpinned(f.env), OPENRIG_WORKSPACE_ROOT: f.workspace });
+      expect(result.status).toBe(1);
+      expect(result.stdout).toContain("work source outside configured root");
+      expect(result.stdout).not.toContain("DO NOT READ OUTSIDE");
     });
 
     it("local notes avoid a delayed CLI inside the unchanged default trace cap", () => {

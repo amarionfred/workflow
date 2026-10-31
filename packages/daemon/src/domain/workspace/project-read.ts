@@ -5,7 +5,7 @@ import type { SettingsStore } from "../user-settings/settings-store.js";
 import { NODE_FILE_PRECEDENCE } from "../scope/node-file.js";
 import { readProjectCatalog, selectCatalogProject, yamlObject, ProjectReadError } from "./project-catalog.js";
 
-export interface ProjectRead { id: string; root: string; name: string; sourcePath: string | null; missionsRoot: string; error?: string }
+export interface ProjectRead { id: string; root: string; name: string; sourcePath: string | null; missionsRoot: string; error?: string; intentError?: string }
 type ReadContext = { get: (key: never) => unknown; req: { query: (key: string) => string | undefined } };
 export function projectCatalogPaths(c: Pick<ReadContext, "get">) {
   const store = c.get("settingsStore" as never) as SettingsStore | undefined;
@@ -24,6 +24,9 @@ export function workSource(root: string, dir: string, validate = true): string {
   insideProject(root, dir);
   const source = NODE_FILE_PRECEDENCE.map(name => path.join(dir, name)).find(file => fs.existsSync(file));
   if (!source) throw new ProjectReadError("source_unavailable", `No work source at ${dir}`);
+  return checkedSource(root, source, validate);
+}
+function checkedSource(root: string, source: string, validate = true): string {
   insideProject(root, source);
   if (!validate) return source;
   const text = fs.readFileSync(source, "utf8");
@@ -41,6 +44,16 @@ export function workSource(root: string, dir: string, validate = true): string {
   }
   return source;
 }
+function projectIntentSource(root: string, intent: unknown): string {
+  if (typeof intent !== "string") throw new ProjectReadError("source_invalid", "Project install.intent must be a relative Markdown address");
+  const file = intent.split("#", 1)[0]!;
+  if (!file || path.isAbsolute(file) || path.win32.isAbsolute(file)
+    || file.split(/[\\/]/).some(part => !part || part === "." || part === "..")
+    || ![".md", ".markdown"].includes(path.extname(file).toLowerCase())) {
+    throw new ProjectReadError("source_invalid", "Project install.intent must be a relative Markdown address");
+  }
+  return checkedSource(root, path.resolve(root, file));
+}
 function projectEntry(id: string, root: string): ProjectRead {
   let p: ProjectRead = { id, root, name: id, sourcePath: null, missionsRoot: path.join(root, "missions") };
   try {
@@ -53,7 +66,11 @@ function projectEntry(id: string, root: string): ProjectRead {
     const missions = value.missions?.root ?? "missions";
     if (typeof missions !== "string" || path.isAbsolute(missions) || missions.split(/[\\/]/).includes("..")) throw new ProjectReadError("missions_root_escape", "Invalid project missions.root");
     p.missionsRoot = path.resolve(p.root, missions);
-    p.sourcePath = workSource(p.root, p.root);
+    if (value.install?.intent === undefined) p.sourcePath = workSource(p.root, p.root);
+    else {
+      try { p.sourcePath = projectIntentSource(p.root, value.install.intent); }
+      catch (err) { p.intentError = (err as Error).message; }
+    }
     if (fs.existsSync(p.missionsRoot)) insideProject(p.root, p.missionsRoot);
   } catch (err) { p.error = (err as Error).message; }
   return p;

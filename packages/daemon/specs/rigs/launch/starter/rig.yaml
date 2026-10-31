@@ -23,7 +23,8 @@ pods:
       - id: review
         agent_ref: "local:../../../agents/development/qa"
         runtime: codex
-        model: gpt-6.1-terra
+        model: gpt-6.1-sol
+        effort: ultra
         profile: default
         cwd: "."
     edges:

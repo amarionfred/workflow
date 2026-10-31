@@ -50,6 +50,13 @@ def under_root(path, root):
         return False
 
 
+def file_under_root(path, root):
+    try:
+        return under_root(path.resolve(strict=True), root)
+    except (OSError, RuntimeError):
+        return False
+
+
 def ascent(start, root):
     start = start.expanduser().resolve()
     if not under_root(start, root):
@@ -264,7 +271,10 @@ def render_work(start, root, depth, failures, fallback=None, packet=False):
     for node in nodes:
         label = node.relative_to(root) or Path(".")
         spec = next((candidate for candidate in (node / "SPEC.md", node / "README.md") if candidate.is_file()), None)
-        if spec is None:
+        if spec is not None and not file_under_root(spec, root):
+            failures.append(f"work source outside configured root: {spec}")
+            output.append(f"\n### {label}\nTRACE GAP — work source outside configured root: {spec}")
+        elif spec is None:
             output.append(f"\n### {label}\nMISSING LINK — no SPEC.md or README.md at {node}")
         else:
             text = read(spec) or ""
@@ -279,6 +289,9 @@ def render_work(start, root, depth, failures, fallback=None, packet=False):
         if resolution_error:
             failures.append(resolution_error)
             output.append(f"NOTES RESOLUTION GAP — {resolution_error} at {node}")
+        elif notes and not file_under_root(notes[0], root):
+            failures.append(f"notes outside configured root: {notes[0]}")
+            output.append(f"NOTES RESOLUTION GAP — notes outside configured root: {notes[0]}")
         elif notes:
             notes_path, notes_name = notes
             if depth == "full":
@@ -315,7 +328,12 @@ def render_work(start, root, depth, failures, fallback=None, packet=False):
         # The SDLC convention keeps a node's current delivery state in PROGRESS.md; carry it
         # as text when present. Its absence is not a gap: many nodes have no PROGRESS.md.
         progress_path = node / "PROGRESS.md"
-        progress_text = read(progress_path) if packet else None
+        if packet and progress_path.is_file() and not file_under_root(progress_path, root):
+            failures.append(f"progress outside configured root: {progress_path}")
+            output.append(f"PROGRESS GAP — outside configured root: {progress_path}")
+            progress_text = None
+        else:
+            progress_text = read(progress_path) if packet else None
         if progress_text is not None:
             progress_body = progress_text.strip() if depth == "full" else by_section(progress_text, NOTES_STATE_HEADINGS, progress_path)
             output.append(f"\nPROGRESS · PROGRESS.md\n{progress_body}")

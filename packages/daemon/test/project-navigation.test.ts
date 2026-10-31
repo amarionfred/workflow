@@ -45,6 +45,34 @@ beforeEach(() => {
 afterEach(() => { db.close(); fs.rmSync(root, { recursive: true, force: true }); });
 async function get(url: string) { const response = await app.request(url); return { status: response.status, body: await response.json() as any }; }
 describe("catalog project identity across work reads", () => {
+  it("uses the declared Markdown intent, including an address fragment, before legacy sources", async () => {
+    file(path.join(root, "a/project.yaml"), "metadata:\n  id: a\ninstall:\n  intent: docs/MASTERPLAN.md#intent\n");
+    file(path.join(root, "a/docs/MASTERPLAN.md"), source("declared project intent"));
+    file(path.join(root, "a/README.md"), source("legacy readme"));
+    const catalog = await get("/api/scopes/projects");
+    expect(catalog.body.projects[0].sourcePath).toBe(path.join(root, "a/docs/MASTERPLAN.md"));
+    expect(catalog.body.projects[0].error).toBeUndefined();
+    expect((await get("/api/scopes?project=a")).status).toBe(200);
+    expect(catalog.body.projects[1].sourcePath).toBe(path.join(root, "b/SPEC.md"));
+  });
+  it("reports invalid, missing or escaping declared intent without substituting a legacy source or blocking missions", async () => {
+    for (const intent of ["../b/SPEC.md", "/tmp/foreign.md", "C:\\foreign.md", "SPEC.txt", "docs/./PLAN.md", "", null]) {
+      file(path.join(root, "a/project.yaml"), JSON.stringify({ metadata: { id: "a" }, install: { intent } }));
+      const catalog = await get("/api/scopes/projects");
+      expect(catalog.body.projects[0].sourcePath).toBeNull();
+      expect(catalog.body.projects[0].intentError).toContain("relative Markdown address");
+      expect(catalog.body.projects[0].error).toBeUndefined();
+      expect((await get("/api/scopes?project=a")).status).toBe(200);
+    }
+    file(path.join(root, "a/project.yaml"), "metadata:\n  id: a\ninstall:\n  intent: MASTERPLAN.md\n");
+    expect((await get("/api/scopes/projects")).body.projects[0].intentError).toContain("ENOENT");
+    fs.symlinkSync(path.join(root, "b/SPEC.md"), path.join(root, "a/MASTERPLAN.md"));
+    const escaped = await get("/api/scopes/projects");
+    expect(escaped.body.projects[0].sourcePath).toBeNull();
+    expect(escaped.body.projects[0].intentError).toContain("outside selected project");
+    expect((await get("/api/scopes?project=a")).status).toBe(200);
+    expect(JSON.stringify(escaped.body)).not.toContain("b project only");
+  });
   it("keeps healthy missions and children reachable beside malformed source, then recovers", async () => {
     const bad = path.join(root, "a/missions/release-x/slices/02-bad/SPEC.md");
     file(bad, "---\nstatus: retired by another slice\n  kept for REASONING: preserve the original decision.\n---\n# Bad source\n");

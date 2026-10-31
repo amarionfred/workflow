@@ -1,5 +1,6 @@
 import { delegatedPostureFixture } from "./helpers/delegated-posture.js";
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, symlinkSync, utimesSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, expect, it, vi } from "vitest";
@@ -13,7 +14,7 @@ import { HealthCheckpointSource } from "../src/domain/health-checkpoints.js";
 import { PassiveCeremonySource } from "../src/domain/health-passive-ceremony.js";
 import { HealthProjectionService } from "../src/domain/health-detectors.js";
 import { HealthDiagnosisService } from "../src/domain/health-diagnosis.js";
-import { healthAuthority, readHealthArtifact } from "../src/domain/health-context.js";
+import { healthAuthority, readHealthArtifact, readHealthProgress } from "../src/domain/health-context.js";
 import type { CeremonyProgressAssessment } from "../src/domain/health-projection.js";
 
 const cleanup: Array<() => void> = [];
@@ -60,6 +61,69 @@ async function setup(count = 30) {
     causalStart: null, steering: "Follow the authored outcome boundary", uncertainty: "Check beyond this packet", evidenceRefs: [proof], progress }, "transport:v1");
   return { home, workspace, slice, proof, db, queue, source, projection, service, send, policy, assessment, dispose, readiness, setReady: (value: boolean) => { ready = value; }, time: (at: string) => { now = at; } };
 }
+
+it("identifies an oversized progress file using only a labeled bounded prefix fingerprint", async () => {
+  const t = await setup();
+  const progress = join(t.workspace, "missions", "mission", "PROGRESS.md");
+  const body = Buffer.from("Current brief.\n" + "x".repeat(100000));
+  writeFileSync(progress, body);
+  const fixedMtime = new Date("2020-01-01T00:00:00Z");
+  utimesSync(progress, fixedMtime, fixedMtime);
+  const ref = t.projection.list().records[0]!.ceremony!.context.find(r => r.path === progress)!;
+  expect(ref).toMatchObject({ path: progress, state: "available", excerpt: {
+    kind: "prefix", byteLength: 8192, fileBytes: body.length,
+    sha256: createHash("sha256").update(body.subarray(0, 8192)).digest("hex"),
+  } });
+  expect(ref).not.toHaveProperty("sha256");
+  expect(ref).not.toHaveProperty("content");
+  expect(ref.role).toContain("remainder not fingerprinted");
+  const id = (await t.service.evaluate("system:health", true)).actions[0]!.qitemId;
+  expect(t.service.show(id).packet.finding.ceremony!.context.find(r => r.path === progress)).toEqual(ref);
+  const firstBasis = t.projection.list().records[0]!.ceremony!.basis;
+  body[0] = 90;
+  writeFileSync(progress, body);
+  utimesSync(progress, fixedMtime, fixedMtime);
+  expect(t.projection.list().records[0]!.ceremony!.basis).not.toBe(firstBasis);
+  const secondBasis = t.projection.list().records[0]!.ceremony!.basis;
+  body[9000] = 89;
+  writeFileSync(progress, body);
+  utimesSync(progress, fixedMtime, fixedMtime);
+  expect(t.projection.list().records[0]!.ceremony!.basis).not.toBe(secondBasis);
+});
+
+it("observes changed context without renotifying an already attributed assessment", async () => {
+  const t = await setup();
+  const first = t.projection.list().records[0]!;
+  const id = (await t.service.evaluate("system:health", true)).actions[0]!.qitemId;
+  t.dispose(id, t.assessment("false-positive"));
+  const sent = t.send.mock.calls.length;
+  writeFileSync(join(t.workspace, "project.yaml"), "kind: project\nmetadata: {id: project}\ninstall:\n  intent: ROADMAP.md\n");
+  writeFileSync(join(t.workspace, "ROADMAP.md"), "# Project intent\nA current objective.\n");
+  writeFileSync(join(t.workspace, "missions", "mission", "PROGRESS.md"), "New brief.\n" + "x".repeat(100000));
+  const after = t.projection.get(first.id)!;
+  expect(after.ceremony).toMatchObject({ stage: "indeterminate", missingFacts: expect.arrayContaining([expect.stringContaining("normal evidence changed")]) });
+  const actions = (await t.service.evaluate("system:health", true)).actions;
+  expect(actions.some(a => a.action === "create" || a.action === "represent")).toBe(false);
+  expect(t.send).toHaveBeenCalledTimes(sent);
+  expect(t.service.show(id).packet.finding.ceremony!.basis).toBe(first.ceremony!.basis);
+});
+
+it("keeps complete small-file hashes and rejects escaped or non-file progress paths", async () => {
+  const t = await setup();
+  const path = join(t.workspace, "progress.md");
+  const body = Buffer.alloc(65536, 120);
+  writeFileSync(path, body);
+  expect(readHealthProgress(t.workspace, path)).toEqual({ path, state: "available", sha256: createHash("sha256").update(body).digest("hex") });
+  const outside = join(t.home, "outside.md");
+  writeFileSync(outside, "outside");
+  const link = join(t.workspace, "escape.md");
+  symlinkSync(outside, link);
+  expect(readHealthProgress(t.workspace, link)).toEqual({ path: link, state: "unavailable" });
+  expect(readHealthProgress(t.workspace, outside)).toEqual({ path: outside, state: "unavailable" });
+  expect(readHealthProgress(t.workspace, t.workspace)).toEqual({ path: t.workspace, state: "unavailable" });
+  writeFileSync(path, "");
+  expect(readHealthProgress(t.workspace, path)).toEqual({ path, state: "unavailable" });
+});
 
 it("automatically admits suspicion without a checkpoint or denominator; owner judgment confirms the same canonical episode", async () => {
   const t = await setup();

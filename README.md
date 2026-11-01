@@ -8,6 +8,21 @@ Lithos runs on Mac, Linux, or Windows using WSL 2. It works with Codex and Claud
 
 [Get started](docs/reference/lithos-getting-started.md) · [Technical reference](docs/reference/help.md) · [License](LICENSE)
 
+## Harness engineering
+
+Lithos coordinates ordinary coding-agent sessions through a local daemon. The harness makes team state, work ownership, context and recovery inputs explicit, so people and agents can inspect how work is organized.
+
+| Mechanism | What it provides |
+| --- | --- |
+| Shared state | CLI, terminal UI and MCP clients use the same daemon, backed by SQLite. The [architecture map](ARCHITECTURE.md#the-request-path) connects those interfaces to services, storage and runtime adapters. |
+| Durable work records | [Queue items](packages/daemon/src/domain/queue-repository.ts) store destinations, status, blockers and transition history. Assignments remain inspectable across turns, with recorded ownership and handoffs. |
+| Stable seats and recovery | [Durable node IDs](docs/reference/seat-node-targeting.md) identify seats separately from their current sessions. [Stored snapshots](packages/daemon/src/domain/snapshot-repository.ts) supply explicit recovery inputs, including checks for unusable snapshots. |
+| Inspectable context | [Startup layering](docs/reference/agent-startup-guide.md#context-loading-what-goes-where) separates reusable skills from role and project guidance. Team specifications declare which files and skills each agent receives. |
+| Per-seat input controls | [Delivery modes](docs/reference/seat-delivery.md) can hold messages or protect unfinished input for a chosen seat. These controls are configurable and separate from the coding agent's runtime permissions. |
+| Testable coordination | [Installed-package scenarios](packages/test-system/ci/README.md) exercise queue persistence through daemon restarts, with injected faults to check the assertions. [Live-model evaluations](packages/test-system/evals/README.md) are a separate check of context selection and use. |
+
+The test documentation records the supported checks and their limits. Scripted infrastructure checks do not establish model quality or successful project delivery.
+
 ## See Lithos
 
 These example screens use sample data.
